@@ -73,6 +73,10 @@ var StudentSchema = new mongoose.Schema({
 	StudentGender: String,
 	StudentClassStandard: String,
 	StudentFullAddress: String,
+	StudentParentMobiles:
+		[
+		  Number
+		],
 	ParentList: [
 		{
 			ParentType: String,
@@ -86,13 +90,13 @@ var StudentSchema = new mongoose.Schema({
 			PresentAddressPOBox: Number,
 			PermanentAddress: String,
 			PermanentAddressPOBox: Number,
-			Messages:
+			/*Messages:
 			[
 			 {
 			 Message: String,
 			 Delivered: Boolean
 			 }
-			]
+			]*/
 			
 		}	
 	]
@@ -120,13 +124,13 @@ var TeacherSchema = new mongoose.Schema({
 	PresentAddressPOBox: Number,
 	PermanentAddress: String,
 	PermanentAddressPOBox: Number,
-	Messages:
+	/*Messages:
 		[
 		 {
 		 Message: String,
 		 Delivered: Boolean
 		 }
-		],
+		],*/
 	TeacherRoleList: [
 		{
 			TeacherRoleType: String,
@@ -304,6 +308,570 @@ app.get('/devices/:DeviceId', function(request, response) {
 	request.params.DeviceId);
 	devicedataservice.findDeviceByDeviceID(MobileDevice, request.params.DeviceId,
 	response);
+	});
+
+app.get('/TeacherDetailForStudent/:StudentId', function(request, response) {
+	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	Student.findOne({StudentId: request.params.StudentId},
+			function(error, result) {
+			if (error) {
+			console.error(error);
+			response.writeHead(500,
+			{'Content-Type' : 'text/plain'});
+			response.end('Internal server error');
+			return;
+			} else {
+			if (!result) {
+			 if (response !== null) {
+			   response.writeHead(404, {'Content-Type' : 'text/plain'});
+			   response.end('Student Not Found');
+			  }
+			return;
+			}
+			else
+			{
+			if (response !== null){
+			  var StudentClassStandard = result.StudentClassStandard;
+			  
+			  Teacher.find({}, function(error, result) {
+					if (error) {
+						console.error(error);
+						return null;
+						}
+						if (result !== null) {
+						  var Teachers = JSON.parse(JSON.stringify(result));
+						  var TeacherList = [];
+						  var teachercount=0;
+						  for (teachercount=0; teachercount < Teachers.length ; teachercount++  ) {
+							  var teacherrolecount =0;
+							   for(teacherrolecount =0; teacherrolecount < Teachers[teachercount].TeacherRoleList.length; teacherrolecount++  ){
+								   if(Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforStd === StudentClassStandard || 
+										   Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforStd === "All"   )
+									   {
+									          var teacher = {
+									        		   "TeacherId": Teachers[teachercount].TeacherId,
+									        		   
+									        		    "TeacherFirstName": Teachers[teachercount].TeacherFirstName,
+									        		   
+									        		    "TeacherLastName":  Teachers[teachercount].TeacherLastName,
+									        		    
+									        		    "TeacherMobileNumber": Teachers[teachercount].MobileNumber,
+									        		    
+									        		    "TeacherEmailId": Teachers[teachercount].EmailId,
+									        		    
+									        		    "TeacherRoleType": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleType,
+									        	        "TeacherRoleforStd": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforStd,
+									        	       
+									        	        "TeacherRoleforSubject": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforSubject,
+									          };
+									          TeacherList.push(teacher );
+									   }
+							   }
+							   
+							}
+						  
+						  response.end(JSON.stringify(TeacherList));
+						}
+						
+						});
+			  
+			  //
+			 }
+			}
+			//console.log(result);
+			}
+			});
+	
+});
+
+app.get('/GetAllStudentDetailsForTeacher/:TeacherId', function(request, response) {
+	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	
+	Teacher.findOne({TeacherId: request.params.TeacherId},
+			function(error, result) {
+			if (error) {
+			console.error(error);
+			response.writeHead(500,
+			{'Content-Type' : 'text/plain'});
+			response.end('Internal server error');
+			return;
+			} else {
+			if (!result) {
+			 if (response !== null) {
+			   response.writeHead(404, {'Content-Type' : 'text/plain'});
+			   response.end('Teacher Not Found');
+			  }
+			return;
+			}
+			else
+			{
+			if (response !== null){
+			  var TeacherRoleList = result.TeacherRoleList;
+			  var StudentList = [];
+			  var TeacherRole = [];
+			  var teacherRolecount =0;
+			  for(teacherRolecount = 0; teacherRolecount < result.TeacherRoleList.length; teacherRolecount++ )
+				  {
+				  if(TeacherRoleList[teacherRolecount].TeacherRoleforStd === "All"){
+					  TeacherRole = ["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th"];
+				  }
+				  TeacherRole.push(TeacherRoleList[teacherRolecount].TeacherRoleforStd);
+				  }
+				  
+				  Student.find({StudentClassStandard : {$in: TeacherRole } }, function(error, result) {
+						if (error) {
+							console.error(error);
+							return null;
+							}
+							if (result !== null) {
+							  var Students = JSON.parse(JSON.stringify(result));
+							  
+							  var studentcount=0;
+							  for (studentcount=0; studentcount < Students.length ; studentcount++  ) {
+								  var parentListcount =0;
+								  var student = {
+										    "StudentId": Students[studentcount].StudentId, 
+										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
+										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
+										   
+										    "StudentMotherName" : "",
+										    "StudentMotherMobile" : "",
+										    "StudentMotherEmailID" : "",
+										    "StudentFatherName" : "",
+										    "StudentFatherMobile" : "",
+										    "StudentFatherEmailID" : "",
+										    "StudentGuardianName" : "",
+										    "StudentGuardianMobile" : "",
+										    "StudentGuardianEmailID" : "",
+										    
+								                };
+								   for(parentListcount =0; parentListcount < Students[studentcount].ParentList.length; parentListcount++  ){
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Mother")
+										   {
+										   student.StudentMotherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentMotherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentMotherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										          
+										   }
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Father")
+									   {
+										   student.StudentFatherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentFatherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentFatherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+									          
+									   }
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Guardian")
+									   {
+										   student.StudentGuardianName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentGuardianMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentGuardianEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+									          
+									   }
+									  
+								   }
+								   
+								   StudentList.push(student );
+								   
+								}
+							  
+							  response.end(JSON.stringify(StudentList));
+							}
+							
+							});
+				      
+				  }
+			  
+			  
+			  //
+			 }
+			}
+			//console.log(result);
+			
+			});
+	
+});
+
+app.get('/GetStudentDetailsForTeacherForClassStandard', function(request, response) {
+	  var teacher_id = request.param('TeacherId');
+	  var std = request.param('ClassStandard');
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	
+	Teacher.findOne({TeacherId: request.param('TeacherId')},
+			function(error, result) {
+			if (error) {
+			console.error(error);
+			response.writeHead(500,
+			{'Content-Type' : 'text/plain'});
+			response.end('Internal server error');
+			return;
+			} else {
+			if (!result) {
+			 if (response !== null) {
+			   response.writeHead(404, {'Content-Type' : 'text/plain'});
+			   response.end('Teacher Not Found');
+			  }
+			return;
+			}
+			else
+			{
+			if (response !== null){
+			  var TeacherRoleList = result.TeacherRoleList;
+			  var StudentList = [];
+			  var TeacherRole = [];
+			  var teacherRolecount =0;
+			  
+			  for(teacherRolecount = 0; teacherRolecount < result.TeacherRoleList.length; teacherRolecount++ )
+			  {
+			    if(TeacherRoleList[teacherRolecount].TeacherRoleforStd === "All")
+			     {
+			    	TeacherRole = [request.param('ClassStandard')];
+			     }
+			    else if(TeacherRoleList[teacherRolecount].TeacherRoleforStd === request.param('ClassStandard') )
+			    	{
+			           TeacherRole.push(TeacherRoleList[teacherRolecount].TeacherRoleforStd);
+			    	}
+			    }
+				  
+				  Student.find({StudentClassStandard : {$in: TeacherRole } }, function(error, result) {
+						if (error) {
+							console.error(error);
+							return null;
+							}
+							if (result !== null) {
+							  var Students = JSON.parse(JSON.stringify(result));
+							  
+							  var studentcount=0;
+							  for (studentcount=0; studentcount < Students.length ; studentcount++  ) {
+								  var parentListcount =0;
+								  var student = {
+										    "StudentId": Students[studentcount].StudentId, 
+										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
+										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
+										   
+										    "StudentMotherName" : "",
+										    "StudentMotherMobile" : "",
+										    "StudentMotherEmailID" : "",
+										    "StudentFatherName" : "",
+										    "StudentFatherMobile" : "",
+										    "StudentFatherEmailID" : "",
+										    "StudentGuardianName" : "",
+										    "StudentGuardianMobile" : "",
+										    "StudentGuardianEmailID" : "",
+										    
+								                };
+								   for(parentListcount =0; parentListcount < Students[studentcount].ParentList.length; parentListcount++  ){
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Mother")
+										   {
+										   student.StudentMotherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentMotherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentMotherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										          
+										   }
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Father")
+									   {
+										   student.StudentFatherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentFatherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentFatherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+									          
+									   }
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Guardian")
+									   {
+										   student.StudentGuardianName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentGuardianMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentGuardianEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+									          
+									   }
+									  
+								   }
+								   
+								   StudentList.push(student );
+								   
+								}
+							  
+							  response.end(JSON.stringify(StudentList));
+							}
+							
+							});
+				      
+				  }
+			  
+			  
+			  //
+			 }
+			}
+			//console.log(result);
+			
+			});
+	
+});
+
+
+app.get('/test/:mobile', function(request,response){
+	
+	Student.find({'ParentList.MobileNumber': request.params.mobile},function(error, result){
+		if(error)
+			{
+			  console.log(error);
+			}
+		else
+			{
+			response.end(JSON.stringify(result));
+			}
+	});
+});
+
+app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
+	var getalldata = {
+			"Teacher": null,
+			"Students" : [ ]
+	};
+	
+	Teacher.findOne({MobileNumber: request.params.mobile},
+			function(error, result) 
+			{
+			  if (error)
+				  {
+			        console.error(error);
+			        response.writeHead(500,{'Content-Type' : 'text/plain'});
+			        response.end('Internal server error');
+			        return;
+			     } 
+				 else 
+				 {
+			       if (!result) 
+				   {console.log('inside no resul');
+			          if (response !== null) 
+					  {
+			        	  console.log('inside student find mob ');
+						    Student.find({'ParentList.MobileNumber': request.params.mobile},function(error, data){
+		                    if(error)
+			                  {
+			                       console.log(error);
+								   response.writeHead(500,{'Content-Type' : 'text/plain'});
+			                       response.end('Internal server error');
+			                       return;
+			                  }
+		                     else
+			                   {
+		                    	 console.log('inside student data');
+		                    	 
+			                     getalldata.Students = data;
+								 response.end(JSON.stringify(getalldata));
+			                   }
+	                          });
+						 
+						 
+			          }
+		      
+			       }
+			      else
+			      {
+			        if (response !== null)
+					{
+			           getalldata.Teacher = result;
+			           
+				       Student.find({'ParentList.MobileNumber': request.params.mobile},function(error, data){
+		                    if(error)
+			                  {
+			                       console.log(error);
+								   response.writeHead(500,{'Content-Type' : 'text/plain'});
+			                       response.end('Internal server error');
+			                       return;
+			                  }
+		                     else
+			                   {
+			                     getalldata.Students = data;
+								 response.end(JSON.stringify(getalldata));
+			                   }
+	                          });
+							
+					}
+			     }
+			}
+			//console.log(result);
+			
+			});
+	
+});
+
+
+app.get('/testingalldata/:mobile', function(request, response){
+	var getalldata = {
+			"Teacher": null,
+			"Students" : [ ],
+			"AllTeachers" : [ ],
+			"AllStudents" : [ ]
+	};
+	
+	Teacher.findOne({MobileNumber: request.params.mobile},
+			function(error, result) 
+			{
+			  if (error)
+				  {
+			        console.error(error);
+			        response.writeHead(500,{'Content-Type' : 'text/plain'});
+			        response.end('Internal server error');
+			        return;
+			     } 
+				 else 
+				 {
+			       if (!result) 
+				   {
+			          if (response !== null) 
+					  {
+			   
+			          }
+		      
+			       }
+			      else
+			      {
+			        if (response !== null)
+					{
+			           getalldata.Teacher = result;
+			           var TeacherRoleList = result.TeacherRoleList;
+			           var StudentList = [];
+			           var TeacherRole = [];
+			           var teacherRolecount =0;
+			           for(teacherRolecount = 0; teacherRolecount < result.TeacherRoleList.length; teacherRolecount++ )
+				       {
+				         if(TeacherRoleList[teacherRolecount].TeacherRoleforStd === "All")
+						 {
+					        TeacherRole = ["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th"];
+				         }
+				         TeacherRole.push(TeacherRoleList[teacherRolecount].TeacherRoleforStd);
+				       }
+				  
+				       Student.find({StudentClassStandard : {$in: TeacherRole } }, function(error, result) {
+						   if (error) 
+						   {
+							console.error(error);
+							return null;
+						   }
+						   if (result !== null) 
+						    {
+							    var Students = JSON.parse(JSON.stringify(result));
+							  
+							    var studentcount=0;
+							    for (studentcount=0; studentcount < Students.length ; studentcount++  ) 
+								{
+								  var parentListcount =0;
+								  var student = {
+										    "StudentId": Students[studentcount].StudentId, 
+										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
+										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
+										   
+										    "StudentMotherName" : "",
+										    "StudentMotherMobile" : "",
+										    "StudentMotherEmailID" : "",
+										    "StudentFatherName" : "",
+										    "StudentFatherMobile" : "",
+										    "StudentFatherEmailID" : "",
+										    "StudentGuardianName" : "",
+										    "StudentGuardianMobile" : "",
+										    "StudentGuardianEmailID" : "",
+										    
+								                };
+								     for(parentListcount =0; parentListcount < Students[studentcount].ParentList.length; parentListcount++  )
+									 {
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Mother")
+										   {
+										   student.StudentMotherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentMotherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentMotherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										          
+										   }
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Father")
+									   {
+										   student.StudentFatherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentFatherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentFatherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+									          
+									   }
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Guardian")
+									   {
+										   student.StudentGuardianName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.StudentGuardianMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.StudentGuardianEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+									          
+									   }
+									  
+								    }
+								   
+								   StudentList.push(student );
+								   
+								}
+							  
+							  getalldata.AllStudents = StudentList;
+							  response.end(JSON.stringify(getalldata));
+							}
+							
+							});
+							
+					}
+			     }
+			}
+			//console.log(result);
+			
+			});
+	
+});
+
+app.put('/SendMessageToMultipleUser', function(request, response) {
+
+	var message = new gcm.Message({
+	    
+	    data: {
+	    	"type" : "Notice",
+	        "body": request.body.MessageBody,
+	        "title": request.body.MessageTitle
+	    },
+	    notification: {
+	        title: "From Ashutosh purohit node app ",
+	        icon: "ic_launcher",
+	        body: "This is a notification that will be displayed ASAP."
+	    }
+	});
+
+	
+	var registrationTokens = [];
+	MobileDevice.find({MobileNumber: {$in: request.body.MobileNumbers}},
+	 function(error, data) {
+		if (error)
+		{
+		console.error(error);
+		return null;
+		}
+		else 
+		{			
+			if(data !==undefined)
+			{
+				var Mobiles = JSON.parse(JSON.stringify(data));
+				var mobilecount=0;
+				  for (mobilecount=0; mobilecount < Mobiles.length ; mobilecount++  ) {
+				console.log(Mobiles[mobilecount].DeviceId);
+				registrationTokens.push(Mobiles[mobilecount].DeviceId);	
+				}
+				// Set up the sender with you API key
+				var sender = new gcm.Sender('AIzaSyDvbQO3k8lkZzsN6xpRmYmg9RkDDpbPKgA');
+
+				// Now the sender can be used to send messages
+				// ... or retrying a specific number of times (10)
+				sender.send(message, { registrationTokens: registrationTokens }, 10, function (err, response) {
+				  if(err) {console.error(err);}
+				  else    {console.log(response);}
+				});
+			}
+		}
+	});
+	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	response.end('Ended final');
 	});
 
 app.put('/SendMessage', function(request, response) {

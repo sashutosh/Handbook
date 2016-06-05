@@ -40,14 +40,29 @@ function toParentList(bodyParent)
 		    	PresentAddress : bodyParent[parentcount].PresentAddress,
 		    	PresentAddressPOBox : bodyParent[parentcount].PresentAddressPOBox,
 		    	PermanentAddress : bodyParent[parentcount].PermanentAddress,
-		    	PermanentAddressPOBox : bodyParent[parentcount].PermanentAddressPOBox,
-		    	Messages : toMessageList(bodyParent[parentcount].Messages)
+		    	PermanentAddressPOBox : bodyParent[parentcount].PermanentAddressPOBox
+		    	//Messages : toMessageList(bodyParent[parentcount].Messages)
 		    	
 		    };
 		    ParentList.push(Parent);
 		}
     }
 	return ParentList;
+}
+
+function toParentMobileList(bodyParent)
+{
+	var ParentMobileList = [];
+	var parentcount=0;
+	if(bodyParent !== undefined)
+    {
+	for(parentcount =0; parentcount <bodyParent.length; parentcount++)
+		{
+		   
+		    ParentMobileList.push(bodyParent[parentcount].MobileNumber);
+		}
+    }
+	return ParentMobileList;
 }
 
 function toTeacherRoleList(bodyTeacherRole)
@@ -83,7 +98,8 @@ var student =  new Student(
 	StudentGender: body.StudentGender,
 	StudentClassStandard: body.StudentClassStandard,
 	StudentFullAddress: body.StudentFullAddress,
-	ParentList : toParentList(body.ParentList)
+	ParentList : toParentList(body.ParentList),
+	StudentParentMobiles: toParentMobileList(body.ParentList)
 	
 });
 
@@ -112,7 +128,7 @@ function toTeacher(body, Teacher)
 		PresentAddressPOBox: body.PresentAddressPOBox,
 		PermanentAddress: body.PermanentAddress,
 		PermanentAddressPOBox: body.PermanentAddressPOBox,
-		Messages: toMessageList(body.Messages),
+		//Messages: toMessageList(body.Messages),
 		TeacherRoleList : toTeacherRoleList(body.TeacherRoleList)
 	});
 	
@@ -129,7 +145,7 @@ exports.createStudent = function (model, requestBody, response)
 			}
 		console.log('Student saved successfully');
 	});
-}
+};
 
 exports.findStudentById = function (model, _studentId, response) {
 		model.findOne({StudentId: _studentId},
