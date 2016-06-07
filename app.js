@@ -147,13 +147,27 @@ var MobileDeviceMappingSchema = new mongoose.Schema({
 });
 
 var MessageSchema = new mongoose.Schema({
-	MessageId: String,
-	From: String,
+	
+	From: 
+		{
+		  Type: String,
+		  Id: String
+		},
+	Message:
+		{
+		  MessageBody: String,
+		  MessageTitle: String
+		},
 	To:
 		[
-		 String
+		  {
+		    Type: String,
+		    Id: String,
+		    Mobile:Number,
+		    ClassStandard: String
+		  } 
 		],
-	Message: String,
+	
 	DateofMsg: Date,
 	DeliveredToAll: Boolean,
 	DeliveredSuccessfullyTo:
@@ -821,6 +835,71 @@ app.get('/testingalldata/:mobile', function(request, response){
 	
 });
 
+app.put('/SendNotificationOrMessages', function(request, response) {
+
+	var Mobiles = [];
+	var tocount =0;
+	console.log('inside sendnotification');
+	console.log(request.body);
+	for(tocount=0; tocount < request.body.To.length ; tocount++)
+		{
+		  
+		   Mobiles.push(request.body.To[tocount].Mobile);
+		}
+	var message = new gcm.Message({
+	    
+	    data: {
+	    	"type" : "Notice",
+	        "body": request.body.MessageBody,
+	        "title": request.body.MessageTitle
+	    },
+	    notification: {
+	        title: "From Ashutosh purohit node app ",
+	        icon: "ic_launcher",
+	        body: "This is a notification that will be displayed ASAP."
+	    }
+	});
+
+	
+	var registrationTokens = [];
+	MobileDevice.find({MobileNumber: {$in: Mobiles}},
+	 function(error, data) {
+		if (error)
+		{
+		console.error(error);
+		return null;
+		}
+		else 
+		{			
+			if(data !==undefined)
+			{
+				var Mobiles = JSON.parse(JSON.stringify(data));
+				var mobilecount=0;
+				  for (mobilecount=0; mobilecount < Mobiles.length ; mobilecount++  ) {
+				console.log(Mobiles[mobilecount].DeviceId);
+				registrationTokens.push(Mobiles[mobilecount].DeviceId);	
+				}
+				// Set up the sender with you API key
+				var sender = new gcm.Sender('AIzaSyDvbQO3k8lkZzsN6xpRmYmg9RkDDpbPKgA');
+
+				// Now the sender can be used to send messages
+				// ... or retrying a specific number of times (10)
+				sender.send(message, { registrationTokens: registrationTokens }, 10, function (err, response) {
+				  if(err) {console.error(err);}
+				  else    {console.log(response);}
+				});
+			}
+		}
+	});
+	
+	
+	messagedataservice.createMessage(Message, request.body, response);
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	response.end('Ended final');
+	});
+	
+
 app.put('/SendMessageToMultipleUser', function(request, response) {
 
 	var message = new gcm.Message({
@@ -972,7 +1051,7 @@ app.put('/SendMessageToSingleUser', function(request, response) {
 		}
 		else 
 		{			
-			if(data !=undefined)
+			if(data !==undefined)
 			{
 				console.log(data.DeviceId);
 				registrationTokens.push(data.DeviceId);	
@@ -990,7 +1069,7 @@ app.put('/SendMessageToSingleUser', function(request, response) {
 	});
 	
 	
-	response.end('Ended final')
+	response.end('Ended final');
 	});
 
 http.createServer(app).listen(app.get('port'), function(){

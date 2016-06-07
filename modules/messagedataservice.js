@@ -5,7 +5,7 @@
 function toMesage(body, Message) {
 var message =  new Message(
 {
-	MessageId: body.MessageId,
+	
 	From: body.From,
 	To: body.To,
 	Message: body.Message,
