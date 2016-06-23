@@ -55,7 +55,9 @@ var SchoolSchema = new mongoose.Schema({
 	SchoolState: String,
 	SchoolAddressPOBox: Number,
 	SchoolDistrict: String,
-	SchoolType: String	
+	SchoolType: String,
+	ImageUrl: String,
+	ImageUrlLogo: String
 });
 
 var ParentTypeSchema = new mongoose.Schema({
@@ -73,6 +75,7 @@ var StudentSchema = new mongoose.Schema({
 	StudentGender: String,
 	StudentClassStandard: String,
 	StudentFullAddress: String,
+	ImageUrl: String,
 	StudentParentMobiles:
 		[
 		  Number
@@ -124,6 +127,7 @@ var TeacherSchema = new mongoose.Schema({
 	PresentAddressPOBox: Number,
 	PermanentAddress: String,
 	PermanentAddressPOBox: Number,
+	ImageUrl: String,
 	/*Messages:
 		[
 		 {
@@ -232,12 +236,12 @@ app.get('/teachers/:TeacherId', function(request, response) {
 	});
 
 app.post('/teachers', function(request, response) {
-	dataservice.updateTeacher(Teacher, request.body, response)
+	dataservice.updateTeacher(Teacher, request.body, response);
 	});
 
 app.put('/teachers', function(request, response) {
 	
-	dataservice.createTeacher(Teacher, request.body, response)
+	dataservice.createTeacher(Teacher, request.body, response);
 	});
 	
 app.del('/teachers/:TeacherId', function(request,response) {
@@ -324,6 +328,42 @@ app.get('/devices/:DeviceId', function(request, response) {
 	response);
 	});
 
+app.get('/school/:schoolId', function(request, response) {
+	console.log(request.url + ' : querying for ' +
+	request.params.schoolId);
+	schooldataservice.findSchoolbyId(School, request.params.schoolId,
+	response);
+	});
+
+app.post('/school', function(request, response) {
+	schooldataservice.updateSchool(School, request.body, response);
+	});
+
+app.put('/school', function(request, response) {
+	
+	schooldataservice.createSchool(School, request.body, response);
+	});
+	
+app.del('/school/:SchoolId', function(request,response) {
+	console.log('request.params.SchoolId');
+	console.log(request.params.SchoolId);
+	schooldataservice.deleteSchool(School, request.params.SchoolId, response);
+	});
+	
+app.get('/school', function(request, response) {
+		
+		
+	schooldataservice.listSchools(School, response);
+	});
+	
+app.get('/school/SchoolName/:SchoolName', function(request, response) {
+	console.log(request.url + ' : querying for ' +
+	request.params.SchoolName);
+	schooldataservice.findSchoolBySchoolFullName(School, request.params.SchoolName,
+	response);
+	});
+
+
 app.get('/TeacherDetailForStudent/:StudentId', function(request, response) {
 	
 	response.header("Access-Control-Allow-Origin", "*");
@@ -356,6 +396,9 @@ app.get('/TeacherDetailForStudent/:StudentId', function(request, response) {
 						}
 						if (result !== null) {
 						  var Teachers = JSON.parse(JSON.stringify(result));
+						  var TeachersList = {
+								  Teachers : []
+						  };
 						  var TeacherList = [];
 						  var teachercount=0;
 						  for (teachercount=0; teachercount < Teachers.length ; teachercount++  ) {
@@ -371,22 +414,24 @@ app.get('/TeacherDetailForStudent/:StudentId', function(request, response) {
 									        		   
 									        		    "TeacherLastName":  Teachers[teachercount].TeacherLastName,
 									        		    
-									        		    "TeacherMobileNumber": Teachers[teachercount].MobileNumber,
+									        		    "MobileNumber": Teachers[teachercount].MobileNumber,
 									        		    
-									        		    "TeacherEmailId": Teachers[teachercount].EmailId,
+									        		    "EmailId": Teachers[teachercount].EmailId,
 									        		    
-									        		    "TeacherRoleType": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleType,
-									        	        "TeacherRoleforStd": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforStd,
+									        		    "RoleType": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleType,
+									        	        "RoleforStd": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforStd,
 									        	       
-									        	        "TeacherRoleforSubject": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforSubject,
+									        	        "RoleforSubject": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforSubject,
+									        	        
+									        	        "ImageUrl": request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Teacher_"+ Teachers[teachercount].TeacherId +".jpg"
 									          };
 									          TeacherList.push(teacher );
 									   }
 							   }
 							   
 							}
-						  
-						  response.end(JSON.stringify(TeacherList));
+						  TeachersList.Teachers = TeacherList;
+						  response.end(JSON.stringify(TeachersList));
 						}
 						
 						});
@@ -426,6 +471,7 @@ app.get('/GetAllStudentDetailsForTeacher/:TeacherId', function(request, response
 			if (response !== null){
 			  var TeacherRoleList = result.TeacherRoleList;
 			  var StudentList = [];
+			  var StudentsList = { StudentList : []};
 			  var TeacherRole = [];
 			  var teacherRolecount =0;
 			  for(teacherRolecount = 0; teacherRolecount < result.TeacherRoleList.length; teacherRolecount++ )
@@ -451,38 +497,38 @@ app.get('/GetAllStudentDetailsForTeacher/:TeacherId', function(request, response
 										    "StudentId": Students[studentcount].StudentId, 
 										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
 										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
-										   
-										    "StudentMotherName" : "",
-										    "StudentMotherMobile" : "",
-										    "StudentMotherEmailID" : "",
-										    "StudentFatherName" : "",
-										    "StudentFatherMobile" : "",
-										    "StudentFatherEmailID" : "",
-										    "StudentGuardianName" : "",
-										    "StudentGuardianMobile" : "",
-										    "StudentGuardianEmailID" : "",
+										    "ImageUrl": request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ Students[studentcount].StudentId +".jpg",
+										    "MotherName" : "",
+										    "MotherMobile" : "",
+										    "MotherEmailID" : "",
+										    "FatherName" : "",
+										    "FatherMobile" : "",
+										    "FatherEmailID" : "",
+										    "GuardianName" : "",
+										    "GuardianMobile" : "",
+										    "GuardianEmailID" : "",
 										    
 								                };
 								   for(parentListcount =0; parentListcount < Students[studentcount].ParentList.length; parentListcount++  ){
 									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Mother")
 										   {
-										   student.StudentMotherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
-										   student.StudentMotherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
-										   student.StudentMotherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										   student.MotherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.MotherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.MotherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
 										          
 										   }
 									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Father")
 									   {
-										   student.StudentFatherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
-										   student.StudentFatherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
-										   student.StudentFatherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										   student.FatherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.FatherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.FatherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
 									          
 									   }
 									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Guardian")
 									   {
-										   student.StudentGuardianName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
-										   student.StudentGuardianMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
-										   student.StudentGuardianEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										   student.GuardianName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.GuardianMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.GuardianEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
 									          
 									   }
 									  
@@ -491,8 +537,8 @@ app.get('/GetAllStudentDetailsForTeacher/:TeacherId', function(request, response
 								   StudentList.push(student );
 								   
 								}
-							  
-							  response.end(JSON.stringify(StudentList));
+							  StudentsList.StudentList = StudentList;
+							  response.end(JSON.stringify(StudentsList));
 							}
 							
 							});
@@ -566,38 +612,38 @@ app.get('/GetStudentDetailsForTeacherForClassStandard', function(request, respon
 										    "StudentId": Students[studentcount].StudentId, 
 										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
 										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
-										   
-										    "StudentMotherName" : "",
-										    "StudentMotherMobile" : "",
-										    "StudentMotherEmailID" : "",
-										    "StudentFatherName" : "",
-										    "StudentFatherMobile" : "",
-										    "StudentFatherEmailID" : "",
-										    "StudentGuardianName" : "",
-										    "StudentGuardianMobile" : "",
-										    "StudentGuardianEmailID" : "",
+										    "ImageUrl": request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ Students[studentcount].StudentId +".jpg",
+										    "MotherName" : "",
+										    "MotherMobile" : "",
+										    "MotherEmailID" : "",
+										    "FatherName" : "",
+										    "FatherMobile" : "",
+										    "FatherEmailID" : "",
+										    "GuardianName" : "",
+										    "GuardianMobile" : "",
+										    "GuardianEmailID" : "",
 										    
 								                };
 								   for(parentListcount =0; parentListcount < Students[studentcount].ParentList.length; parentListcount++  ){
 									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Mother")
 										   {
-										   student.StudentMotherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
-										   student.StudentMotherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
-										   student.StudentMotherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										   student.MotherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.MotherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.MotherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
 										          
 										   }
 									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Father")
 									   {
-										   student.StudentFatherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
-										   student.StudentFatherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
-										   student.StudentFatherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										   student.FatherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.FatherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.FatherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
 									          
 									   }
 									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Guardian")
 									   {
-										   student.StudentGuardianName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
-										   student.StudentGuardianMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
-										   student.StudentGuardianEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										   student.GuardianName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.GuardianMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.GuardianEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
 									          
 									   }
 									  
@@ -606,8 +652,9 @@ app.get('/GetStudentDetailsForTeacherForClassStandard', function(request, respon
 								   StudentList.push(student );
 								   
 								}
-							  
-							  response.end(JSON.stringify(StudentList));
+							  var StudentsList = { StudentList : []};
+							  StudentsList.StudentList = StudentList;
+							  response.end(JSON.stringify(StudentsList));
 							}
 							
 							});
@@ -642,7 +689,8 @@ app.get('/test/:mobile', function(request,response){
 app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 	var getalldata = {
 			"Teacher": null,
-			"Students" : [ ]
+			"Students" : [ ],
+			"School" : null,
 	};
 	
 	Teacher.findOne({MobileNumber: request.params.mobile},
@@ -672,10 +720,46 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 			                  }
 		                     else
 			                   {
-		                    	 console.log('inside student data');
+		                    	 
+		                    	 var schoolid ="";
+		                    	 if(data !== null && data.length > 0)
+		                    	 {
+		                    		 
+		                    	   var scount = 0;
+		                    	   for(scount=0; scount <data.length ;scount++)
+		                    		   {
+		                    		   
+		                    		     if(data[scount].ImageUrl !==undefined && data[scount].StudentId !== undefined)
+		                    		    	 {
+		                    		    	 schoolid = data[scount].SchoolId;
+		                    		    	 data[scount].ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ data[scount].StudentId +".jpg";
+		                    		    	 }
+		                    		   }
+		                    	 
+		                    	 }
 		                    	 
 			                     getalldata.Students = data;
-								 response.end(JSON.stringify(getalldata));
+			                     
+			                     School.findOne({SchoolId: schoolid},
+			                    			function(errorsc, resultsc) {
+			                    			if (errorsc)
+			                    			{
+			                    			   console.error(errorsc);
+			                    			   response.end(JSON.stringify(getalldata));
+			                    			} 
+			                    			else 
+			                    			{
+			                    			  if (resultsc) 
+			                    			  {
+			                    				  resultsc.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ resultsc.SchoolId +".jpg";
+			                    				  resultsc.ImageUrlLogo = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ resultsc.SchoolId +".jpg";
+			                    			   }
+			                    			  getalldata.School = resultsc;
+			                    			  response.end(JSON.stringify(getalldata));
+			                    			}
+			                    			});
+			                     
+								 
 			                   }
 	                          });
 						 
@@ -688,8 +772,9 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 			        if (response !== null)
 					{
 			           getalldata.Teacher = result;
-			           
-				       Student.find({'ParentList.MobileNumber': request.params.mobile},function(error, data){
+			           getalldata.Teacher.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Teacher_"+ result.TeacherId +".jpg";
+			           var schoolid = getalldata.Teacher.SchoolId;
+			           Student.find({'ParentList.MobileNumber': request.params.mobile},function(error, data){
 		                    if(error)
 			                  {
 			                       console.log(error);
@@ -699,8 +784,42 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 			                  }
 		                     else
 			                   {
+			                     
+			                     if(data !== null && data.length > 0)
+		                    	 {
+		                    	   var scount = 0;
+		                    	   for(scount=0; scount <data.length ;scount++)
+		                    		   {
+		                    		     if(data[scount].ImageUrl !==undefined && data[scount].StudentId !== undefined)
+		                    		    	 {
+		                    		    	 schoolid = data[scount].SchoolId;
+		                    		    	 data[scount].ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ data[scount].StudentId +".jpg";
+		                    		    	 }
+		                    		   }
+		                    	 
+		                    	 }
 			                     getalldata.Students = data;
-								 response.end(JSON.stringify(getalldata));
+			                     
+			                     School.findOne({SchoolId: schoolid},
+			                    			function(errorsc, resultsc) {
+			                    			if (errorsc)
+			                    			{
+			                    			   console.error(errorsc);
+			                    			   response.end(JSON.stringify(getalldata));
+			                    			} 
+			                    			else 
+			                    			{
+			                    			  if (resultsc) 
+			                    			  {
+			                    				  resultsc.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ resultsc.SchoolId +".jpg";
+			                    				  resultsc.ImageUrlLogo = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ resultsc.SchoolId +".jpg";
+			                    			   }
+			                    			  getalldata.School = resultsc;
+			                    			  response.end(JSON.stringify(getalldata));
+			                    			}
+			                    			});
+			                     
+								 
 			                   }
 	                          });
 							
@@ -1071,6 +1190,58 @@ app.put('/SendMessageToSingleUser', function(request, response) {
 	
 	response.end('Ended final');
 	});
+
+app.del('/uploadTeacherOrStudentImage/:file', function(req, res) {
+	console.log('delete');
+	var file = req.params.file;
+    var filename = __dirname + "/Images/" + file;
+    if(fs.existsSync(filename))
+    	{
+    	  console.log('exists');
+    	  fs.unlink(filename);
+    	}
+    res.end('Done deleting the file');
+});
+
+
+//Post CNN Signed Image files
+app.post('/uploadTeacherOrStudentImage', function(req, res) {
+	
+	
+  fs.readFile(req.files.picture.path, function (err, data) {
+	  
+    var imageName = req.files.picture.name;
+    // If there's an error
+    if(!imageName){
+      console.log("There was an error");
+      res.end();
+    } else {
+      var newPath = __dirname + "/Images/" + imageName;
+      // write file to uploadsCNNSignFiles/fullsize folder
+      fs.writeFile(newPath, data, function (err) {
+        // let's see it
+    	  if(!err)
+    		  {
+    		     fs.unlink(req.files.picture.path);
+                 res.redirect("/Images/" + imageName);
+    		  }
+    	  else
+    		  {
+    		    res.end('Error in uploading file. Please try again or work offline');
+    		  }
+      });
+    }
+  });
+});
+    
+ // Show files
+    app.get('/uploadTeacherOrStudentImage/:file', function (req, res){
+      var file = req.params.file;
+      var img = fs.readFileSync(__dirname + "/Images/" + file);
+      res.writeHead(200, {'Content-Type': 'image/jpg' });
+      res.end(img, 'binary');
+    });
+ 
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

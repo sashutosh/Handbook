@@ -98,6 +98,7 @@ var student =  new Student(
 	StudentGender: body.StudentGender,
 	StudentClassStandard: body.StudentClassStandard,
 	StudentFullAddress: body.StudentFullAddress,
+	ImageUrl: " ",
 	ParentList : toParentList(body.ParentList),
 	StudentParentMobiles: toParentMobileList(body.ParentList)
 	
@@ -128,6 +129,7 @@ function toTeacher(body, Teacher)
 		PresentAddressPOBox: body.PresentAddressPOBox,
 		PermanentAddress: body.PermanentAddress,
 		PermanentAddressPOBox: body.PermanentAddressPOBox,
+		ImageUrl: " ",
 		//Messages: toMessageList(body.Messages),
 		TeacherRoleList : toTeacherRoleList(body.TeacherRoleList)
 	});
@@ -266,7 +268,7 @@ exports.updateStudent = function (model, requestBody, response) {
 	data.StudentClassStandard = student.StudentClassStandard;
 	data.StudentFullAddress = student.StudentFullAddress;
 	data.ParentList = student.ParentList;
-	
+	data.ImageUrl = student.ImageUrl;
 	// now save
 	data.save(function (error) {
 	if (!error) {
@@ -424,7 +426,7 @@ exports.updateTeacher = function (model, requestBody, response) {
 	data.PermanentAddressPOBox = teacher.PermanentAddressPOBox;
 	data.Messages = teacher.Messages;
 	data.TeacherRoleList = teacher.TeacherRoleList;
-	
+	data.ImageUrl = teacher.ImageUrl;
 	
 	// now save
 	data.save(function (error) {
