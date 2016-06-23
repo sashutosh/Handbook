@@ -12,7 +12,9 @@ var express = require('express')
   , dataservice = require('./modules/dataservices')
   , messagedataservice = require('./modules/messagedataservice')
   , devicedataservice = require('./modules/devicedataservice')
-  , gcm =  require('node-gcm');
+  , schooldataservice = require('./modules/schooldataservice')
+  , gcm =  require('node-gcm')
+  , fs = require('fs');
 
 var app = express();
 
