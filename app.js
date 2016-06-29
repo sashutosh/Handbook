@@ -200,6 +200,7 @@ var MobileDevice = mongoose.model('MobileDevice', MobileDeviceMappingSchema);
 
 var Message = mongoose.model('Message', MessageSchema);
 
+var staticnotificationid = 100000;
 
 app.get('/students/:StudentId', function(request, response) {
 	console.log(request.url + ' : querying for ' +
@@ -958,6 +959,13 @@ app.get('/testingalldata/:mobile', function(request, response){
 
 app.put('/SendNotificationOrMessages', function(request, response) {
 
+	Date.prototype.yyyymmdd = function() {
+		   var yyyy = this.getFullYear();
+		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+		   var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
+		   return "".concat(dd).concat("/").concat(mm).concat("/").concat(yyyy);
+		  };
+		  
 	var Mobiles = [];
 	var tocount =0;
 	console.log('inside sendnotification');
@@ -969,13 +977,17 @@ app.put('/SendNotificationOrMessages', function(request, response) {
 		}
 	var message = new gcm.Message({
 	    
-	    data: {
+		data: {
 	    	"type" : "Notice",
 	        "body": request.body.MessageBody,
-	        "title": request.body.MessageTitle
+	        "title": request.body.MessageTitle,
+	        "priority" : 1,
+	        "date": new Date().yyyymmdd(),
+	        "notification_id": (staticnotificationid + 1).toString()
+	        
 	    },
 	    notification: {
-	        title: "From Ashutosh purohit node app ",
+	        title: "From node app SchoolParent Interaction Server ",
 	        icon: "ic_launcher",
 	        body: "This is a notification that will be displayed ASAP."
 	    }
@@ -1023,15 +1035,26 @@ app.put('/SendNotificationOrMessages', function(request, response) {
 
 app.put('/SendMessageToMultipleUser', function(request, response) {
 
+	Date.prototype.yyyymmdd = function() {
+		   var yyyy = this.getFullYear();
+		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+		   var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
+		   return "".concat(dd).concat("/").concat(mm).concat("/").concat(yyyy);
+		  };
+		  
 	var message = new gcm.Message({
 	    
 	    data: {
 	    	"type" : "Notice",
 	        "body": request.body.MessageBody,
-	        "title": request.body.MessageTitle
+	        "title": request.body.MessageTitle,
+	        "priority" : 1,
+	        "date": new Date().yyyymmdd(),
+	        "notification_id": (staticnotificationid + 1).toString()
+	        
 	    },
 	    notification: {
-	        title: "From Ashutosh purohit node app ",
+	        title: "From node app SchoolParent Interaction Server ",
 	        icon: "ic_launcher",
 	        body: "This is a notification that will be displayed ASAP."
 	    }
@@ -1075,16 +1098,27 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	});
 
 app.put('/SendMessage', function(request, response) {
+	
+	Date.prototype.yyyymmdd = function() {
+		   var yyyy = this.getFullYear();
+		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+		   var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
+		   return "".concat(dd).concat("/").concat(mm).concat("/").concat(yyyy);
+		  };
 
 	var message = new gcm.Message({
 	    
-	    data: {
+		data: {
 	    	"type" : "Notice",
 	        "body": request.body.MessageBody,
-	        "title": request.body.MessageTitle
+	        "title": request.body.MessageTitle,
+	        "priority" : 1,
+	        "date": new Date().yyyymmdd(),
+	        "notification_id": (staticnotificationid + 1).toString()
+	        
 	    },
 	    notification: {
-	        title: "From Ashutosh purohit node app ",
+	        title: "From node app SchoolParent Interaction Server ",
 	        icon: "ic_launcher",
 	        body: "This is a notification that will be displayed ASAP."
 	    }
@@ -1147,15 +1181,26 @@ app.put('/SendMessage', function(request, response) {
 
 app.put('/SendMessageToSingleUser', function(request, response) {
 
+	Date.prototype.yyyymmdd = function() {
+		   var yyyy = this.getFullYear();
+		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+		   var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
+		   return "".concat(dd).concat("/").concat(mm).concat("/").concat(yyyy);
+		  };
+		  
 	var message = new gcm.Message({
 	    
-	    data: {
+		data: {
 	    	"type" : "Notice",
 	        "body": request.body.MessageBody,
-	        "title": request.body.MessageTitle
+	        "title": request.body.MessageTitle,
+	        "priority" : 1,
+	        "date": new Date().yyyymmdd(),
+	        "notification_id": (staticnotificationid + 1).toString()
+	        
 	    },
 	    notification: {
-	        title: "From Ashutosh purohit node app ",
+	        title: "From node app SchoolParent Interaction Server ",
 	        icon: "ic_launcher",
 	        body: "This is a notification that will be displayed ASAP."
 	    }
