@@ -202,6 +202,7 @@ var Message = mongoose.model('Message', MessageSchema);
 
 var staticnotificationid = 100000;
 
+	
 app.get('/students/:StudentId', function(request, response) {
 	console.log(request.url + ' : querying for ' +
 	request.params.StudentId);
@@ -1050,7 +1051,8 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	        "title": request.body.MessageTitle,
 	        "priority" : 1,
 	        "date": new Date().yyyymmdd(),
-	        "notification_id": (staticnotificationid + 1).toString()
+	        "notification_id": (staticnotificationid + 1).toString(),
+	        "ImageUrl" : request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + request.body.ImageName 
 	        
 	    },
 	    notification: {
@@ -1252,6 +1254,7 @@ app.del('/uploadTeacherOrStudentImage/:file', function(req, res) {
 
 
 //Post CNN Signed Image files
+//Post CNN Signed Image files
 app.post('/uploadTeacherOrStudentImage', function(req, res) {
 	
 	
@@ -1270,7 +1273,11 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
     	  if(!err)
     		  {
     		     fs.unlink(req.files.picture.path);
-                 res.redirect("/Images/" + imageName);
+    		     var ImageInfo = {
+    		    		 "ImageName" : imageName,
+    		    		 "ImageUrl": req.protocol + '://' + req.get('host') + "/uploadTeacherOrStudentImage/" + imageName 
+    		     };
+    		     res.json(ImageInfo);
     		  }
     	  else
     		  {
