@@ -18,6 +18,8 @@ var express = require('express')
 
 var app = express();
 
+var cloudinary = require('cloudinary');
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
@@ -28,6 +30,13 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
+cloudinary.config({ 
+	  cloud_name: 'schoolsync', 
+	  api_key: '388181157936776', 
+	  api_secret: 'Dp6rilZ1xAYNy83mxi9XWOh_cCE' 
+	});
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -1052,7 +1061,7 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	        "priority" : 1,
 	        "date": new Date().yyyymmdd(),
 	        "notification_id": (staticnotificationid + 1).toString(),
-	        "ImageUrl" : request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + request.body.ImageName 
+	        "ImageUrl" : request.body.ImageUrl 
 	        
 	    },
 	    notification: {
@@ -1258,34 +1267,35 @@ app.del('/uploadTeacherOrStudentImage/:file', function(req, res) {
 app.post('/uploadTeacherOrStudentImage', function(req, res) {
 	
 	
-  fs.readFile(req.files.picture.path, function (err, data) {
-	  
-    var imageName = req.files.picture.name;
-    // If there's an error
-    if(!imageName){
-      console.log("There was an error");
-      res.end();
-    } else {
-      var newPath = __dirname + "/Images/" + imageName;
-      // write file to uploadsCNNSignFiles/fullsize folder
-      fs.writeFile(newPath, data, function (err) {
-        // let's see it
-    	  if(!err)
-    		  {
-    		     fs.unlink(req.files.picture.path);
-    		     var ImageInfo = {
-    		    		 "ImageName" : imageName,
-    		    		 "ImageUrl": req.protocol + '://' + req.get('host') + "/uploadTeacherOrStudentImage/" + imageName 
-    		     };
-    		     res.json(ImageInfo);
-    		  }
-    	  else
-    		  {
-    		    res.end('Error in uploading file. Please try again or work offline');
-    		  }
-      });
-    }
-  });
+	var filename = req.files.picture.name;
+	if(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".bmp") || filename.endsWith(".gif"))
+			{
+		       filename  = filename.slice(0, -4);
+			}
+	else 
+		{
+		  
+		  if(filename.endsWith(".jpeg") || filename.endsWith(".html"))
+		   {
+	          filename  = filename.slice(0, -5);
+		   }
+		
+		}
+	  cloudinary.uploader.upload(
+			  req.files.picture.path,
+			  function(result) { console.log(result); console.log(result.url); 
+			  var ImageInfo = {
+ 		    		 "ImageName" : filename,
+ 		    		 "ImageUrl": result.url
+ 		     };
+ 		     res.json(ImageInfo);
+			  },
+			  {
+			    public_id: filename, 
+			    
+			  }      
+			);
+  
 });
     
  // Show files

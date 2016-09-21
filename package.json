@@ -13,6 +13,7 @@
     "mongoose": "^4.4.12",
     "node-gcm": "^0.14.0",
     "nodemon": "^1.9.1",
-    "routes": "^2.1.0"
+    "routes": "^2.1.0",
+    "cloudinary" : "^1.4.2"
   }
 }
