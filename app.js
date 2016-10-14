@@ -195,6 +195,61 @@ var MessageSchema = new mongoose.Schema({
 		]
 });
 
+var StudentTimeTableSchema = new mongoose.Schema({
+	ClassStandard: {type: String, required: true, unique: true },
+	SchoolId: String,
+	Days: [
+	       {
+	    	   Day: String,
+	TimeSlots: [
+	   {
+		   
+	     StartTime: String,
+	     EndTime: String,
+	     PeriodNumber: String,
+	     TeacherId: String,
+	     TeacherName: String,
+	     SubjectId: String,
+	     SubjectName: String
+
+	   }
+	 ]
+	      }
+	]
+	});
+
+var TeacherTimeTableSchema = new mongoose.Schema({
+    TeacherId:  {type: String, required: true, unique: true },
+	SchoolId: String,
+	TeacherDays: [
+	              {
+	             Day: String,	  
+	TeacherTimeSlots: [
+	   {
+	     ClassStandard: String,
+	     StartTime: String,
+	     EndTime: String,
+	     PeriodNumber: String,     
+	     SubjectId: String,
+	     SubjectName: String
+
+	   }
+	 ]
+	              }]
+	});
+
+var EventsSchema = new mongoose.Schema({
+	EventName : String,
+	EventDate: Date,
+	EventPlace: String,
+	EventStartTime: String,
+	EventEndTime: String,
+	SchoolId: String,
+	TeacherIdS: [ ],
+	StudentIDS: [ ]
+	});
+
+
 var School = mongoose.model('School', SchoolSchema);
 
 var Student = mongoose.model('Student', StudentSchema);
@@ -209,7 +264,89 @@ var MobileDevice = mongoose.model('MobileDevice', MobileDeviceMappingSchema);
 
 var Message = mongoose.model('Message', MessageSchema);
 
+var StudentTimeTable = mongoose.model('StudentTimeTable', StudentTimeTableSchema);
+
+var TeacherTimeTable = mongoose.model('TeacherTimeTable', TeacherTimeTableSchema);
+
+var Events = mongoose.model('Events', EventsSchema);
+
 var staticnotificationid = 100000;
+
+app.get('/StudentTimeTable/:StudentId', function(request, response) {
+	console.log(request.url + ' : querying for ' +
+	request.params.StudentId);
+	dataservice.findStudentTimeTableByStudentId(StudentTimeTable, Student, request.params.StudentId,
+	response);
+	});
+
+app.get('/StudentTimeTableForClassStandard/:ClassStandard', function(request, response) {
+	console.log(request.url + ' : querying for ' +
+	request.params.ClassStandard);
+	dataservice.findStudentTimeTableByClassStandard(StudentTimeTable, request.params.ClassStandard,
+	response);
+	});
+
+app.post('/StudentTimeTableForClassStandard', function(request, response) {
+	dataservice.updateStudentTimeTableForClassStandard(StudentTimeTable, request.body, response);
+	});
+
+app.put('/StudentTimeTableForClassStandard', function(request, response) {
+	dataservice.createStudentTimeTableForClassStandard(StudentTimeTable, request.body, response);
+	});
+	
+app.del('/StudentTimeTableForClassStandard/:ClassStandard', function(request,response) {
+	console.log('request.params.ClassStandard');
+	
+	dataservice.removeStudentTimeTableForClassStandard(StudentTimeTable, request.params.ClassStandard, response);
+	});
+	
+app.get('/StudentTimeTable', function(request, response) {
+		
+		console.log('Listing all TimeTable ' + request.params.key +
+				'=' + request.params.value);
+				dataservice.listStudentTimeTableForAllClass(StudentTimeTable, response);
+	});
+	
+app.get('/TeacherTimeTable/:TeacherId', function(request, response) {
+	console.log(request.url + ' : querying for ' +
+	request.params.TeacherId);
+	dataservice.findTeacherTimeTableByTeacherId(TeacherTimeTable, request.params.TeacherId,
+	response);
+	});
+
+app.post('/TeacherTimeTable', function(request, response) {
+	dataservice.updateTeacherTimeTable(TeacherTimeTable, request.body, response);
+	});
+
+app.put('/TeacherTimeTable', function(request, response) {
+	
+	dataservice.createTeacherTimeTable(TeacherTimeTable, request.body, response);
+	});
+	
+app.del('/TeacherTimeTable/:TeacherId', function(request,response) {
+	console.log('request.params.TeacherId');
+	console.log(request.params.TeacherId);
+	dataservice.removeTeacherTimeTable(TeacherTimeTable, request.params.TeacherId, response);
+	});
+	
+app.get('/TeacherTimeTable', function(request, response) {
+		
+		console.log('Listing all teachers with ' + request.params.key +
+				'=' + request.params.value);
+				dataservice.listTeachersTimeTable(TeacherTimeTable, response);
+	});
+
+app.put('/Events', function(request, response) {
+	
+	dataservice.createEvents(Events, request.body, response);
+	});
+		
+app.get('/Events', function(request, response) {
+		
+		console.log('Listing all teachers with ' + request.params.key +
+				'=' + request.params.value);
+				dataservice.listEvents(Events, response);
+	});
 
 	
 app.get('/students/:StudentId', function(request, response) {
@@ -220,11 +357,11 @@ app.get('/students/:StudentId', function(request, response) {
 	});
 
 app.post('/students', function(request, response) {
-	dataservice.updateStudent(Student, request.body, response)
+	dataservice.updateStudent(Student, request.body, response);
 	});
 
 app.put('/students', function(request, response) {
-	dataservice.createStudent(Student, request.body, response)
+	dataservice.createStudent(Student, request.body, response);
 	});
 	
 app.del('/students/:StudentId', function(request,response) {
@@ -1266,7 +1403,6 @@ app.del('/uploadTeacherOrStudentImage/:file', function(req, res) {
 //Post CNN Signed Image files
 app.post('/uploadTeacherOrStudentImage', function(req, res) {
 	
-	
 	var filename = req.files.picture.name;
 	if(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".bmp") || filename.endsWith(".gif"))
 			{
@@ -1295,7 +1431,6 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 			    
 			  }      
 			);
-  
 });
     
  // Show files

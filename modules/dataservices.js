@@ -137,6 +137,123 @@ function toTeacher(body, Teacher)
 	return teacher;
 }
 
+function toStudentTimeSlotList(bodyts)
+{
+	var TimeSlotList = [];
+	var count=0;
+	if(bodyts !==undefined)
+    {
+	for(count =0; count <bodyts.length; count++)
+		{
+		    var timeslot = {
+		    	StartTime : bodyts[count].StartTime,
+		    	EndTime : bodyts[count].EndTime,
+		    	PeriodNumber:  bodyts[count].PeriodNumber,
+		    	TeacherId : bodyts[count].TeacherId,
+		    	TeacherName : bodyts[count].TeacherName,
+		    	SubjectId : bodyts[count].SubjectId,
+		    	SubjectName : bodyts[count].SubjectName
+		    	
+		    	
+		    };
+		    TimeSlotList.push(timeslot);
+		}
+    }
+	return TimeSlotList;
+}
+
+function toStudentTimeTableDays(bodydays)
+{
+	var Days = [];
+	var count=0;
+	if(bodydays !== undefined)
+		{
+		  for(count=0; count < bodydays.length; count++)
+			  {
+			    var days = {
+			    		Day: bodydays[count].Day,
+			    		TimeSlots: toStudentTimeSlotList(bodydays[count].TimeSlots)
+			    };
+			    Days.push(days);
+			  }
+		}
+	return Days;
+}
+
+function toStudentTimeTable(body, StudentTimeTable) {
+	var studenttimetable =  new StudentTimeTable(
+	{
+		ClassStandard: body.ClassStandard,
+		SchoolId: body.SchoolId,
+		
+		Days: toStudentTimeTableDays(body.Days)
+		
+	});
+
+	return studenttimetable; 
+	}
+
+function toTeacherTimeSlotList(bodyts)
+	{
+		var TimeSlotList = [];
+		var count=0;
+		if(bodyts !==undefined)
+	    {
+		for(count =0; count <bodyts.length; count++)
+			{
+			    var timeslot = {
+	                        ClassStandard: bodyts[count].ClassStandard,
+			    	StartTime : bodyts[count].StartTime,
+			    	EndTime : bodyts[count].EndTime,
+			    	PeriodNumber:  bodyts[count].PeriodNumber,
+			    	SubjectId : bodyts[count].SubjectId,
+			    	SubjectName : bodyts[count].SubjectName
+			    	
+			    	
+			    };
+			    TimeSlotList.push(timeslot);
+			}
+	    }
+		return TimeSlotList;
+	}
+
+function toTeacherTimeTableDays(bodydays)
+{
+	var Days = [];
+	var count=0;
+	if(bodydays !== undefined)
+		{
+		  for(count=0; count < bodydays.length; count++)
+			  {
+			    var days = {
+			    		Day: bodydays[count].Day,
+			    		TeacherTimeSlots: toTeacherTimeSlotList(bodydays[count].TeacherTimeSlots)
+			    };
+			    Days.push(days);
+			  }
+		}
+	return Days;
+	
+}
+
+function toTeacherTimeTable(body, TeacherTimeTable) 
+{
+		
+	var teachertimetable =  new TeacherTimeTable(
+	{
+		TeacherId: body.TeacherId,
+		SchoolId: body.SchoolId,
+		
+		TeacherDays: toTeacherTimeTableDays(body.TeacherDays)
+		
+	});
+	
+	return teachertimetable;
+	
+}
+
+
+
 exports.createStudent = function (model, requestBody, response)
 {
 	var Student = toStudent(requestBody, model);	
@@ -432,6 +549,387 @@ exports.updateTeacher = function (model, requestBody, response) {
 	data.save(function (error) {
 	if (!error) {
 	console.log('Successfully updated Teacher with Teacher Id: '+ TeacherId);
+	data.save();
+	} else {
+	console.log('error on save');
+	}
+	});
+	if (response != null) {
+	response.send('Updated');
+	}
+	}
+	});
+};
+
+exports.createEvents = function (Model, requestBody, response)
+{
+	var events = new Model(
+			{
+				EventName : requestBody.EventName,
+				EventDate: requestBody.EventDate,
+				EventPlace: requestBody.EventPlace,
+				EventStartTime: requestBody.EventStartTime,
+				EventEndTime: requestBody.EventEndTime,
+				SchoolId: requestBody.SchoolId,
+				TeacherIdS: requestBody.TeacherIdS,
+				StudentIDS:	requestBody.StudentIDS
+			});
+	
+	events.save(function(err){
+		if (err)
+			{
+			  console.log(err);
+			  response.end(err);
+			}
+		else
+			{
+			response.end('Events saved successfully');
+		console.log('Events saved successfully');
+			}
+	});
+};
+
+exports.listEvents = function (model, response) {
+	model.find({}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response !== null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+	};
+
+exports.createStudentTimeTableForClassStandard = function (model, requestBody, response)
+{
+	var Studenttimetable = toStudentTimeTable(requestBody, model);	
+	Studenttimetable.save(function(err){
+		if (err)
+			{
+			  console.log(err);
+			  response.end(err);
+			}
+		else
+			{
+			response.end('Student Time Table saved successfully');
+		console.log('Student Time Table saved successfully');
+			}
+	});
+};
+
+exports.findStudentTimeTableByStudentId = function (model,Student, _studentId, response) {
+	Student.findOne({StudentId: _studentId},
+		function(error, result) {
+		if (error) {
+		console.error(error);
+		response.writeHead(500,
+		{'Content-Type' : 'text/plain'});
+		response.end('Internal server error');
+		return;
+		} else {
+		if (!result) {
+		if (response != null) {
+		response.writeHead(404, {'Content-Type' : 'text/plain'});
+		response.end('Student Not Found');
+		}
+		return;
+		}
+		if (response != null){
+
+                var classstnd = result.StudentClassStandard;
+                model.findOne({ClassStandard: classstnd},
+                function(err, res)
+                 {
+                   if(err)
+                    {
+                      console.log(err);
+                      response.writeHead(500,
+		{'Content-Type' : 'text/plain'});
+		response.end('Internal server error');
+		return;
+                    }
+                    else
+                    {
+                      
+                       response.setHeader('Content-Type', 'application/json');
+		       response.send(res);
+                    }
+                 
+                 });
+
+		
+		}
+		//console.log(result);
+		}
+		});
+		}
+
+exports.findStudentTimeTableByClassStandard = function (model, _ClassStandard, response) {
+		model.findOne({ClassStandard: _ClassStandard},
+		function(error, result) {
+		if (error) {
+		console.error(error);
+		response.writeHead(500,
+		{'Content-Type' : 'text/plain'});
+		response.end('Internal server error');
+		return;
+		} else {
+		if (!result) {
+		if (response != null) {
+		response.writeHead(404, {'Content-Type' : 'text/plain'});
+		response.end('Student Time Table Not Found');
+		}
+		return;
+		}
+		if (response != null){
+		response.setHeader('Content-Type', 'application/json');
+		response.send(result);
+		}
+		//console.log(result);
+		}
+		});
+		}
+
+exports.listStudentTimeTableForAllClass = function (model, response) {
+	model.find({}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+	}
+
+exports.removeStudentTimeTableForClassStandard = function (model, _ClassStandard, response)
+{
+console.log('Deleting Student with Student Id: ' + _studentId);
+model.findOne({ClassStandard: _ClassStandard},
+function(error, data) {
+if (error) {
+console.log(error);
+if (response != null) {
+response.writeHead(500, {'Content-Type' : 'text/plain'});
+response.end('Internal server error');
+}
+return;
+} else {
+if (!data) {
+console.log('Time Table for this class Not Found');
+if (response != null) {
+response.writeHead(404,
+{'Content-Type' : 'text/plain'});
+response.end('Time Table for this class Not Found');
+}
+return;
+} else {
+data.remove(function(error){
+if (!error) {
+data.remove();
+}
+else {
+console.log(error);
+}
+});
+if (response != null){
+	response.send('Deleted Student Time Table');
+	}
+	return;
+	}
+	}
+	});
+	}
+
+exports.updateStudentTimeTableForClassStandard = function (model, requestBody, response) {
+	var classstandard = requestBody.ClassStandard;
+	model.findOne({ClassStandard: classstandard},
+	function(error, data) {
+	if (error) {
+	console.log(error);
+	if (response != null) {
+	response.writeHead(500,
+	{'Content-Type' : 'text/plain'});
+	response.end('Internal server error');
+	}
+	return;
+	} else {
+	var studenttimetable = toStudentTimeTable(requestBody, model);
+	if (!data) {
+	console.log('Student Time Table For Class: '+ classstandard 
+	+ ' does not exist. The student Time Table will be created.');
+	studenttimetable.save(function(error) {
+	if (!error)
+		studenttimetable.save();
+	});
+	if (response != null) {
+	response.writeHead(201,
+	{'Content-Type' : 'text/plain'});
+	response.end('Created');
+	}
+	return;
+	}
+	//poulate the document with the updated values
+	data.ClassStandard = studenttimetable.ClassStandard;
+	data.SchoolId = studenttimetable.SchoolId;
+	data.Days = studenttimetable.Days;
+	
+	// now save
+	data.save(function (error) {
+	if (!error) {
+	console.log('Successfully updated Student Time Table for Class : '+ classstandard);
+	data.save();
+	} else {
+	console.log('error on save');
+	}
+	});
+	if (response != null) {
+	response.send('Updated');
+	}
+	}
+	});
+};
+
+
+exports.createTeacherTimeTable = function (model, requestBody, response)
+{
+	var TeachertimeTable = toTeacherTimeTable(requestBody, model);
+	TeachertimeTable.save(function(err){
+		if (err)
+			{
+			console.log(err);
+			response.end(err);
+			}
+		else
+			{
+			response.end('Teacher Time Table saved successfully');
+		console.log('Teacher Time Table saved successfully');
+			}
+	});
+}
+
+exports.findTeacherTimeTableByTeacherId = function (model, _teacherId, response) {
+	model.findOne({TeacherId: _teacherId},
+	function(error, result) {
+	if (error) {
+	console.error(error);
+	response.writeHead(500,
+	{'Content-Type' : 'text/plain'});
+	response.end('Internal server error');
+	return;
+	} else {
+	if (!result) {
+	if (response != null) {
+	response.writeHead(404, {'Content-Type' : 'text/plain'});
+	response.end('Teacher Not Found');
+	}
+	return;
+	}
+	if (response != null){
+	response.setHeader('Content-Type', 'application/json');
+	response.send(result);
+	}
+	//console.log(result);
+	}
+	});
+	}
+
+exports.listTeachersTimeTable = function (model, response) {
+	model.find({}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+	}
+
+exports.removeTeacherTimeTable = function (model, _teacherId, response)
+{
+console.log('Deleting Teacher Time Table with Teacher Id: ' + _teacherId);
+model.findOne({TeacherId: _teacherId},
+function(error, data) {
+if (error) {
+console.log(error);
+if (response != null) {
+response.writeHead(500, {'Content-Type' : 'text/plain'});
+response.end('Internal server error');
+}
+return;
+} else {
+if (!data) {
+console.log('Teacher not found');
+if (response != null) {
+response.writeHead(404,
+{'Content-Type' : 'text/plain'});
+response.end('Teacher Not Found');
+}
+return;
+} else {
+data.remove(function(error){
+if (!error) {
+data.remove();
+}
+else {
+console.log(error);
+}
+});
+if (response != null){
+	response.send('Deleted Teacher Time Table');
+	}
+	return;
+	}
+	}
+	});
+	}
+
+exports.updateTeacherTimeTable = function (model, requestBody, response) {
+	var TeacherId = requestBody.TeacherId;
+	model.findOne({TeacherId: TeacherId},
+	function(error, data) {
+	if (error) {
+	console.log(error);
+	if (response != null) {
+	response.writeHead(500,
+	{'Content-Type' : 'text/plain'});
+	response.end('Internal server error');
+	}
+	return;
+	} else {
+	var teacher = toTeacherTimeTable(requestBody, model);
+	if (!data) {
+	console.log('Teacher with TeacherID: '+ TeacherId
+	+ ' does not exist. The Teacher will be created.');
+	teacher.save(function(error) {
+	if (!error)
+		teacher.save();
+	});
+	if (response != null) {
+	response.writeHead(201,
+	{'Content-Type' : 'text/plain'});
+	response.end('Created');
+	}
+	return;
+	}
+	//poulate the document with the updated values
+	data.TeacherId = teacher.TeacherId;
+	data.SchoolId = teacher.SchoolId;
+	data.TeacherDays = teacher.TeacherDays;
+	
+	
+	// now save
+	data.save(function (error) {
+	if (!error) {
+	console.log('Successfully updated Teacher Time Table with Teacher Id: '+ TeacherId);
 	data.save();
 	} else {
 	console.log('error on save');
