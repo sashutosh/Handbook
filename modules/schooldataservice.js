@@ -4,7 +4,7 @@
 
 
 
-function toSchool(body, School) {
+function toSchool(request,body, School) {
 var school =  new School(
 {
 	
@@ -19,17 +19,17 @@ var school =  new School(
 	SchoolAddressPOBox: body.SchoolAddressPOBox,
 	SchoolDistrict: body.SchoolDistrict,
 	SchoolType: body.SchoolType,
-	ImageUrl: request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ resultsc.SchoolId +".jpg",
-	ImageUrlLogo: request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ resultsc.SchoolId +".jpg"
+	ImageUrl: request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ body.SchoolId +".jpg",
+	ImageUrlLogo: request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ body.SchoolId +".jpg"
 	
 });
 
 return school;
 }
 
-exports.createSchool = function (model, requestBody, response)
+exports.createSchool = function (model,request, requestBody, response)
 {
-	var school = toSchool(requestBody, model);
+	var school = toSchool(request,requestBody, model);
 	
 	school.save(function(err){
 		if (err)
@@ -120,7 +120,7 @@ if (response !== null){
 	});
 	};
 
-exports.updateSchool = function (model, requestBody, response) {
+exports.updateSchool = function (model,request, requestBody, response) {
 	var schoolId = requestBody.SchoolId;
 	model.findOne({SchoolId: schoolId},
 	function(error, data) {
@@ -133,7 +133,7 @@ exports.updateSchool = function (model, requestBody, response) {
 	}
 	return;
 	} else {
-	var school = toSchool(requestBody, model);
+	var school = toSchool(request,requestBody, model);
 	if (!data) {
 	console.log('School Id: '+ schoolId + ' does not exist. The School will be created.');
 	school.save(function(error) {

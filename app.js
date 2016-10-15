@@ -486,13 +486,14 @@ app.get('/school/:schoolId', function(request, response) {
 	});
 
 app.post('/school', function(request, response) {
-	schooldataservice.updateSchool(School, request.body, response);
+	schooldataservice.updateSchool(School,request, request.body, response);
 	});
 
 app.put('/school', function(request, response) {
 	
-	schooldataservice.createSchool(School, request.body, response);
+	schooldataservice.createSchool(School,request, request.body, response);
 	});
+	
 	
 app.del('/school/:SchoolId', function(request,response) {
 	console.log('request.params.SchoolId');
