@@ -19,8 +19,8 @@ var school =  new School(
 	SchoolAddressPOBox: body.SchoolAddressPOBox,
 	SchoolDistrict: body.SchoolDistrict,
 	SchoolType: body.SchoolType,
-	ImageUrl: " ",
-	ImageUrlLogo: " ",
+	ImageUrl: request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ resultsc.SchoolId +".jpg",
+	ImageUrlLogo: request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ resultsc.SchoolId +".jpg"
 	
 });
 
