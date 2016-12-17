@@ -221,10 +221,10 @@ var StudentTimeTableSchema = new mongoose.Schema({
 var TeacherTimeTableSchema = new mongoose.Schema({
     TeacherId:  {type: String, required: true, unique: true },
 	SchoolId: String,
-	TeacherDays: [
+	Days: [
 	              {
 	             Day: String,	  
-	TeacherTimeSlots: [
+	TimeSlots: [
 	   {
 	     ClassStandard: String,
 	     StartTime: String,

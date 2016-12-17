@@ -227,7 +227,7 @@ function toTeacherTimeTableDays(bodydays)
 			  {
 			    var days = {
 			    		Day: bodydays[count].Day,
-			    		TeacherTimeSlots: toTeacherTimeSlotList(bodydays[count].TeacherTimeSlots)
+			    		TimeSlots: toTeacherTimeSlotList(bodydays[count].TimeSlots)
 			    };
 			    Days.push(days);
 			  }
@@ -244,7 +244,7 @@ function toTeacherTimeTable(body, TeacherTimeTable)
 		TeacherId: body.TeacherId,
 		SchoolId: body.SchoolId,
 		
-		TeacherDays: toTeacherTimeTableDays(body.TeacherDays)
+		Days: toTeacherTimeTableDays(body.Days)
 		
 	});
 	
@@ -923,7 +923,7 @@ exports.updateTeacherTimeTable = function (model, requestBody, response) {
 	//poulate the document with the updated values
 	data.TeacherId = teacher.TeacherId;
 	data.SchoolId = teacher.SchoolId;
-	data.TeacherDays = teacher.TeacherDays;
+	data.Days = teacher.Days;
 	
 	
 	// now save
