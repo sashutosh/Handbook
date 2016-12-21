@@ -1193,13 +1193,16 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	var message = new gcm.Message({
 	    
 	    data: {
-	    	"type" : "Notice",
+	    	"type" : request.body.type,
 	        "body": request.body.MessageBody,
 	        "title": request.body.MessageTitle,
 	        "priority" : 1,
 	        "date": new Date().yyyymmdd(),
 	        "notification_id": (staticnotificationid + 1).toString(),
-	        "ImageUrl" : request.body.ImageUrl 
+	        "ImageUrl" : request.body.ImageUrl ,
+	        "FromType" : request.body.FromType,
+	        "FromId" : request.body.FromId,
+	        "ToIds" :  request.body.ToIds
 	        
 	    },
 	    notification: {
