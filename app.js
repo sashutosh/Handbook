@@ -52,6 +52,7 @@ console.log('Connecting to DB ' + dbURI);
 
 mongoose.connect(dbURI);
 
+
 var SchoolSchema = new mongoose.Schema({
 	SchoolId: {type: String, required: true, unique: true },
 	SchoolFullName: {type: String, required: true},
@@ -273,6 +274,8 @@ var Events = mongoose.model('Events', EventsSchema);
 var staticnotificationid = 100000;
 
 app.get('/StudentTimeTable/:StudentId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.StudentId);
 	dataservice.findStudentTimeTableByStudentId(StudentTimeTable, Student, request.params.StudentId,
@@ -280,6 +283,8 @@ app.get('/StudentTimeTable/:StudentId', function(request, response) {
 	});
 
 app.get('/StudentTimeTableForClassStandard/:ClassStandard', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.ClassStandard);
 	dataservice.findStudentTimeTableByClassStandard(StudentTimeTable, request.params.ClassStandard,
@@ -287,27 +292,36 @@ app.get('/StudentTimeTableForClassStandard/:ClassStandard', function(request, re
 	});
 
 app.post('/StudentTimeTableForClassStandard', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.updateStudentTimeTableForClassStandard(StudentTimeTable, request.body, response);
 	});
 
 app.put('/StudentTimeTableForClassStandard', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.createStudentTimeTableForClassStandard(StudentTimeTable, request.body, response);
 	});
 	
 app.del('/StudentTimeTableForClassStandard/:ClassStandard', function(request,response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('request.params.ClassStandard');
 	
 	dataservice.removeStudentTimeTableForClassStandard(StudentTimeTable, request.params.ClassStandard, response);
 	});
 	
 app.get('/StudentTimeTable', function(request, response) {
-		
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		console.log('Listing all TimeTable ' + request.params.key +
 				'=' + request.params.value);
 				dataservice.listStudentTimeTableForAllClass(StudentTimeTable, response);
 	});
 	
 app.get('/TeacherTimeTable/:TeacherId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.TeacherId);
 	dataservice.findTeacherTimeTableByTeacherId(TeacherTimeTable, request.params.TeacherId,
@@ -315,41 +329,75 @@ app.get('/TeacherTimeTable/:TeacherId', function(request, response) {
 	});
 
 app.post('/TeacherTimeTable', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.updateTeacherTimeTable(TeacherTimeTable, request.body, response);
 	});
 
 app.put('/TeacherTimeTable', function(request, response) {
-	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.createTeacherTimeTable(TeacherTimeTable, request.body, response);
 	});
 	
 app.del('/TeacherTimeTable/:TeacherId', function(request,response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('request.params.TeacherId');
 	console.log(request.params.TeacherId);
 	dataservice.removeTeacherTimeTable(TeacherTimeTable, request.params.TeacherId, response);
 	});
 	
 app.get('/TeacherTimeTable', function(request, response) {
-		
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		console.log('Listing all teachers with ' + request.params.key +
 				'=' + request.params.value);
 				dataservice.listTeachersTimeTable(TeacherTimeTable, response);
 	});
 
 app.put('/Events', function(request, response) {
-	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.createEvents(Events, request.body, response);
 	});
 		
 app.get('/Events', function(request, response) {
-		
-		console.log('Listing all teachers with ' + request.params.key +
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		console.log('Listing all Events with ' + request.params.key +
 				'=' + request.params.value);
 				dataservice.listEvents(Events, response);
 	});
 
+app.get('/EventsForSchool/:SchoolId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log('Listing all Events with ' + request.params.key +
+			'=' + request.params.value);
+			dataservice.listEventsForSchool(Events, request.params.SchoolId, response);
+});
+
+app.get('/EventsForStudent/:StudentId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log('Listing all Events with ' + request.params.key +
+			'=' + request.params.value);
+			dataservice.listEventsForStudent(Events, request.params.SchoolId, response);
+});
+
+app.get('/EventsForTeacher/:TeacherId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log('Listing all Events with ' + request.params.key +
+			'=' + request.params.value);
+			dataservice.listEventsForTeacher(Events, request.params.SchoolId, response);
+});
+
 	
 app.get('/students/:StudentId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.StudentId);
 	dataservice.findStudentById(Student, request.params.StudentId,
@@ -357,21 +405,28 @@ app.get('/students/:StudentId', function(request, response) {
 	});
 
 app.post('/students', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.updateStudent(Student, request.body, response);
 	});
 
 app.put('/students', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.createStudent(Student, request.body, response);
 	});
 	
 app.del('/students/:StudentId', function(request,response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('request.params.StudentId');
 	console.log(request.params.StudentId);
 	dataservice.removeStudent(Student, request.params.StudentId, response);
 	});
 	
 app.get('/students', function(request, response) {
-		
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		console.log('Listing all student with ' + request.params.key +
 				'=' + request.params.value);
 				dataservice.listStudent(Student, response);
@@ -379,6 +434,8 @@ app.get('/students', function(request, response) {
 	
 
 app.get('/teachers/:TeacherId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.TeacherId);
 	dataservice.findTeacherById(Teacher, request.params.TeacherId,
@@ -386,28 +443,36 @@ app.get('/teachers/:TeacherId', function(request, response) {
 	});
 
 app.post('/teachers', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.updateTeacher(Teacher, request.body, response);
 	});
 
 app.put('/teachers', function(request, response) {
-	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.createTeacher(Teacher, request.body, response);
 	});
 	
 app.del('/teachers/:TeacherId', function(request,response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('request.params.TeacherId');
 	console.log(request.params.TeacherId);
 	dataservice.removeTeacher(Teacher, request.params.TeacherId, response);
 	});
 	
 app.get('/teachers', function(request, response) {
-		
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");		
 		console.log('Listing all teachers with ' + request.params.key +
 				'=' + request.params.value);
 				dataservice.listTeachers(Teacher, response);
 	});
 
 app.get('/messages/:MessageId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.MessageId);
 	messagedataservice.findMessagebyId(Message, request.params.MessageId,
@@ -415,28 +480,36 @@ app.get('/messages/:MessageId', function(request, response) {
 	});
 
 app.post('/messages', function(request, response) {
-	messagedataservice.updateMessage(Message, request.body, response)
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	messagedataservice.updateMessage(Message, request.body, response);
 	});
 
 app.put('/messages', function(request, response) {
-	
-	messagedataservice.createMessage(Message, request.body, response)
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	messagedataservice.createMessage(Message, request.body, response);
 	});
 	
 app.del('/messages/:MessageId', function(request,response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('request.params.MessageId');
 	console.log(request.params.MessageId);
 	messagedataservice.deleteMessage(Message, request.params.MessageId, response);
 	});
 	
 app.get('/messages', function(request, response) {
-		
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
 		console.log('Listing all messages with ' + request.params.key +
 				'=' + request.params.value);
 		messagedataservice.listMessages(Message, response);
 	});
 	
 app.get('/messages/from/:From', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.From);
 	messagedataservice.findMessagesFrom(Message, request.params.From,
@@ -444,6 +517,8 @@ app.get('/messages/from/:From', function(request, response) {
 	});
 
 app.get('/devices/:MobileNumber', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.MobileNumber);
 	devicedataservice.findDeviceByMobileNumber(MobileDevice, request.params.MobileNumber,
@@ -451,27 +526,36 @@ app.get('/devices/:MobileNumber', function(request, response) {
 	});
 
 app.post('/devices', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	devicedataservice.updateDevice(MobileDevice, request.body, response);
 	});
 
 app.put('/devices', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	devicedataservice.createMobileDevice(MobileDevice, request.body, response);
 	});
 	
 app.del('/devices/:MobileNumber', function(request,response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('request.params.MobileNumber');
 	console.log(request.params.MobileNumber);
 	devicedataservice.deleteDevice(MobileDevice, request.params.MobileNumber, response);
 	});
 	
 app.get('/devices', function(request, response) {
-		
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		console.log('Listing all device with ' + request.params.key +
 				'=' + request.params.value);
 		devicedataservice.listDevices(MobileDevice, response);
 	});
 
 app.get('/devices/:DeviceId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.DeviceId);
 	devicedataservice.findDeviceByDeviceID(MobileDevice, request.params.DeviceId,
@@ -479,6 +563,8 @@ app.get('/devices/:DeviceId', function(request, response) {
 	});
 
 app.get('/school/:schoolId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.schoolId);
 	schooldataservice.findSchoolbyId(School, request.params.schoolId,
@@ -486,16 +572,20 @@ app.get('/school/:schoolId', function(request, response) {
 	});
 
 app.post('/school', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	schooldataservice.updateSchool(School,request, request.body, response);
 	});
 
 app.put('/school', function(request, response) {
-	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	schooldataservice.createSchool(School,request, request.body, response);
 	});
 	
-	
 app.del('/school/:SchoolId', function(request,response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('request.params.SchoolId');
 	console.log(request.params.SchoolId);
 	schooldataservice.deleteSchool(School, request.params.SchoolId, response);
@@ -503,11 +593,14 @@ app.del('/school/:SchoolId', function(request,response) {
 	
 app.get('/school', function(request, response) {
 		
-		
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
 	schooldataservice.listSchools(School, response);
 	});
 	
 app.get('/school/SchoolName/:SchoolName', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.SchoolName);
 	schooldataservice.findSchoolBySchoolFullName(School, request.params.SchoolName,
@@ -824,7 +917,8 @@ app.get('/GetStudentDetailsForTeacherForClassStandard', function(request, respon
 
 
 app.get('/test/:mobile', function(request,response){
-	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	Student.find({'ParentList.MobileNumber': request.params.mobile},function(error, result){
 		if(error)
 			{
@@ -838,6 +932,8 @@ app.get('/test/:mobile', function(request,response){
 });
 
 app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	var getalldata = {
 			"Teacher": null,
 			"Students" : [ ],
@@ -985,6 +1081,8 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 
 
 app.get('/testingalldata/:mobile', function(request, response){
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	var getalldata = {
 			"Teacher": null,
 			"Students" : [ ],
@@ -1106,7 +1204,8 @@ app.get('/testingalldata/:mobile', function(request, response){
 });
 
 app.put('/SendNotificationOrMessages', function(request, response) {
-
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	Date.prototype.yyyymmdd = function() {
 		   var yyyy = this.getFullYear();
 		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
@@ -1182,7 +1281,8 @@ app.put('/SendNotificationOrMessages', function(request, response) {
 	
 
 app.put('/SendMessageToMultipleUser', function(request, response) {
-
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	Date.prototype.yyyymmdd = function() {
 		   var yyyy = this.getFullYear();
 		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
@@ -1203,6 +1303,7 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	        "FromType" : request.body.FromType,
 	        "FromId" : request.body.FromId,
 	        "ToIds" :  request.body.ToIds
+	        
 	        
 	    },
 	    notification: {
@@ -1250,7 +1351,8 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	});
 
 app.put('/SendMessage', function(request, response) {
-	
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	Date.prototype.yyyymmdd = function() {
 		   var yyyy = this.getFullYear();
 		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
@@ -1289,7 +1391,7 @@ app.put('/SendMessage', function(request, response) {
 		else
 		{
 			var resultcount =0;
-			if(result !=undefined)
+			if(result !==undefined)
 			{
 				console.log("inside result");
 				console.log(result.length);
@@ -1332,7 +1434,8 @@ app.put('/SendMessage', function(request, response) {
 	});
 
 app.put('/SendMessageToSingleUser', function(request, response) {
-
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	Date.prototype.yyyymmdd = function() {
 		   var yyyy = this.getFullYear();
 		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
@@ -1391,6 +1494,8 @@ app.put('/SendMessageToSingleUser', function(request, response) {
 	});
 
 app.del('/uploadTeacherOrStudentImage/:file', function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('delete');
 	var file = req.params.file;
     var filename = __dirname + "/Images/" + file;
@@ -1406,7 +1511,8 @@ app.del('/uploadTeacherOrStudentImage/:file', function(req, res) {
 //Post CNN Signed Image files
 //Post CNN Signed Image files
 app.post('/uploadTeacherOrStudentImage', function(req, res) {
-	
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
 	var filename = req.files.picture.name;
 	if(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".bmp") || filename.endsWith(".gif"))
 			{
@@ -1439,6 +1545,8 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
     
  // Show files
     app.get('/uploadTeacherOrStudentImage/:file', function (req, res){
+    	res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       var file = req.params.file;
       var img = fs.readFileSync(__dirname + "/Images/" + file);
       res.writeHead(200, {'Content-Type': 'image/jpg' });
