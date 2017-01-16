@@ -196,6 +196,26 @@ var MessageSchema = new mongoose.Schema({
 		]
 });
 
+var LocalMessageSchema = new mongoose.Schema({
+
+	type: String,
+	body: String,
+	title: String,
+	date: String,
+	notification_id: String,
+	ImageUrl: String,
+	FromType: String,
+	FromId: String,
+	ToIds:
+		[
+		  String
+		 ],
+		 MobileNumbers: [Number] ,
+		 Error: String,
+		 RespMessage: Object
+});
+
+
 var StudentTimeTableSchema = new mongoose.Schema({
 	ClassStandard: {type: String, required: true, unique: true },
 	SchoolId: String,
@@ -270,6 +290,8 @@ var StudentTimeTable = mongoose.model('StudentTimeTable', StudentTimeTableSchema
 var TeacherTimeTable = mongoose.model('TeacherTimeTable', TeacherTimeTableSchema);
 
 var Events = mongoose.model('Events', EventsSchema);
+
+var LocalMessageLogging = mongoose.model('LocalMessageLogging',LocalMessageSchema);
 
 var staticnotificationid = 100000;
 
@@ -505,6 +527,14 @@ app.get('/messages', function(request, response) {
 		console.log('Listing all messages with ' + request.params.key +
 				'=' + request.params.value);
 		messagedataservice.listMessages(Message, response);
+	});
+
+app.get('/LocalMessagesLogged', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
+		console.log('Listing all messages with ' + request.params.key +
+				'=' + request.params.value);
+		messagedataservice.listMessagesLocal(LocalMessageLogging, response);
 	});
 	
 app.get('/messages/from/:From', function(request, response) {
@@ -1332,14 +1362,51 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 				console.log(Mobiles[mobilecount].DeviceId);
 				registrationTokens.push(Mobiles[mobilecount].DeviceId);	
 				}
+				  //Set up Messaging for Local Logging
+				  var localmsg = new LocalMessageLogging({
+					    "type" : request.body.type,
+				        "body": request.body.MessageBody,
+				        "title": request.body.MessageTitle,
+				        
+				        "date": new Date().yyyymmdd(),
+				        "notification_id": (staticnotificationid).toString(),
+				        "ImageUrl" : request.body.ImageUrl ,
+				        "FromType" : request.body.FromType,
+				        "FromId" : request.body.FromId,
+				        "ToIds" :  request.body.ToIds,
+				        "MobileNumbers" : request.body.MobileNumbers,
+				        "Error" : " "
+				  });
+				  
 				// Set up the sender with you API key
+				  
 				var sender = new gcm.Sender('AIzaSyDvbQO3k8lkZzsN6xpRmYmg9RkDDpbPKgA');
 
 				// Now the sender can be used to send messages
 				// ... or retrying a specific number of times (10)
 				sender.send(message, { registrationTokens: registrationTokens }, 10, function (err, response) {
-				  if(err) {console.error(err);}
-				  else    {console.log(response);}
+				  if(err) {
+					  console.error(err);
+					  localmsg.Error = err;
+					  localmsg.save(function(error){
+							if (error)
+								{
+								console.log(error);
+								}
+							console.log('Local Message saved successfully');
+						});
+					  }
+				  else    {
+					  console.log(response);
+					  localmsg.RespMessage = response;
+					  localmsg.save(function(error){
+							if (error)
+								{
+								console.log(error);
+								}
+							console.log('Local Message saved successfully');
+						});
+					  }
 				});
 			}
 		}

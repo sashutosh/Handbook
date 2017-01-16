@@ -602,6 +602,21 @@ exports.listEvents = function (model, response) {
 	return JSON.stringify(result);
 	});
 	};
+	
+exports.listEventsForSchool = function (model, _schoolid,response) {
+		model.find({SchoolId: _schoolid}, function(error, result) {
+		if (error) {
+		console.error(error);
+		return null;
+		}
+		if (response !== null) {
+		response.setHeader('content-type', 'application/json');
+		response.end(JSON.stringify(result));
+		}
+		return JSON.stringify(result);
+		});
+		};
+
 
 exports.createStudentTimeTableForClassStandard = function (model, requestBody, response)
 {

@@ -73,6 +73,20 @@ exports.listMessages = function (model, response) {
 	});
 	}
 
+exports.listMessagesLocal = function (model, response) {
+	model.find({}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+	}
+
 exports.deleteMessage = function (model, _messageId, response)
 {
 console.log('Deleting Message from: ' + _messageId);
