@@ -3,9 +3,16 @@
  * Module dependencies.
  */
 
+
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
+  /*, routes = require('./routes')
+  , user = require('./routes/user')*/
+  , routes = require('./app_server/routes/index')
   , http = require('http')
   , path = require('path')
   , mongoose = require('mongoose')
@@ -20,16 +27,22 @@ var app = express();
 
 var cloudinary = require('cloudinary');
 
+
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
+//app.use(express.favicon());
+//app.use(express.logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+//app.use(express.methodOverride());
+//app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'app_server', 'views'));
+app.use('/',routes);
 
 cloudinary.config({ 
 	  cloud_name: 'schoolsync', 
@@ -40,7 +53,7 @@ cloudinary.config({
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+  //app.use(express.errorHandler());
 }
 
 var dbURI = 'mongodb://localhost/SchoolsDB';
@@ -294,6 +307,8 @@ var Events = mongoose.model('Events', EventsSchema);
 var LocalMessageLogging = mongoose.model('LocalMessageLogging',LocalMessageSchema);
 
 var staticnotificationid = 100000;
+
+
 
 app.get('/StudentTimeTable/:StudentId', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
@@ -564,6 +579,8 @@ app.post('/devices', function(request, response) {
 app.put('/devices', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log(request);
+	console.log(request.body);
 	devicedataservice.createMobileDevice(MobileDevice, request.body, response);
 	});
 	
