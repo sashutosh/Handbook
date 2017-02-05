@@ -27,7 +27,9 @@ var app = express();
 
 var cloudinary = require('cloudinary');
 
-
+var xlsxtojson = require("xlsx-to-json-lc");
+var xltojson = require("xls-to-json-lc");
+var fileUpload = require('express-fileupload');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -45,6 +47,8 @@ app.use(express.static(path.join(__dirname, 'app_client')));
 
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.use('/',routes);
+
+app.use(fileUpload());
 
 cloudinary.config({ 
 	  cloud_name: 'schoolsync', 
@@ -1613,20 +1617,33 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 		   }
 		
 		}
+
+		 var xlFile = req.files.picture;
+  	     var newPath = __dirname + "/Images/" + req.files.picture.name;
+		 
+		 xlFile.mv(newPath, function(err){ 
+		   if(err){
+			   res.send("Error Uploading File");
+		   }
+		   else
+		   {
 	  cloudinary.uploader.upload(
-			  req.files.picture.path,
+			  newPath,
 			  function(result) { console.log(result); console.log(result.url); 
 			  var ImageInfo = {
  		    		 "ImageName" : filename,
  		    		 "ImageUrl": result.url
  		     };
  		     res.json(ImageInfo);
+			 fs.unlink(newPath);  
 			  },
 			  {
 			    public_id: filename, 
 			    
 			  }      
 			);
+		   }
+		 });
 });
     
  // Show files
@@ -1639,6 +1656,103 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
       res.end(img, 'binary');
     });
  
+ app.post('/uploadStudentData', function(req, res) {
+     
+	  console.log("1");
+	  console.log(req.files.picture);	
+  	  var xlFile = req.files.picture;
+  	  //console.log(req.file.picture.path);
+  	   var newPath = __dirname + "/Images/" + req.files.picture.name;
+	   xlFile.mv(newPath, function(err){ 
+		   if(err){
+			   res.send("Error Uploading File");
+		   }
+		   else
+		   {
+               try {
+  	    		xlsxtojson({
+                      input: newPath,
+                      output: null, //since we don't need output.json
+                      lowerCaseHeaders:true
+                  }, function(err,result){
+                      if(err) {
+                          return res.json({error_code:1,err_desc:err, data: null});
+                      } 
+                      res.json({data: result});
+                      var i=0;
+                      for(i=0; i<result.length; i++)
+                      	{
+                      	 console.log(i);
+                      	 console.log(result[i]);
+                      	 console.log(result[i].studentid);
+                      	 
+                      	var ParentList = [];
+                      	
+                      	var father = {
+                      			ParentType : "Father",
+                		    	ParentFirstName : result[i].fatherfirstname,
+                		    	ParentLastname : result[i].fatherfirstname,
+                		    	MobileNumber : result[i].fathercontact,
+                		    	AlternateMobNumber : result[i].fathercontact,
+                		    	EmailId : result[i].fatheremailid,
+                		    	AlternateEmailID : result[i].fatheremailid,
+                		    	PresentAddress : result[i].address,
+                		    	PresentAddressPOBox : result[i].PresentAddressPOBox,
+                		    	PermanentAddress : result[i].PermanentAddress,
+                		    	PermanentAddressPOBox : result[i].PermanentAddressPOBox	
+                      	};
+                      	
+                      	var mother = {
+                      			ParentType : "Mother",
+                		    	ParentFirstName : result[i].motherfirstname,
+                		    	ParentLastname : result[i].motherfirstname,
+                		    	MobileNumber : result[i].fathercontact,
+                		    	AlternateMobNumber : result[i].mothercontact,
+                		    	EmailId : result[i].motheremailid,
+                		    	AlternateEmailID : result[i].motheremailid,
+                		    	PresentAddress : result[i].address,
+                		    	PresentAddressPOBox : result[i].PresentAddressPOBox,
+                		    	PermanentAddress : result[i].PermanentAddress,
+                		    	PermanentAddressPOBox : result[i].PermanentAddressPOBox	
+                      	};
+                      	
+                      	ParentList.push(father);
+                      	ParentList.push(mother);
+                      	
+                      	var ParentMobileList = [];
+                      	ParentMobileList.push(result[i].fathercontact);
+                      	ParentMobileList.push(result[i].mothercontact);
+                      	 
+                      	var student =  new Student(
+                      			{
+                      				StudentId: result[i].studentfirstname + result[i].fatherfirstname + result[i].dob,
+                      				SchoolId: "100",
+                      				StudentFirstName: result[i].studentfirstname,
+                      				StudentMiddleName: result[i].studentmiddleName,
+                      				StudentLastName: result[i].studentfirstname,
+                      				StudentDOB: result[i].dob,
+                      				Age: result[i].Age,
+                      				StudentGender: result[i].gender,
+                      				StudentClassStandard: result[i].classstandard,
+                      				StudentFullAddress: result[i].address,
+                      				ImageUrl: " ",
+                      				ParentList : ParentList,
+                      				StudentParentMobiles: ParentMobileList
+                      				
+                      			});
+                      	
+                      	dataservice.AddOrUpdateStudent(Student,student);
+                      	}
+
+						 fs.unlink(newPath);  
+                  });
+              } catch (e){
+                  res.json({error_code:1,err_desc:"Corupted excel file"});
+              }
+  	      
+		   }
+		   }); 
+  	});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
