@@ -1,6 +1,7 @@
 
 var express = require('express');
 var ctrlHome = require('../controllers/home');
+var ctrlOthers = require('../controllers/others');
 var router = express.Router();
 
 router.use(function timeLog(req, res, next) {
@@ -12,10 +13,8 @@ router.use(function timeLog(req, res, next) {
 
 
 /* Home pages */
-router.get('/', ctrlHome.homePage);
-/*router.get('/', function(req, res) {
-  res.send('home page');
-});*/
+router.get('/', ctrlOthers.angularApp);
+router.get('/about', ctrlOthers.about);
 
 
 module.exports = router;

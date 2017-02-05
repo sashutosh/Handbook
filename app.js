@@ -41,6 +41,8 @@ app.use(cookieParser());
 //app.use(express.methodOverride());
 //app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app_client')));
+
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.use('/',routes);
 
