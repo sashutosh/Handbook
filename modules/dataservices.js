@@ -402,6 +402,61 @@ exports.updateStudent = function (model, requestBody, response) {
 	});
 };
 
+exports.AddOrUpdateStudent = function (model, requestBody) {
+	var studentId = requestBody.StudentId;
+	model.findOne({StudentId: studentId},
+	function(error, data) {
+	if (error) {
+	console.log(error);
+	return;
+	} else {
+	var student = toStudent(requestBody, model);
+	if (!data) {
+	console.log('Student with StudentID: '+ studentId
+	+ ' does not exist. The student will be created.');
+	student.save(function(error) {
+	if (!error)
+		{
+		 student.save();
+		}
+	else
+		{
+		 console.log(error);
+		}
+	});
+	
+	console.log('Student Record Created');
+	return;
+	}
+	//poulate the document with the updated values
+	data.StudentId = student.StudentId;
+	data.SchoolId = student.SchoolId;
+	data.StudentFirstName = student.StudentFirstName;
+	data.StudentMiddleName = student.StudentMiddleName;
+	data.StudentLastName = student.StudentLastName;
+	data.StudentDOB = student.StudentDOB;
+	data.Age = student.Age;
+	data.StudentGender = student.StudentGender;
+	data.StudentClassStandard = student.StudentClassStandard;
+	data.StudentFullAddress = student.StudentFullAddress;
+	data.ParentList = student.ParentList;
+	data.ImageUrl = student.ImageUrl;
+	// now save
+	data.save(function (error) {
+	if (!error) {
+	console.log('Successfully updated Student with student Id: '+ studentId);
+	data.save();
+	} else {
+	console.log('error on save');
+	}
+	});
+	
+	
+	}
+	});
+};
+
+
 
 exports.createTeacher = function (model, requestBody, response)
 {

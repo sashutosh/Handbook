@@ -17,6 +17,9 @@
     "mongoose": "^4.4.12",
     "node-gcm": "^0.14.0",
     "nodemon": "^1.9.1",
-    "cloudinary" : "^1.4.2"
+    "cloudinary" : "^1.4.2",
+    "xlsx-to-json-lc" : "^0.2.5",
+    "xls-to-json-lc" : "^0.3.3",
+    "express-fileupload" : "^0.0.6"
   }
 }
