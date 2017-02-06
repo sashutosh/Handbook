@@ -6,8 +6,7 @@
     $routeProvider
       .when('/', {
         templateUrl: 'home/home.view.html',
-        controller: 'homeCtrl',
-        controllerAs: 'vm'
+        controller: 'homeCtrl'
       })
       .otherwise({redirectTo: '/'});
   }
