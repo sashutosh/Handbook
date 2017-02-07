@@ -3,11 +3,12 @@ angular
 .controller('homeCtrl', homeCtrl);
 
 function homeCtrl ($scope) {
-    $scope.pageHeader = {
+    var vm=this;
+    vm.pageHeader = {
         title: 'SchoolLink',
         strapline: 'Reduce the gap betwen parents and school'
     };
-    $scope.sidebar = {
+    vm.sidebar = {
         content: "Looking for solution to communicate effectively."
     };
 }
