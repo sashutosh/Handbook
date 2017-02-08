@@ -1,7 +1,9 @@
-angular
+(function () {
+    angular
 .module('handbook')
 .controller('homeCtrl', homeCtrl);
 
+homeCtrl.$inject = ['$scope'];
 function homeCtrl ($scope) {
     var vm=this;
     vm.pageHeader = {
@@ -12,3 +14,4 @@ function homeCtrl ($scope) {
         content: "Looking for solution to communicate effectively."
     };
 }
+})();
