@@ -8,6 +8,9 @@
     <input id="filter" type="text", name="filter", ng-model="textFilter">
     <div class="error">{{ vm.message }}</div>
     <div class="row list-group">
+      <div class="col-xs-12">
+        <small>{{school.name}}</small>
+      </div>
       <!--<div class="col-xs-12 list-group-item" ng-repeat="location in vm.data.locations | filter : textFilter">
         <h4>
           <a href="/#/location/{{ location._id }}">{{ location.name }}</a>

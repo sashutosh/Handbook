@@ -47,9 +47,7 @@ app.use(express.static(path.join(__dirname, 'app_client')));
 
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 //app.use('/',routes);
-app.use(function(req, res) {
-	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
-});	
+
 
 app.use(fileUpload());
 
@@ -1756,6 +1754,10 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 		   }
 		   }); 
   	});
+
+app.get('/',function(req, res) {
+	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
+});	
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
