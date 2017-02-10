@@ -1,6 +1,6 @@
 (function () {
 
-  angular.module('handbook', ['ngRoute']);
+  angular.module('handbook', ['ngRoute','ngSanitize']);
 
   function config ($routeProvider,$locationProvider) {
     $routeProvider
