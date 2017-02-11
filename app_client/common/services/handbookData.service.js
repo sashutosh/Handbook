@@ -6,11 +6,20 @@
 
   handbookData.$inject = ['$http'];
   function handbookData ($http) {
+    
     var schoolDetailsById = function (schoolId) {
       return $http.get('/school/' + schoolId);
     };
+
+    var addSchool = function(schoolData){
+      return $http.put('/school/',schoolData);
+    };
+
+
+
     return {
-      schoolDetailsById : schoolDetailsById
+      schoolDetailsById : schoolDetailsById,
+      addSchool, addSchool
     };
   }
 

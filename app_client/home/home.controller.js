@@ -43,6 +43,9 @@ function homeCtrl ($scope,handbookData,$modal) {
             //     }
             // }
         });
+        modalInstance.result.then(function (data) {
+            vm.pageHeader.strapline="Added school" + data;
+        });
 
     };
 }
