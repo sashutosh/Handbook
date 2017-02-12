@@ -7,11 +7,15 @@ homeCtrl.$inject = ['$scope','handbookData','$modal'];
 function homeCtrl ($scope,handbookData,$modal) {
     var vm=this;
 
-    handbookData.schoolDetailsById(100)
+    vm.school = {
+        schoolId : 101,
+        schoolName : "DPS East"    
+    };
+    handbookData.schoolDetailsById(vm.school.schoolId)
     .success(function(data){
         if(data){
             vm.data = {school : data};
-            vm.pageHeader ={title : data.school.SchoolFullName};
+            vm.pageHeader ={title : data.SchoolFullName};
         }
         else
         {
@@ -22,6 +26,7 @@ function homeCtrl ($scope,handbookData,$modal) {
         vm.popupAddSchoolForm();
        //alert("School data not found");
     });
+    
     vm.pageHeader = {
         title: 'SchoolLink',
         strapline: 'Reduce the gap betwen parents and school'
@@ -36,13 +41,10 @@ function homeCtrl ($scope,handbookData,$modal) {
             templateUrl:'/addSchoolModal/addSchoolModal.view.html',
             controller: 'addSchoolModalCtrl as vm',
             // resolve : {
-            //     schoolData = function () {
-            //         return {
-            //             schoolName : 'DPS' ,
-            //         };
-            //     }
+            //     schoolData = function() {return vm.school;} 
             // }
         });
+        modalInstance.schoolData =vm.school;
         modalInstance.result.then(function (data) {
             vm.pageHeader.strapline="Added school" + data;
         });

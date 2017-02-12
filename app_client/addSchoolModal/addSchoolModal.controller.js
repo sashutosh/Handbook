@@ -6,6 +6,7 @@ angular
     addSchoolModalCtrl.$inject = ['$modalInstance','handbookData'];
     function addSchoolModalCtrl ($modalInstance,handbookData) {
         var vm = this;
+        vm.schoolData = $modalInstance.schoolData;
 
         vm.onSubmit = function () {
             vm.formError = "";
@@ -22,7 +23,7 @@ angular
 
         vm.addSchool = function(formData){
             handbookData.addSchool({
-                "SchoolId":100,
+                "SchoolId":vm.schoolData.schoolId,
                 "SchoolFullName": formData.name,
                 "SchoolFullAddress": formData.address,
                 "SchoolMainTelephoneNumber": 9343603060,
