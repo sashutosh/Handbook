@@ -15,11 +15,20 @@
       return $http.put('/school/',schoolData);
     };
 
+    var addStudentBulk = function(studentRecordfile){
+        var fd = new FormData();
+        fd.append('picture', studentRecordfile);
+        return $http.post('/uploadStudentData',fd,{
+          transformRequest: angular.identity,
+          headers: {'Content-Type': undefined}})
+    };
+
 
 
     return {
       schoolDetailsById : schoolDetailsById,
-      addSchool, addSchool
+      addSchool: addSchool,
+      addStudentBulk: addStudentBulk
     };
   }
 

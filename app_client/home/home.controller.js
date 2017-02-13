@@ -8,7 +8,7 @@ function homeCtrl ($scope,handbookData,$modal) {
     var vm=this;
 
     vm.school = {
-        schoolId : 101,
+        schoolId : 111,
         schoolName : "DPS East"    
     };
     handbookData.schoolDetailsById(vm.school.schoolId)
@@ -47,7 +47,26 @@ function homeCtrl ($scope,handbookData,$modal) {
         modalInstance.schoolData =vm.school;
         modalInstance.result.then(function (data) {
             vm.pageHeader.strapline="Added school" + data;
+            vm.popupAddStudentBulkForm();
         });
+
+    };
+
+    vm.popupAddStudentBulkForm=function(){
+        //alert("School details not added");
+        
+        var modalInstance=$modal.open({
+            templateUrl:'/addStudentBulkModal/addStudentBulkModal.view.html',
+            controller: 'addStudentBulkModalCtrl as vm',
+            // resolve : {
+            //     schoolData = function() {return vm.school;} 
+            // }
+        });
+        //modalInstance.schoolData =vm.school;
+        // modalInstance.result.then(function (data) {
+        //     vm.pageHeader.strapline="Added school" + data;
+        //     vm.popupAddStudentBulkForm();
+        // });
 
     };
 }
