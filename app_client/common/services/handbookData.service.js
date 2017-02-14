@@ -18,6 +18,7 @@
     var addStudentBulk = function(studentRecordfile){
         var fd = new FormData();
         fd.append('picture', studentRecordfile);
+        fd.append('schoolId','115');
         return $http.post('/uploadStudentData',fd,{
           transformRequest: angular.identity,
           headers: {'Content-Type': undefined}})

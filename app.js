@@ -1605,6 +1605,7 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
 	var filename = req.files.picture.name;
+	
 	if(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".bmp") || filename.endsWith(".gif"))
 			{
 		       filename  = filename.slice(0, -4);
@@ -1662,6 +1663,9 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 	  console.log("1");
 	  console.log(req.files.picture);	
   	  var xlFile = req.files.picture;
+
+		var schoolId = req.body.schoolId;
+	console.log("School id is "+ schoolId);
   	  //console.log(req.file.picture.path);
   	   var newPath = __dirname + "/Images/" + req.files.picture.name;
 	   xlFile.mv(newPath, function(err){ 
@@ -1726,8 +1730,8 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
                       	 
                       	var student =  new Student(
                       			{
-                      				StudentId: result[i].studentfirstname + result[i].fatherfirstname + result[i].dob,
-                      				SchoolId: "100",
+                      				StudentId: result[i].studentfirstname + result[i].fatherfirstname + result[i].dob + schoolId,
+                      				SchoolId: req.body.schoolId,
                       				StudentFirstName: result[i].studentfirstname,
                       				StudentMiddleName: result[i].studentmiddleName,
                       				StudentLastName: result[i].studentfirstname,
