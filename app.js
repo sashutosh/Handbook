@@ -72,25 +72,8 @@ console.log('Connecting to DB ' + dbURI);
 
 mongoose.connect(dbURI);
 
-
-var SchoolSchema = new mongoose.Schema({
-	SchoolId: {type: String, required: true, unique: true },
-	SchoolFullName: {type: String, required: true},
-	SchoolFullAddress: String,
-	SchoolMainTelephoneNumber: {type:Number ,required: true},
-	AdditionalContactNumbers: 
-		[
-		 Number
-		 ],
-	SchoolWebSite: String,
-	SchoolCity: String,
-	SchoolState: String,
-	SchoolAddressPOBox: Number,
-	SchoolDistrict: String,
-	SchoolType: String,
-	ImageUrl: String,
-	ImageUrlLogo: String
-});
+var user = require('./app_api/models/users');
+var School= require('./app_api/models/school');
 
 var ParentTypeSchema = new mongoose.Schema({
 	ParentType: String
@@ -291,7 +274,7 @@ var EventsSchema = new mongoose.Schema({
 	});
 
 
-var School = mongoose.model('School', SchoolSchema);
+
 
 var Student = mongoose.model('Student', StudentSchema);
 

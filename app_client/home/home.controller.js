@@ -8,7 +8,7 @@ function homeCtrl ($scope,handbookData,$modal) {
     var vm=this;
 
     vm.school = {
-        schoolId : 115,
+        schoolId : 116,
         schoolName : "DPS East"    
     };
     handbookData.schoolDetailsById(vm.school.schoolId)

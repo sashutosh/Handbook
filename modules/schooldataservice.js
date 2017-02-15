@@ -1,10 +1,10 @@
-/**
- * http://usejsdoc.org/
- */
+
+require('../app_api/models/school');
+var mongoose = require('mongoose');
+var School = mongoose.model('School');
 
 
-
-function toSchool(request,body, School) {
+function toSchool(request,body) {
 var school =  new School(
 {
 	
@@ -29,7 +29,7 @@ return school;
 
 exports.createSchool = function (model,request, requestBody, response)
 {
-	var school = toSchool(request,requestBody, model);
+	var school = toSchool(request,requestBody);
 	
 	school.save(function(err){
 		if (err)
@@ -42,7 +42,7 @@ exports.createSchool = function (model,request, requestBody, response)
 };
 
 exports.findSchoolbyId = function (model, _schoolId, response) {
-	model.findOne({SchoolId: _schoolId},
+	School.findOne({SchoolId: _schoolId},
 	function(error, result) {
 	if (error) {
 	console.error(error);
@@ -68,7 +68,7 @@ exports.findSchoolbyId = function (model, _schoolId, response) {
 	};
 
 exports.listSchools = function (model, response) {
-	model.find({}, function(error, result) {
+	School.find({}, function(error, result) {
 	if (error) {
 	console.error(error);
 	return null;
@@ -122,7 +122,7 @@ if (response !== null){
 
 exports.updateSchool = function (model,request, requestBody, response) {
 	var schoolId = requestBody.SchoolId;
-	model.findOne({SchoolId: schoolId},
+	School.findOne({SchoolId: schoolId},
 	function(error, data) {
 	if (error) {
 	console.log(error);
