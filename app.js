@@ -24,6 +24,12 @@ var express = require('express')
   , fs = require('fs');
 
 var app = express();
+var passport = require('passport');
+var user = require('./app_api/models/users');
+var School= require('./app_api/models/school');
+require('./app_api/config/passport');
+
+var routesApi = require('./app_api/routes/index');
 
 var cloudinary = require('cloudinary');
 
@@ -47,7 +53,9 @@ app.use(express.static(path.join(__dirname, 'app_client')));
 
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 //app.use('/',routes);
+app.use(passport.initialize());
 
+app.use('/api', routesApi);
 
 app.use(fileUpload());
 
@@ -72,8 +80,7 @@ console.log('Connecting to DB ' + dbURI);
 
 mongoose.connect(dbURI);
 
-var user = require('./app_api/models/users');
-var School= require('./app_api/models/school');
+
 
 var ParentTypeSchema = new mongoose.Schema({
 	ParentType: String
