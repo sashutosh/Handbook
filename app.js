@@ -627,13 +627,6 @@ app.put('/school', function(request, response) {
 	schooldataservice.createSchool(School,request, request.body, response);
 	});
 	
-app.del('/school/:SchoolId', function(request,response) {
-	response.header("Access-Control-Allow-Origin", "*");
-	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	console.log('request.params.SchoolId');
-	console.log(request.params.SchoolId);
-	schooldataservice.deleteSchool(School, request.params.SchoolId, response);
-	});
 	
 app.get('/school', function(request, response) {
 		
@@ -1752,6 +1745,15 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 app.get('/',function(req, res) {
 	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
 });	
+
+// error handlers
+// Catch unauthorised errors
+app.use(function (err, req, res, next) {
+	if (err.name === 'UnauthorizedError') {
+		res.status(401);
+		res.json({"message" : err.name + ": " + err.message});
+	}
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

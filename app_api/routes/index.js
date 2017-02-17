@@ -7,8 +7,9 @@ var auth = jwt({
 });
 
 var ctrlAuth = require('../controllers/authentication');
+var schoolCtrl = require('../controllers/school');
 
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
-
+router.delete('/school/:SchoolId', schoolCtrl.deleteSchool);
 module.exports = router;

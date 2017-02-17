@@ -81,10 +81,10 @@ exports.listSchools = function (model, response) {
 	});
 	};
 
-exports.deleteSchool = function (model, _schoolId, response)
+exports.deleteSchool = function (_schoolId, response)
 {
 console.log('Deleting School with : ' + _schoolId);
-model.findOne({SchoolId: _schoolId},
+School.findOne({SchoolId: _schoolId},
 function(error, data) {
 if (error) {
 console.log(error);
