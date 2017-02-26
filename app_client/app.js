@@ -14,6 +14,21 @@
         controller: 'aboutCtrl',
         controllerAs: 'vm'
       })
+      .when('/teachers', {
+        templateUrl: '/teachers/teachers.view.html',
+        controller: 'teacherCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/classes', {
+        templateUrl: '/classes/classes.view.html',
+        controller: 'classCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/messages', {
+        templateUrl: '/messages/messages.view.html',
+        controller: 'messageCtrl',
+        controllerAs: 'vm'
+      })
       .when('/register', {
         templateUrl: '/auth/register/register.view.html',
         controller: 'registerCtrl',

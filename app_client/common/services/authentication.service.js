@@ -33,7 +33,18 @@
         var payload = JSON.parse($window.atob(token.split('.')[1]));
         return {
           email : payload.email,
-          name : payload.name
+          name : payload.name,
+          schoolId: payload.schoolId
+        };
+      }
+    };
+
+    var schoolId = function() {
+      if(isLoggedIn()){
+        var token = getToken();
+        var payload = JSON.parse($window.atob(token.split('.')[1]));
+        return {
+          schoolId: payload.schoolId
         };
       }
     };
@@ -61,7 +72,8 @@
       isLoggedIn : isLoggedIn,
       register : register,
       login : login,
-      logout : logout
+      logout : logout,
+      schoolId:schoolId
     };
   }
 
