@@ -15,6 +15,10 @@
       return $http.put('/school/',schoolData);
     };
 
+    var getTeachers= function (schoolId){
+      return $http.get('/teachers/');
+    } 
+
     var addStudentBulk = function(studentRecordfile){
         var fd = new FormData();
         fd.append('picture', studentRecordfile);
@@ -23,13 +27,11 @@
           transformRequest: angular.identity,
           headers: {'Content-Type': undefined}})
     };
-
-
-
     return {
       schoolDetailsById : schoolDetailsById,
       addSchool: addSchool,
-      addStudentBulk: addStudentBulk
+      addStudentBulk: addStudentBulk,
+      getTeachers:getTeachers
     };
   }
 

@@ -2,11 +2,26 @@
 
 <div class="container">
   <page-header content="vm.pageHeader"></page-header>
-
-  <div class="row">
+  <side-navigation></side-navigation> 
+ 
+  <!--<div class="row">
     <div class="col-md-6 col-sm-12">
-      <p ng-bind-html="vm.main.content | addHtmlLineBreaks"</p>
+      <div>Showing list of teachers</div>
+      <table>
+        <tbody ng-repeat="teacher in vm.teachers">
+          <tr>{{teacher.TeacherLastName}}</tr>
+        </tbody>
+      </table>
     </div>
+  </div>-->
+  <div class="container">
+  <!--<div class="row">
+    <div class="row list-group">-->
+          <div ng-repeat="teacher in vm.teachers">
+              <div>{{ teacher.TeacherLastName }}</div>
+          </div>
+    <!--</div>
+  </div>-->
   </div>
  <footer-generic></footer-generic>
 </div>
