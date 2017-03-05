@@ -17,6 +17,10 @@
 
     var getTeachers= function (schoolId){
       return $http.get('/teachers/');
+    }
+
+    var deleteTeacher= function(teacherId){
+      return $http.delete('/teachers/'+ teacherId);
     } 
 
     var addStudentBulk = function(studentRecordfile){
