@@ -24,7 +24,7 @@
       <input id="filter" type="text", name="filter", ng-model="textFilter">
       <div class="error">{{ vm.message }}</div>
       <div class="row list-group">
-        <div class="col-xs-12 list-group-item" ng-repeat="teacher in vm.teachers |filter : textFilter">
+        <div class="col-xs-12 list-group-item" dir-paginate="teacher in vm.teachers| itemsPerPage: 3">
           <h4><a href="#/teacher/{{teacher.TeacherId}}">{{ teacher.TeacherFirstName }}</a>
             
           <div class="input-group pull-right">
@@ -35,8 +35,9 @@
             </h4>
           </div>
         </div>
+        <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
       </div>
-  
+      
   </div>
   </div>
   <footer-generic></footer-generic>
