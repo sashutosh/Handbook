@@ -19,8 +19,16 @@
       return $http.get('/teachers/');
     }
 
+    var getStudents= function (schoolId){
+      return $http.get('/students/');
+    }
+
     var deleteTeacher= function(teacherId){
       return $http.delete('/teachers/'+ teacherId);
+    }
+
+    var deleteStudent= function(studentId){
+      return $http.delete('/students/'+ studentId);
     } 
 
     var addStudentBulk = function(studentRecordfile){
@@ -35,7 +43,10 @@
       schoolDetailsById : schoolDetailsById,
       addSchool: addSchool,
       addStudentBulk: addStudentBulk,
-      getTeachers:getTeachers
+      getTeachers:getTeachers,
+      getStudents:getStudents,
+      deleteTeacher,deleteTeacher,
+      deleteStudent,deleteStudent
     };
   }
 

@@ -19,6 +19,11 @@
         controller: 'teacherCtrl',
         controllerAs: 'vm'
       })
+      .when('/students', {
+        templateUrl: '/students/students.view.html',
+        controller: 'studentCtrl',
+        controllerAs: 'vm'
+      })
       .when('/classes', {
         templateUrl: '/classes/classes.view.html',
         controller: 'classCtrl',

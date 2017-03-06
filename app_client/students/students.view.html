@@ -16,19 +16,19 @@
   </div>-->
   <div class="row">
      <div class="col-md-6 col-sm-12">
-       <button type="button" class="btn btn-primary" ng-click="vm.addTeacher()">Add</button>
+       <button type="button" class="btn btn-primary" ng-click="vm.addStudent()">Add</button>
       <!-- Secondary, outline button -->
        <button type="button" class="btn btn-secondary">Message</button>
-       <button type="button" class="btn btn-danger" ng-click="vm.deleteTeacher()">Delete</button> 
+       <button type="button" class="btn btn-danger" ng-click="vm.deleteStudent()">Delete</button> 
        <label for="filter">Filter results</label>
       <input id="filter" type="text", name="filter", ng-model="textFilter">
       <div class="error">{{ vm.message }}</div>
       <div class="row list-group">
-        <div class="col-xs-12 list-group-item" ng-repeat="teacher in vm.teachers |filter : textFilter">
-          <h4><a href="#/teacher/{{teacher.TeacherId}}">{{ teacher.TeacherFirstName }}</a>
+        <div class="col-xs-12 list-group-item" ng-repeat="student in vm.students |filter : textFilter">
+          <h4><a href="#/student/{{student.StudentId}}">{{ student.StudentFirstName }}</a>
             
           <div class="input-group pull-right">
-            <input type="checkbox" class="pull-right" ng-model="vm.selectedIds[teacher.TeacherId]" aria-label="Checkbox for following text input">
+            <input type="checkbox" class="pull-right" ng-model="vm.selectedIds[student.StudentId]" aria-label="Checkbox for following text input">
             <!--<span class="input-group-addon">
               <input type="checkbox" aria-label="Checkbox for following text input">
             </span>-->
