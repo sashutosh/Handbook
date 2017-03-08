@@ -18,7 +18,7 @@
      <div class="col-md-6 col-sm-12">
        <button type="button" class="btn btn-primary" ng-click="vm.addTeacher()">Add</button>
       <!-- Secondary, outline button -->
-       <button type="button" class="btn btn-secondary">Message</button>
+       <button type="button" class="btn btn-secondary" ng-click="vm.sendMessage()">Message</button>
        <button type="button" class="btn btn-danger" ng-click="vm.deleteTeacher()">Delete</button> 
        <label for="filter">Filter results</label>
       <input id="filter" type="text", name="filter", ng-model="textFilter">
@@ -28,7 +28,7 @@
           <h4><a href="#/teacher/{{teacher.TeacherId}}">{{ teacher.TeacherFirstName }}</a>
             
           <div class="input-group pull-right">
-            <input type="checkbox" class="pull-right" ng-model="vm.selectedIds[teacher.TeacherId]" aria-label="Checkbox for following text input">
+            <input type="checkbox" class="pull-right" ng-model="vm.selectedIds[teacher.TeacherId]" ng-click="vm.onCheckBoxClick(teacher)" aria-label="Checkbox for following text input">
             <!--<span class="input-group-addon">
               <input type="checkbox" aria-label="Checkbox for following text input">
             </span>-->
