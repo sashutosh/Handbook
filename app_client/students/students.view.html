@@ -20,11 +20,13 @@
       <!-- Secondary, outline button -->
        <button type="button" class="btn btn-secondary">Message</button>
        <button type="button" class="btn btn-danger" ng-click="vm.deleteStudent()">Delete</button> 
-       <label for="filter">Filter results</label>
-      <input id="filter" type="text", name="filter", ng-model="textFilter">
+       <div>
+        <label for="filter">Filter results</label>
+        <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+       </div>
       <div class="error">{{ vm.message }}</div>
       <div class="row list-group">
-        <div class="col-xs-12 list-group-item" ng-repeat="student in vm.students |filter : textFilter">
+        <div class="col-xs-12 list-group-item" dir-paginate="student in vm.students | filter:q | itemsPerPage: 5">
           <h4><a href="#/student/{{student.StudentId}}">{{ student.StudentFirstName }}</a>
             
           <div class="input-group pull-right">
@@ -35,6 +37,7 @@
             </h4>
           </div>
         </div>
+        <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
       </div>
   
   </div>
