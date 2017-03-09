@@ -3,15 +3,36 @@
   angular
     .module('handbook')
     .controller('messageCtrl', messageCtrl);
-
-  function messageCtrl() {
+  messageCtrl.$inject= ['$location','messaging'];     
+  function messageCtrl($location,messaging) {
+    
     var vm = this;
+    vm.messageSubject="";
+    vm.messageText="";
+    vm.selectedRecipients= messaging.getSelectedRecipientsList();  
+    vm.selectedRecipientsPhoneNumbers=messaging.getSelectedRecipientsPhone();
 
     vm.pageHeader = {
       title: 'Messages'
     };
-    vm.main = {
-      content: 'SchoolLink was created to bring the parents and school together and improve overall development of child.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed lorem ac nisi dignissim accumsan. Nullam sit amet interdum magna. Morbi quis faucibus nisi. Vestibulum mollis purus quis eros adipiscing tristique. Proin posuere semper tellus, id placerat augue dapibus ornare. Aenean leo metus, tempus in nisl eget, accumsan interdum dui. Pellentesque sollicitudin volutpat ullamcorper.\n\nSuspendisse tincidunt, lectus non suscipit pharetra, purus ipsum vehicula sapien, a volutpat mauris ligula vel dui. Proin varius interdum elit, eu porttitor quam consequat et. Quisque vitae felis sed ante fringilla fermentum in vitae sem. Quisque fermentum metus at neque sagittis imperdiet. Phasellus non laoreet massa, eu laoreet nibh. Pellentesque vel magna vulputate, porta augue vel, dapibus nisl. Phasellus aliquet nibh nec nunc posuere fringilla. Quisque sit amet dignissim erat. Nulla facilisi. Donec in sollicitudin ante. Cras rhoncus accumsan rutrum. Sed aliquet ligula dui, eget laoreet turpis tempor vitae.'
+
+    vm.send=function(){
+      console.log("Sending message");
+      var msgJsonObject = vm.prepareMessage();
+      messaging.sendMessage(msgJsonObject);
+    };
+    
+    vm.prepareMessage=function(){
+
+        var msgObject={};
+        msgObject.MessageBody= vm.messageSubject;
+        msgObject.MessageTitle= vm.messageSubject;
+        msgObject.type="DIARY_NOTE";
+        msgObject.FromType="Admin";
+        msgObject.FromId="007";
+        msgObject.MobileNumbers=messaging.getSelectedRecipientsPhone();
+        msgObject.ToIds=messaging.getSelectedRecipientsId();
+        return msgObject;  
     };
   }
 

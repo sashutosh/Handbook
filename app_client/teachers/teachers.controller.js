@@ -19,8 +19,8 @@
 
     vm.sendMessage=function(){
         
-      for(teacher in vm.selectedTeacher){
-        messaging.addtoTeacherList(teacher);
+      for (var i = 0, l = vm.selectedTeacher.length; i < l; i++) {
+        messaging.addtoTeacherList(vm.selectedTeacher[i]);
       }
       
       $location.path("/messages")  

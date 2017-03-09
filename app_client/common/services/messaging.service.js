@@ -9,6 +9,45 @@
     var studentList=[];
     var teacherList=[];
 
+   var getSelectedRecipientsList=function(){
+     var selecetedObjList ="";
+     for(var i=0; i<teacherList.length; i++){
+        if(selecetedObjList==="")
+          selecetedObjList= getTeacherName(teacherList[i]); 
+        else  
+          selecetedObjList= selecetedObjList + "," + getTeacherName(teacherList[i]);;
+      }
+      return selecetedObjList;
+   }
+
+   var getSelectedRecipientsPhone=function(){
+     var selecetedPhoneList =[];
+     for(var i=0; i<teacherList.length; i++){
+        selecetedPhoneList.push(teacherList[i].MobileNumber)
+      }
+      return selecetedPhoneList;
+   }
+
+   var getSelectedRecipientsId=function(){
+     var selecetedIdList =[];
+     for(var i=0; i<teacherList.length; i++){
+        selecetedIdList.push(teacherList[i].TeacherId)
+      }
+      return selecetedIdList;
+   }
+
+   var sendMessage=function(messageJsonObject){
+      $http.put('/SendMessageToMultipleUser',messageJsonObject).success(function(data){
+        console.log("Sent message successfully"+data);
+    })
+    .error(function(data){
+      console.log("Failed to send message error:"+data);
+    });
+   }
+
+    var getTeacherName=function(teacher){
+        return teacher.TeacherFirstName + " " +teacher.TeacherLastName;
+    }
     var addtoStudentList=function(studentObj){
        studentList.push(studentObj);     
     };
@@ -43,8 +82,11 @@
         clearStudentList:clearStudentList,
         addtoTeacherList:addtoTeacherList,
         getTeacherList:getTeacherList,
-        clearTeacherList:clearTeacherList
-
+        clearTeacherList:clearTeacherList,
+        getSelectedRecipientsList:getSelectedRecipientsList,
+        getSelectedRecipientsPhone:getSelectedRecipientsPhone,
+        getSelectedRecipientsId:getSelectedRecipientsId,
+        sendMessage:sendMessage
     };
   }
 })();
