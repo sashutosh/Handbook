@@ -504,12 +504,13 @@ app.get('/teachers', function(request, response) {
 				dataservice.listTeachers(Teacher, response);
 	});
 
-app.get('/messages/:MessageId', function(request, response) {
+app.get('/Messages/:Id', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
-	request.params.MessageId);
-	messagedataservice.findMessagebyId(Message, request.params.MessageId,
+	request.params.Id);
+	console.log("before " + request.params.Id);
+	messagedataservice.findMessagebyId(LocalMessageLogging, request.params.Id,
 	response);
 	});
 
@@ -533,28 +534,28 @@ app.del('/messages/:MessageId', function(request,response) {
 	messagedataservice.deleteMessage(Message, request.params.MessageId, response);
 	});
 	
-app.get('/messages', function(request, response) {
+app.get('/Messages', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
-		console.log('Listing all messages with ' + request.params.key +
+		console.log('all message with ' + request.params.key +
 				'=' + request.params.value);
-		messagedataservice.listMessages(Message, response);
+		messagedataservice.listMessagesLocal(LocalMessageLogging, response);
 	});
 
 app.get('/LocalMessagesLogged', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
-		console.log('Listing all messages with ' + request.params.key +
+		console.log('Listing all local messages with ' + request.params.key +
 				'=' + request.params.value);
 		messagedataservice.listMessagesLocal(LocalMessageLogging, response);
 	});
 	
-app.get('/messages/from/:From', function(request, response) {
+app.get('/Messages/From/:Id', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.From);
-	messagedataservice.findMessagesFrom(Message, request.params.From,
+	messagedataservice.findMessagesFrom(LocalMessageLogging, request.params.Id,
 	response);
 	});
 
@@ -1741,6 +1742,10 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 		   }
 		   }); 
   	});
+
+
+
+
 
 app.get('/',function(req, res) {
 	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));

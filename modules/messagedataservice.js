@@ -33,11 +33,14 @@ exports.createMessage = function (model, requestBody, response)
 	});
 }
 
-exports.findMessagebyId = function (model, _messageId, response) {
-	model.findOne({MessageId: _messageId},
+exports.findMessagebyId = function (model, _Id, response) {
+	var Ids =[ ];
+	Ids.push(_Id);
+	console.log(_Id);
+	model.find({ToIds: {$in: Ids }},
 	function(error, result) {
 	if (error) {
-	console.error(error);
+	console.log(error);
 	response.writeHead(500,
 	{'Content-Type' : 'text/plain'});
 	response.end('Internal server error');
@@ -49,10 +52,12 @@ exports.findMessagebyId = function (model, _messageId, response) {
 	response.end('Message Not Found');
 	}
 	return;
-	}
+}
+console.log(result);
 	if (response != null){
 	response.setHeader('Content-Type', 'application/json');
-	response.send(result);
+	response.end(JSON.stringify(result));
+	return JSON.stringify(result);
 	}
 	//console.log(result);
 	}
@@ -182,7 +187,7 @@ exports.updateMessage = function (model, requestBody, response) {
 };
 
 exports.findMessagesFrom = function (model, from, response){
-	model.find({From: from}, function(error, result) {
+	model.find({FromId: from}, function(error, result) {
 		if (error) {
 		console.error(error);
 		return null;
