@@ -2,6 +2,12 @@
  * http://usejsdoc.org/
  */
 
+require('../app_api/models/teachers');
+var mongoose = require('mongoose');
+var Teacher = mongoose.model('Teacher');
+
+
+
 function toMessageList(bodyMessage)
 {
    var MessageList = [];
@@ -458,7 +464,7 @@ exports.AddOrUpdateStudent = function (model, requestBody) {
 
 
 
-exports.createTeacher = function (model, requestBody, response)
+exports.createTeacher = function (requestBody, response)
 {
 	var Teacher = toTeacher(requestBody, model);
 	
@@ -471,8 +477,8 @@ exports.createTeacher = function (model, requestBody, response)
 	});
 }
 
-exports.findTeacherById = function (model, _teacherId, response) {
-	model.findOne({TeacherId: _teacherId},
+exports.findTeacherById = function (_teacherId, response) {
+	Teacher.findOne({TeacherId: _teacherId},
 	function(error, result) {
 	if (error) {
 	console.error(error);
@@ -497,8 +503,8 @@ exports.findTeacherById = function (model, _teacherId, response) {
 	});
 	}
 
-exports.listTeachers = function (model, response) {
-	model.find({}, function(error, result) {
+exports.listTeachers = function (response) {
+	Teacher.find({}, function(error, result) {
 	if (error) {
 	console.error(error);
 	return null;
@@ -511,10 +517,10 @@ exports.listTeachers = function (model, response) {
 	});
 	}
 
-exports.removeTeacher = function (model, _teacherId, response)
+exports.removeTeacher = function ( _teacherId, response)
 {
 console.log('Deleting Teacher with Teacher Id: ' + _teacherId);
-model.findOne({TeacherId: _teacherId},
+Teacher.findOne({TeacherId: _teacherId},
 function(error, data) {
 if (error) {
 console.log(error);
@@ -550,9 +556,9 @@ if (response != null){
 	});
 	}
 
-exports.updateTeacher = function (model, requestBody, response) {
+exports.updateTeacher = function (requestBody, response) {
 	var TeacherId = requestBody.TeacherId;
-	model.findOne({TeacherId: TeacherId},
+	Teacher.findOne({TeacherId: TeacherId},
 	function(error, data) {
 	if (error) {
 	console.log(error);

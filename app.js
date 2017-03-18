@@ -9,6 +9,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var express = require('express')
   /*, routes = require('./routes')
   , user = require('./routes/user')*/
@@ -27,6 +28,8 @@ var app = express();
 var passport = require('passport');
 var user = require('./app_api/models/users');
 var School= require('./app_api/models/school');
+var Teacher = require('./app_api/models/teachers');
+
 require('./app_api/config/passport');
 
 var routesApi = require('./app_api/routes/index');
@@ -127,45 +130,6 @@ var StudentSchema = new mongoose.Schema({
 	]
 });
 
-var TeacherRoleSchema = new mongoose.Schema({
-	TeacherRole: String
-});
-
-var TeacherSchema = new mongoose.Schema({
-	TeacherId: {type: String, required: true, unique: true },
-	SchoolId: String,
-	TeacherFirstName: {type: String, required: true},
-	TeacherMiddleName: String,
-	TeacherLastName: {type: String, required: true},
-	TeacherDOB : Date,
-	Age : Number,
-	TeacherGender: String,
-	TeacherFullAddress: String,
-	MobileNumber: {type:Number ,required: true},
-	AlternateMobNumber: Number,
-	EmailId: String,
-	AlternateEmailID: String,
-	PresentAddress: String,
-	PresentAddressPOBox: Number,
-	PermanentAddress: String,
-	PermanentAddressPOBox: Number,
-	ImageUrl: String,
-	/*Messages:
-		[
-		 {
-		 Message: String,
-		 Delivered: Boolean
-		 }
-		],*/
-	TeacherRoleList: [
-		{
-			TeacherRoleType: String,
-			TeacherRoleforStd: String,
-			TeacherRoleforSubjectId: String,
-			TeacherRoleforSubject: String
-		}	
-	]
-});
 
 var MobileDeviceMappingSchema = new mongoose.Schema({
 	MobileNumber: Number,
@@ -287,9 +251,8 @@ var Student = mongoose.model('Student', StudentSchema);
 
 var ParentType = mongoose.model('ParentType', ParentTypeSchema);
 
-var TeacherType = mongoose.model('TeacherType', TeacherRoleSchema);
 
-var Teacher = mongoose.model('Teacher', TeacherSchema);
+
 
 var MobileDevice = mongoose.model('MobileDevice', MobileDeviceMappingSchema);
 
@@ -472,20 +435,20 @@ app.get('/teachers/:TeacherId', function(request, response) {
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.TeacherId);
-	dataservice.findTeacherById(Teacher, request.params.TeacherId,
+	dataservice.findTeacherById(request.params.TeacherId,
 	response);
 	});
 
 app.post('/teachers', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.updateTeacher(Teacher, request.body, response);
+	dataservice.updateTeacher(request.body, response);
 	});
 
 app.put('/teachers', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.createTeacher(Teacher, request.body, response);
+	dataservice.createTeacher(request.body, response);
 	});
 	
 app.del('/teachers/:TeacherId', function(request,response) {
@@ -493,7 +456,7 @@ app.del('/teachers/:TeacherId', function(request,response) {
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log('request.params.TeacherId');
 	console.log(request.params.TeacherId);
-	dataservice.removeTeacher(Teacher, request.params.TeacherId, response);
+	dataservice.removeTeacher(request.params.TeacherId, response);
 	});
 	
 app.get('/teachers', function(request, response) {
@@ -501,7 +464,7 @@ app.get('/teachers', function(request, response) {
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");		
 		console.log('Listing all teachers with ' + request.params.key +
 				'=' + request.params.value);
-				dataservice.listTeachers(Teacher, response);
+				dataservice.listTeachers(response);
 	});
 
 app.get('/Messages/:Id', function(request, response) {
