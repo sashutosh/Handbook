@@ -34,6 +34,16 @@
         controller: 'messageCtrl',
         controllerAs: 'vm'
       })
+      .when('/inbox', {
+        templateUrl: '/messages/inbox.view.html',
+        controller: 'inboxCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/outbox', {
+        templateUrl: '/messages/outbox.view.html',
+        controller: 'outboxCtrl',
+        controllerAs: 'vm'
+      })
       .when('/register', {
         templateUrl: '/auth/register/register.view.html',
         controller: 'registerCtrl',

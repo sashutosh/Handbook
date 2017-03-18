@@ -45,8 +45,8 @@
       addStudentBulk: addStudentBulk,
       getTeachers:getTeachers,
       getStudents:getStudents,
-      deleteTeacher,deleteTeacher,
-      deleteStudent,deleteStudent
+      deleteTeacher:deleteTeacher,
+      deleteStudent:deleteStudent
     };
   }
 

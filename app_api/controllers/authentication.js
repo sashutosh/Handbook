@@ -1,4 +1,5 @@
 require('../models/users');
+
 var passport = require('passport');
 var mongoose = require('mongoose');
 
@@ -8,6 +9,7 @@ var sendJSONresponse = function(res, status, content) {
     res.status(status);
     res.json(content);
 };
+
 
 module.exports.register = function(req, res) {
   if(!req.body.name || !req.body.email || !req.body.password) {
@@ -22,9 +24,7 @@ module.exports.register = function(req, res) {
   user.name = req.body.name;
   user.email = req.body.email;
   user.schoolId= 100;
-
   user.setPassword(req.body.password);
-
   user.save(function(err) {
     var token;
     if (err) {

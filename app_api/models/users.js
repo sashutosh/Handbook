@@ -14,7 +14,9 @@ var userSchema = new mongoose.Schema({
   },
   hash: String,
   salt: String,
-  schoolId : String
+  schoolId : String,
+  userId : String,
+  userRole:String
 });
 
 userSchema.methods.setPassword = function(password){
@@ -36,6 +38,8 @@ userSchema.methods.generateJwt = function() {
     email: this.email,
     name: this.name,
     schoolId: this.schoolId,
+    userId:this.userId,
+    userRole:this.userRole,
     exp: parseInt(expiry.getTime() / 1000),
   }, "process.env.JWT_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };

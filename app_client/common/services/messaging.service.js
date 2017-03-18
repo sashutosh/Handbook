@@ -45,6 +45,11 @@
     });
    }
 
+   var getMessages=function(schoolId, userId){
+     return $http.get('/Messages/'+userId);
+     
+   }
+
     var getTeacherName=function(teacher){
         return teacher.TeacherFirstName + " " +teacher.TeacherLastName;
     }
@@ -86,7 +91,8 @@
         getSelectedRecipientsList:getSelectedRecipientsList,
         getSelectedRecipientsPhone:getSelectedRecipientsPhone,
         getSelectedRecipientsId:getSelectedRecipientsId,
-        sendMessage:sendMessage
+        sendMessage:sendMessage,
+        getMessages:getMessages
     };
   }
 })();
