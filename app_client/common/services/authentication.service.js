@@ -49,6 +49,25 @@
       }
     };
 
+    var userId = function() {
+      if(isLoggedIn()){
+        var token = getToken();
+        var payload = JSON.parse($window.atob(token.split('.')[1]));
+        return {
+          userId: payload.userId
+        };
+      }
+    };
+    var userRole = function() {
+      if(isLoggedIn()){
+        var token = getToken();
+        var payload = JSON.parse($window.atob(token.split('.')[1]));
+        return {
+          userRole: payload.userRole
+        };
+      }
+    };
+
     register = function(user) {
       return $http.post('/api/register', user).success(function(data){
         saveToken(data.token);
