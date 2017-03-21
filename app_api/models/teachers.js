@@ -40,5 +40,5 @@ var TeacherSchema = new mongoose.Schema({
 	]
 });
 
-var Teacher = mongoose.model('Teacher', TeacherSchema);
-var TeacherType = mongoose.model('TeacherType', TeacherRoleSchema);
+mongoose.model('Teacher', TeacherSchema);
+mongoose.model('TeacherType', TeacherRoleSchema);

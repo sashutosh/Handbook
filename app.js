@@ -27,9 +27,10 @@ var express = require('express')
 var app = express();
 var passport = require('passport');
 var user = require('./app_api/models/users');
-var School= require('./app_api/models/school');
-var Teacher = require('./app_api/models/teachers');
-
+require('./app_api/models/school');
+require('./app_api/models/teachers');
+var Teacher = mongoose.model('Teacher');
+var School= mongoose.model('School');
 require('./app_api/config/passport');
 
 var routesApi = require('./app_api/routes/index');
