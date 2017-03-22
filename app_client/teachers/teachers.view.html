@@ -45,22 +45,22 @@
                   <th>Email</th>
                   <th class="no-print">Operation</th>
               </tr>
-              <tr dir-paginate="teacher in vm.teachers | itemsPerPage:20" total-items="totalItems">
+              <tr dir-paginate="teacher in vm.teachers | filter:q | itemsPerPage:20">
                   <td>{{teacher.TeacherId}}</td>
                   <td>
-                      <img alt="{{teacher.TeacherFirstName}}" class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{'dashboard/profileImage/'+teacher.id}}">
+                      <img alt="{{teacher.TeacherFirstName}}" class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{teacher.ImageUrl}}">
                       <a href="" ng-click="teacherProfile( teacher.id )">{{teacher.TeacherFirstName}}</a>
                   </td>
                   <td>{{teacher.MobileNumber}}</td>
                   <td>{{teacher.EmailId}}</td>
                   <td class="no-print">
-                    <a ng-click="edit(teacher.id)" type="button" class="btn btn-info btn-flat" title="Edit" tooltip><i class="fa fa-pencil"></i></a>
-                    <a ng-click="remove(teacher,$index)" type="button" class="btn btn-danger btn-flat" title="Remove" tooltip><i class="fa fa-trash-o"></i></a>
+                    <a ng-click="edit(teacher.id)" type="button" class="btn btn-info btn-flat" title="Edit" tooltip><i class="glyphicon glyphicon-edit"></i></a>
+                    <a ng-click="remove(teacher,$index)" type="button" class="btn btn-danger btn-flat" title="Remove" tooltip><i class="glyphicon glyphicon-trash"></i></a>
                   </td>
               </tr>
-              <tr ng-show="!teachers.length"><td class="noTableData" colspan="5">No Teachers</td></tr>
+              <tr ng-show="!vm.teachers.length"><td class="noTableData" colspan="5">No Teachers</td></tr>
           </tbody></table>
-          <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)" template-url="templates/dirPagination.html" ></dir-pagination-controls>
+          <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
       </div> 
 
       </div>
