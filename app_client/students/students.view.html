@@ -26,18 +26,36 @@
        </div>
       <div class="error">{{ vm.message }}</div>
       <div class="row list-group">
-        <div class="col-xs-12 list-group-item" dir-paginate="student in vm.students | filter:q | itemsPerPage: 5">
-          <h4><a href="#/student/{{student.StudentId}}">{{ student.StudentFirstName }}</a>
-            
-          <div class="input-group pull-right">
-            <input type="checkbox" class="pull-right" ng-model="vm.selectedIds[student.StudentId]" aria-label="Checkbox for following text input">
-            <!--<span class="input-group-addon">
-              <input type="checkbox" aria-label="Checkbox for following text input">
-            </span>-->
-            </h4>
-          </div>
+        <div class="box-body table-responsive">
+          <table class="table table-hover">
+              <tbody><tr>
+                  <th>ID</th>
+                  <th>FullName</th>
+                  <th>Mobile Number(s)</th>
+                  <th>Std / Section</th>
+                  <th class='no-print'>Operations</th>
+              </tr>
+              <tr dir-paginate="student in vm.students | filter:q | itemsPerPage:20">
+                  <td>{{student.StudentId}}</td>
+                  <td>
+                      <img class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{student.ImageUrl}}">
+                      <a href="" ng-click="studentProfile( student.id )">{{student.fullName}}</a>
+                  </td>
+                  <td>{{student.StudentFirstName }}</td>
+                  <td>{{student.StudentParentMobiles}}</td>
+                  <td>{{student.StudentClassStandard}}</td>
+                  <td class='no-print'>
+                    <a ng-click="edit(teacher.id)" type="button" class="btn btn-info btn-flat" title="Edit" tooltip><i class="glyphicon glyphicon-edit"></i></a>
+                    <a ng-click="remove(teacher,$index)" type="button" class="btn btn-danger btn-flat" title="Remove" tooltip><i class="glyphicon glyphicon-trash"></i></a>
+                  </td>
+              </tr>
+              <tr ng-show="!vm.students.length"><td class="noTableData" colspan="6">{{phrase.noStudents}}</td></tr>
+          </tbody></table>
+          <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+      </div>
+
         </div>
-        <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+        
       </div>
   
   </div>

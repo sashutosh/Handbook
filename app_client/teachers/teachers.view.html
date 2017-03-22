@@ -41,14 +41,14 @@
               <tbody><tr>
                   <th>ID</th>
                   <th>Name</th>
-                  <th>UserName</th>
+                  <th>Mobile Number</th>
                   <th>Email</th>
                   <th class="no-print">Operation</th>
               </tr>
               <tr dir-paginate="teacher in vm.teachers | filter:q | itemsPerPage:20">
                   <td>{{teacher.TeacherId}}</td>
                   <td>
-                      <img alt="{{teacher.TeacherFirstName}}" class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{teacher.ImageUrl}}">
+                      <img class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{teacher.ImageUrl}}">
                       <a href="" ng-click="teacherProfile( teacher.id )">{{teacher.TeacherFirstName}}</a>
                   </td>
                   <td>{{teacher.MobileNumber}}</td>
