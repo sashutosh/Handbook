@@ -1,37 +1,67 @@
 <navigation></navigation>
 
-<div class="container-fluid">
+<div class="container">
   <page-header content="vm.pageHeader"></page-header>
   <side-navigation></side-navigation> 
- 
-  <div class="row">
-     <div class="col-md-6 col-sm-12">
-       <!--<button type="button" class="btn btn-primary" ng-click="vm.addTeacher()">Add</button>-->
-      <!-- Secondary, outline button -->
-       <button type="button" class="btn btn-primary" ng-click="vm.sendMessage()">Forward</button>
-       <button type="button" class="btn btn-danger" ng-click="vm.deleteMessage()">Delete</button> 
-       <div>
-        <label for="filter">Filter results</label>
-        <input ng-model="q" id="search" placeholder="Filter text">
-       </div>
-      <div class="error">{{ vm.message }}</div>
-      <div class="row list-group">
-        <div class="col-xs-12 list-group-item" dir-paginate="message in vm.messages | filter:q | itemsPerPage: 5">
-          <h4><a>{{ message.title }}</a>
-            
-            <div class="input-group pull-right">
-                <input type="checkbox" class="pull-right" ng-click="vm.onCheckBoxClick(message)" aria-label="Checkbox for following text input">
-                <!--<span class="input-group-addon">
-                <input type="checkbox" aria-label="Checkbox for following text input">
-                </span>-->
-            </div>
-         </h4>
+    <div class="mailbox row">
+      <div class="col-xs-12">
+          <div class="box box-solid">
+              <div class="box-body">
+                  <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                          <div class="row pad">
+                              <div class="col-sm-6">
+                                  <label style="margin-right: 10px;">
+                                      <input type="checkbox" ng-model="selectedAll" ng-change="checkAll()"/>
+                                  </label>
+                                  <div class="btn-group">
+                                      <button type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
+                                          Operations <span class="caret"></span>
+                                      </button>
+                                      <ul class="dropdown-menu" role="menu">
+                                          <li><a href="" ng-click="markRead()">Mark as Read</a></li>
+                                          <li><a href="" ng-click="markUnRead()">Mark as Unread</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href=""  ng-click="markDelete()">Remove</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="btn-group"><a ng-click="changeView('create')" class="btn btn-sm btn-flat btn-primary"><i class="glyphicon glyphicon-edit"></i> Compose </a></div>
+                              </div>
+                              <div class="col-sm-6 search-form">
+
+                                  <form action="" class="text-right">
+                                      <div class="input-group pull-right floatRTL">
+                                      		<input type="text" ng-model="searchText" class="form-control input-sm" placeholder="Search">
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+
+                          <div class="box-body table-responsive">
+                              <table class="table">
+                                  <tr dir-paginate="message in vm.messages | filter:searchText | itemsPerPage:20">
+                                      <td class="small-col" style="width:90px;">
+                                          <input name="checked[]" ng-model="message.selected" type="checkbox" />
+                                          <img class="user-image img-circle" style="width:40px; height:40px;" ng-src="{{'dashboard/profileImage/'+message.userId}}">
+                                      </td>
+                                      <td class="name"><a href="#messages/{{message.id}}">{{message.FromId}}</a></td>
+                                      <td class="subject"><a href="#messages/{{message.id}}">{{message.title}}</a></td>
+                                      <td class="time">{{message.date}}</td>
+                                  </tr>
+                                  <tr ng-show="!vm.messages.length"><td class="noTableData" colspan="4">No message</td></tr>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="pull-right">
+                  <dir-pagination-controls class="pull-right" template-url="common/directives/dirPagination/dirPagination.tpl.html" ></dir-pagination-controls>
+              </div>
+              
           </div>
-        </div>
-        <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
       </div>
-      
   </div>
-  </div>
+  
   <footer-generic></footer-generic>
 </div>

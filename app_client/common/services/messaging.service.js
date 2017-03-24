@@ -50,7 +50,12 @@
      
    }
 
-    var getTeacherName=function(teacher){
+   var getSentMessages=function(schoolId, userId){
+     return $http.get('/Messages/from/'+userId);
+     
+   }
+   
+   var getTeacherName=function(teacher){
         return teacher.TeacherFirstName + " " +teacher.TeacherLastName;
     }
     var addtoStudentList=function(studentObj){
@@ -92,7 +97,8 @@
         getSelectedRecipientsPhone:getSelectedRecipientsPhone,
         getSelectedRecipientsId:getSelectedRecipientsId,
         sendMessage:sendMessage,
-        getMessages:getMessages
+        getMessages:getMessages,
+        getSentMessages:getSentMessages
     };
   }
 })();

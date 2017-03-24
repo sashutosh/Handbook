@@ -1,0 +1,38 @@
+<navigation></navigation>
+
+<div class="container-fluid">
+  <page-header content="vm.pageHeader"></page-header>
+  <side-navigation></side-navigation> 
+   <div class="row">
+     <div class="col-md-6 col-sm-12">
+       <button type="button" class="btn btn-primary" ng-click="vm.addTeacher()">Add</button>
+        <button type="button" class="btn btn-secondary" ng-click="vm.sendMessage()">Message</button>
+       <button type="button" class="btn btn-danger" ng-click="vm.deleteTeacher()">Delete</button> 
+       <div>
+        <label for="filter">Filter results</label>
+        <input ng-model="q" id="search" placeholder="Filter text">
+       </div>
+       <div class="box-body table-responsive">
+                              <table class="table">
+                                  <tr dir-paginate="message in vm.messages | itemsPerPage:20">
+                                      <td class="small-col" style="width:90px;">
+                                          <input name="checked[]" ng-model="message.selected" type="checkbox" />
+                                          <img class="user-image img-circle" style="width:40px; height:40px;" ng-src="{{'dashboard/profileImage/'+message.userId}}">
+                                      </td>
+                                      <td class="name"><a href="#messages/{{message.id}}">{{message.FromId}}</a></td>
+                                      <td class="subject"><a href="#messages/{{message.id}}">{{message.title}}</a></td>
+                                      <td class="time">{{message.date}}</td>
+                                  </tr>
+                                  <tr ng-show="!vm.messages.length"><td class="noTableData" colspan="4">No message</td></tr>
+                              </table>
+                          </div>
+
+      </div>
+      <div class="pull-right">
+                  <dir-pagination-controls class="pull-right" template-url="common/directives/dirPagination/dirPagination.tpl.html" ></dir-pagination-controls>
+        </div>
+      
+  </div>
+  </div>
+  <footer-generic></footer-generic>
+</div>
