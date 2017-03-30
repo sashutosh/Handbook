@@ -1,0 +1,84 @@
+<navigation></navigation>
+
+<div class="container-fluid">
+    <page-header content="vm.pageHeader"></page-header>
+    <side-navigation></side-navigation> 
+    <section class="content">
+        <a ng-click="changeView('list')" class="floatRTL btn btn-danger btn-flat pull-right marginBottom15">Cancel</a>
+        <div class="box col-xs-12">
+            <div class="box-body table-responsive">
+            <form class="form-horizontal" name="editAdmin" role="form" ng-upload="saveEdit(content)" method="post" action="{{'teachers/' + form.id}}" novalidate>
+                <div class="form-group" ng-class="{'has-error': editAdmin.fullName.$invalid}">
+                <label for="inputEmail3" class="col-sm-2 control-label">Full Name </label>
+                <div class="col-sm-10">
+                    <input type="text" name="fullName" ng-model="vm.teacher.TeacherFirstName" class="form-control" required placeholder="Full Name">
+                </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error': editAdmin.email.$invalid}">
+                <label for="inputPassword3" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" name="email" ng-model="vm.teacher.EmailId" class="form-control" placeholder="Email" required>
+                </div>
+                </div>
+                <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" name="password" ng-model="form.password" class="form-control" placeholder="Password">
+                </div>
+                </div>
+                <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Gender</label>
+                <div class="col-sm-10">
+
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="gender" value="male" ng-model="form.gender">
+                            Male
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="gender" value="female" ng-model="form.gender">
+                            Female
+                        </label>
+                    </div>
+
+                </div>
+                </div>
+                <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">BirthDate</label>
+                <div class="col-sm-10">
+                    <input type="text" id="datemask" name="birthday" ng-model="vm.teacher.TeacherDOB" class="form-control datemask">
+                </div>
+                </div>
+                <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                    <input type="text" name="address" class="form-control" ng-model="vm.teacher.PresentAddress" placeholder="Address">
+                </div>
+                </div>
+                <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">PhoneNo</label>
+                <div class="col-sm-10">
+                    <input type="text" name="phoneNo" class="form-control" ng-model="vm.teacher.MobileNumber" placeholder="PhoneNo">
+                </div>
+                </div>
+                <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Photo</label>
+                <div class="col-sm-10">
+                    <input type="file" name="photo">
+                </div>
+                </div>
+                <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="hidden" name="_token" value="{{CSRF_TOKEN}}">
+                    <button type="submit" class="btn btn-default" ng-disabled="editAdmin.$invalid || $isUploading">Edit Teacher</button>
+                </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </section>
+
+
+</div>

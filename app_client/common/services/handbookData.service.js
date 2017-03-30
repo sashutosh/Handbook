@@ -7,6 +7,17 @@
   handbookData.$inject = ['$http'];
   function handbookData ($http) {
     
+    var selectedTeacher={};
+    
+    var setSelectedTeacher=function(teacher){
+      selectedTeacher=teacher;
+    }
+
+    var getSelectedTeacher=function(){
+      return selectedTeacher;
+    }
+
+
     var schoolDetailsById = function (schoolId) {
       return $http.get('/school/' + schoolId);
     };
@@ -46,7 +57,9 @@
       getTeachers:getTeachers,
       getStudents:getStudents,
       deleteTeacher:deleteTeacher,
-      deleteStudent:deleteStudent
+      deleteStudent:deleteStudent,
+      getSelectedTeacher:getSelectedTeacher,
+      setSelectedTeacher:setSelectedTeacher
     };
   }
 
