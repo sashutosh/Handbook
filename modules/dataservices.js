@@ -266,7 +266,8 @@ exports.createStudent = function (model, requestBody, response)
 	Student.save(function(err){
 		if (err)
 			{
-			throw err;
+			//throw err;
+			console.log(err);
 			}
 		console.log('Student saved successfully');
 	});
@@ -471,7 +472,8 @@ exports.createTeacher = function (requestBody, response)
 	Teacher.save(function(err){
 		if (err)
 			{
-			throw err;
+			//throw err;
+			console.log(err);
 			}
 		console.log('Teacher saved successfully');
 	});
@@ -1017,3 +1019,326 @@ exports.updateTeacherTimeTable = function (model, requestBody, response) {
 	}
 	});
 };
+
+exports.createClass = function (Class, requestBody, response)
+{
+	var clas = new Class({
+		Class: requestBody.Class,
+		Section: requestBody.Section,
+		ClassSection: requestBody.Class + requestBody.Section
+	});	
+	clas.save(function(err){
+		if (err)
+			{
+			//throw err;
+			console.log(err);
+            response.json({"code" : 101, "status" : "Error in creating Record " + err});
+			}
+		response.json({"code" : 200, "status" : "Class Record saved successfully"});
+	});
+};
+
+exports.createSubject = function (Subject, requestBody, response)
+{
+	var subj = new Subject({
+		Subject: requestBody.Subject,
+		SubjectCode: requestBody.SubjectCode
+		
+	});	
+	subj.save(function(err){
+		if (err)
+			{
+			//throw err;
+			console.log(err);
+			response.json({"code" : 101, "status" : "Error in creating Record " + err});
+			}
+		console.log('Subject Record saved successfully');
+		response.json({"code" : 200, "status" : "Subject Record saved successfully"});
+	});
+};	
+
+
+exports.updateClass = function (Class, requestBody, response) {
+	var clsSection = requestBody.Class + requestBody.Section;
+	Class.findOne({ClassSection: clsSection},
+	function(error, data) {
+	if (error) {
+	console.log(error);
+	if (response != null) {
+	response.writeHead(500,
+	{'Content-Type' : 'text/plain'});
+	response.end('Internal server error');
+	}
+	return;
+	} else {
+	var clas = new Class({
+		Class: requestBody.Class,
+		Section: requestBody.Section,
+		ClassSection: requestBody.Class + requestBody.Section
+	});
+	if (!data) {
+	console.log('Class with ClassSection: '+ clsSection
+	+ ' does not exist. The Class will be created.');
+	clas.save(function(error) {
+	if (!error)
+		clas.save();
+	});
+	if (response != null) {
+	response.writeHead(201,
+	{'Content-Type' : 'text/plain'});
+	response.end('Created');
+	}
+	return;
+	}
+	//poulate the document with the updated values
+	data.Class = requestBody.Class;
+	data.Section = requestBody.Section;
+	data.ClassSection = requestBody.Class + requestBody.Section;
+	
+	// now save
+	data.save(function (error) {
+	if (!error) {
+	console.log('Successfully updated Class with Section: '+ clsSection);
+	data.save();
+	} else {
+	console.log('error on save');
+	}
+	});
+	if (response != null) {
+	response.send('Updated');
+	}
+	}
+	});
+};
+
+exports.updateSubject = function (Subject, requestBody, response) {
+	var sub = requestBody.Subject ;
+	Subject.findOne({Subject: sub},
+	function(error, data) {
+	if (error) {
+	console.log(error);
+	if (response != null) {
+	response.writeHead(500,
+	{'Content-Type' : 'text/plain'});
+	response.end('Internal server error');
+	}
+	return;
+	} else {
+	var subject = new Subject({
+		Subject: requestBody.Subject,
+		SubjectCode: requestBody.SubjectCode,
+		
+	});
+	if (!data) {
+	console.log('Subject with Name: '+ sub
+	+ ' does not exist. The Subject will be created.');
+	subject.save(function(error) {
+	if (!error)
+		subject.save();
+	});
+	if (response != null) {
+	response.writeHead(201,
+	{'Content-Type' : 'text/plain'});
+	response.end('Created');
+	}
+	return;
+	}
+	//poulate the document with the updated values
+	data.Subject = requestBody.Subject;
+	data.SubjectCode = requestBody.SubjectCode;
+	
+	
+	// now save
+	data.save(function (error) {
+	if (!error) {
+	console.log('Successfully updated Subject with Name: '+ sub);
+	data.save();
+	} else {
+	console.log('error on save');
+	}
+	});
+	if (response != null) {
+	response.send('Updated');
+	}
+	}
+	});
+};
+
+exports.getAllClass = function (model, request, response) {
+	model.find({}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+}
+
+
+exports.getAllSubject = function (model, request, response) {
+	model.find({}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+}	
+
+
+exports.getClassByClassSection = function (model, _Section, response) {
+		model.findOne({ClassSection: _Section},
+		function(error, result) {
+		if (error) {
+		console.error(error);
+		response.writeHead(500,
+		{'Content-Type' : 'text/plain'});
+		response.end('Internal server error');
+		return;
+		} else {
+		if (!result) {
+		if (response != null) {
+		response.writeHead(404, {'Content-Type' : 'text/plain'});
+		response.end('Class Section Not Found');
+		}
+		return;
+		}
+		if (response != null){
+		response.setHeader('Content-Type', 'application/json');
+		response.send(result);
+		}
+		//console.log(result);
+		}
+		});
+	}
+	
+		
+exports.getClassByName = function (model, _Name, response) {
+	model.find({Class: _Name}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+}
+
+		
+exports.getSubjectByName = function (model, _Name, response) {
+		model.findOne({Subject: _Name},
+		function(error, result) {
+		if (error) {
+		console.error(error);
+		response.writeHead(500,
+		{'Content-Type' : 'text/plain'});
+		response.end('Internal server error');
+		return;
+		} else {
+		if (!result) {
+		if (response != null) {
+		response.writeHead(404, {'Content-Type' : 'text/plain'});
+		response.end('Subject Not Found');
+		}
+		return;
+		}
+		if (response != null){
+		response.setHeader('Content-Type', 'application/json');
+		response.send(result);
+		}
+		//console.log(result);
+		}
+		});
+	}
+			
+		
+exports.deleteClassByClassSection = function (model, _Section, response)
+{
+console.log('Deleting Class with ClassSection: ' + _Section);
+model.findOne({ClassSection: _Section},
+function(error, data) {
+if (error) {
+console.log(error);
+if (response != null) {
+response.writeHead(500, {'Content-Type' : 'text/plain'});
+response.end('Internal server error');
+}
+return;
+} else {
+if (!data) {
+console.log('Class not found');
+if (response != null) {
+response.writeHead(404,
+{'Content-Type' : 'text/plain'});
+response.end('Class Not Found');
+}
+return;
+} else {
+data.remove(function(error){
+if (!error) {
+data.remove();
+}
+else {
+console.log(error);
+}
+});
+if (response != null){
+	response.send('Deleted Class');
+	}
+	return;
+	}
+	}
+	});
+}
+
+exports.deleteSubjectByName = function (model, _Name, response)
+{
+console.log('Deleting Subject with SubjectName: ' + _Name);
+model.findOne({Subject: _Name},
+function(error, data) {
+if (error) {
+console.log(error);
+if (response != null) {
+response.writeHead(500, {'Content-Type' : 'text/plain'});
+response.end('Internal server error');
+}
+return;
+} else {
+if (!data) {
+console.log('Subject not found');
+if (response != null) {
+response.writeHead(404,
+{'Content-Type' : 'text/plain'});
+response.end('Subject Not Found');
+}
+return;
+} else {
+data.remove(function(error){
+if (!error) {
+data.remove();
+}
+else {
+console.log(error);
+}
+});
+if (response != null){
+	response.send('Deleted Subject');
+	}
+	return;
+	}
+	}
+	});
+}
+		
+
