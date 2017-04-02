@@ -8,13 +8,22 @@
   function handbookData ($http) {
     
     var selectedTeacher={};
-    
+    var selectedStudent={};
+
     var setSelectedTeacher=function(teacher){
       selectedTeacher=teacher;
     }
 
     var getSelectedTeacher=function(){
       return selectedTeacher;
+    }
+
+    var setSelectedStudent=function(student){
+      selectedStudent=student;
+    }
+
+    var getSelectedStudent=function(){
+      return selectedStudent;
     }
 
 
@@ -58,8 +67,8 @@
       getStudents:getStudents,
       deleteTeacher:deleteTeacher,
       deleteStudent:deleteStudent,
-      getSelectedTeacher:getSelectedTeacher,
-      setSelectedTeacher:setSelectedTeacher
+      getSelectedStudent:getSelectedStudent,
+      setSelectedStudent:setSelectedStudent
     };
   }
 

@@ -18,6 +18,11 @@
       console.log(vm.selectedIds);
     };
 
+    vm.edit= function(student){
+      handbookData.setSelectedStudent(student);
+      $location.path("/students/edit");
+    };
+
     vm.deleteStudents=function(){
         for(var studentId in vm.selectedIds){
             

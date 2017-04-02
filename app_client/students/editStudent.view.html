@@ -7,25 +7,20 @@
         <!--<a ng-click="changeView('list')" class="floatRTL btn btn-danger btn-flat pull-right marginBottom15">Cancel</a>-->
         <div class="box col-xs-12">
             <div class="box-body table-responsive">
-                <form class="form-horizontal" name="editAdmin" role="form" ng-upload="saveEdit(content)" method="post" action="{{'teachers/' + form.id}}" novalidate>
+                <form class="form-horizontal" name="editAdmin" role="form" ng-upload="saveEdit(content)" method="post" action="{{'students/' + form.id}}" novalidate>
                     <div class="form-group" ng-class="{'has-error': editAdmin.fullName.$invalid}">
                         <label for="inputPassword3" class="col-sm-2 control-label">Full Name </label>
                         <div class="col-sm-10">
-                            <input type="text" name="fullName" ng-model="vm.teacher.TeacherFirstName" class="form-control" placeholder="Full Name" required>
+                            <input type="text" name="fullName" ng-model="vm.student.StudentFirstName" class="form-control" placeholder="Full Name" required>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error': editAdmin.email.$invalid}">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Email</label>
+                        <label for="inputPassword3" class="col-sm-2 control-label">Std</label>
                         <div class="col-sm-10">
-                            <input type="email" name="email" ng-model="vm.teacher.EmailId" class="form-control" placeholder="Email" required>
+                            <input type="email" name="email" ng-model="vm.student.StudentClassStandard" class="form-control" placeholder="Std" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" name="password" ng-model="form.password" class="form-control" placeholder="Password">
-                        </div>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">Gender</label>
                         <div class="col-sm-10">
@@ -48,19 +43,19 @@
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">BirthDate</label>
                         <div class="col-sm-10">
-                            <input type="text" id="datemask" name="birthday" ng-model="vm.teacher.TeacherDOB" class="form-control datemask">
+                            <input type="text" id="datemask" name="birthday" ng-model="vm.student.StudentDOB" class="form-control datemask">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">Address</label>
                         <div class="col-sm-10">
-                            <input type="text" name="address" class="form-control" ng-model="vm.teacher.PresentAddress" placeholder="Address">
+                            <input type="text" name="address" class="form-control" ng-model="vm.student.StudentFullAddress" placeholder="Address">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">PhoneNo</label>
                         <div class="col-sm-10">
-                            <input type="text" name="phoneNo" class="form-control" ng-model="vm.teacher.MobileNumber" placeholder="PhoneNo">
+                            <input type="text" name="phoneNo" class="form-control" ng-model="vm.student.StudentParentMobiles" placeholder="PhoneNo">
                         </div>
                     </div>
                     <div class="form-group">
@@ -72,7 +67,7 @@
                     <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input type="hidden" name="_token" value="{{CSRF_TOKEN}}">
-                        <button type="submit" class="btn btn-default" ng-disabled="editAdmin.$invalid || $isUploading">Edit Teacher</button>
+                        <button type="submit" class="btn btn-default" ng-disabled="editAdmin.$invalid || $isUploading">Edit student</button>
                     </div>
                     </div>
                 </form>
