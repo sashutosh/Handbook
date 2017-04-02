@@ -26,7 +26,8 @@ exports.createMessage = function (model, requestBody, response)
 	message.save(function(err){
 		if (err)
 			{
-			throw err;
+			//throw err;
+			console.log(err);
 			}
 		console.log('message saved successfully');
 		response.end('done saving message');

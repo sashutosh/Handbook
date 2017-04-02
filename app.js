@@ -84,7 +84,16 @@ console.log('Connecting to DB ' + dbURI);
 
 mongoose.connect(dbURI);
 
+var SubjectSchema = new mongoose.Schema({
+     Subject: {type: String, required: true, unique: true },
+	 SubjectCode: String
+});
 
+var ClassSchema = new mongoose.Schema({
+     Class: String,
+	 Section: String,
+	 ClassSection : {type: String, required: true, unique: true}
+});
 
 var ParentTypeSchema = new mongoose.Schema({
 	ParentType: String
@@ -180,6 +189,7 @@ var LocalMessageSchema = new mongoose.Schema({
 	notification_id: String,
 	ImageUrl: String,
 	FromType: String,
+	FromName : String,
 	FromId: String,
 	ToIds:
 		[
@@ -252,7 +262,9 @@ var Student = mongoose.model('Student', StudentSchema);
 
 var ParentType = mongoose.model('ParentType', ParentTypeSchema);
 
+var Class = mongoose.model('Class', ClassSchema);
 
+var Subject = mongoose.model('Subject', SubjectSchema);
 
 
 var MobileDevice = mongoose.model('MobileDevice', MobileDeviceMappingSchema);
@@ -268,6 +280,74 @@ var Events = mongoose.model('Events', EventsSchema);
 var LocalMessageLogging = mongoose.model('LocalMessageLogging',LocalMessageSchema);
 
 var staticnotificationid = 100000;
+
+app.put('/Class', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.createClass(Class, request.body, response);
+	});
+	
+
+app.put('/Subject', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.createSubject(Subject, request.body, response);
+	});	
+	
+app.post('/Class', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.updateClass(Class, request.body, response);
+	});
+	
+
+app.post('/Subject', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.updateSubject(Subject, request.body, response);
+});	
+
+app.get('/Class', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.getAllClass(Class, request, response);
+});
+
+app.get('/ClassByName/:Name', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.getClassByName(Class, request.params.Name, response);
+});
+
+app.get('/ClassByClassSection/:ClassSection', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.getClassByClassSection(Class, request.params.ClassSection, response);
+});
+
+app.del('/ClassByClassSection/:ClassSection', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.deleteClassByClassSection(Class, request.params.ClassSection, response);
+});
+
+app.get('/Subject', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.getAllSubject(Subject, request, response);
+});	
+
+app.get('/SubjectByName/:Name', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.getSubjectByName(Subject, request.params.Name, response);
+});
+
+app.del('/SubjectByName/:Name', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.deleteSubjectByName(Subject, request.params.Name, response);
+});
 
 
 
@@ -1304,6 +1384,7 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	        "ImageUrl" : request.body.ImageUrl ,
 	        "FromType" : request.body.FromType,
 	        "FromId" : request.body.FromId,
+			"FromName" : request.body.From,
 	        "ToIds" :  request.body.ToIds
 	        
 	        
@@ -1345,6 +1426,7 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 				        "ImageUrl" : request.body.ImageUrl ,
 				        "FromType" : request.body.FromType,
 				        "FromId" : request.body.FromId,
+						"FromName" : request.body.From,
 				        "ToIds" :  request.body.ToIds,
 				        "MobileNumbers" : request.body.MobileNumbers,
 				        "Error" : " "

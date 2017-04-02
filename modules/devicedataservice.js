@@ -18,7 +18,8 @@ exports.createMobileDevice = function (model, requestBody, response)
 	mobiledevice.save(function(err){
 		if (err)
 			{
-			throw err;
+			//throw err;
+			console.log(err);
 			}
 		console.log('Mobile Device saved successfully');
 		response.end('Mobile Device saved');
