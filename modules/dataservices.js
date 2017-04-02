@@ -104,7 +104,7 @@ var student =  new Student(
 	StudentGender: body.StudentGender,
 	StudentClassStandard: body.StudentClassStandard,
 	StudentFullAddress: body.StudentFullAddress,
-	ImageUrl: " ",
+	ImageUrl: body.ImageUrl,
 	ParentList : toParentList(body.ParentList),
 	StudentParentMobiles: toParentMobileList(body.ParentList)
 	
@@ -135,7 +135,7 @@ function toTeacher(body, Teacher)
 		PresentAddressPOBox: body.PresentAddressPOBox,
 		PermanentAddress: body.PermanentAddress,
 		PermanentAddressPOBox: body.PermanentAddressPOBox,
-		ImageUrl: " ",
+		ImageUrl: body.ImageUrl,
 		//Messages: toMessageList(body.Messages),
 		TeacherRoleList : toTeacherRoleList(body.TeacherRoleList)
 	});

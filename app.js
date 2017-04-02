@@ -189,6 +189,7 @@ var LocalMessageSchema = new mongoose.Schema({
 	notification_id: String,
 	ImageUrl: String,
 	FromType: String,
+	FromName : String,
 	FromId: String,
 	ToIds:
 		[
@@ -1383,6 +1384,7 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	        "ImageUrl" : request.body.ImageUrl ,
 	        "FromType" : request.body.FromType,
 	        "FromId" : request.body.FromId,
+			"FromName" : request.body.From,
 	        "ToIds" :  request.body.ToIds
 	        
 	        
@@ -1424,6 +1426,7 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 				        "ImageUrl" : request.body.ImageUrl ,
 				        "FromType" : request.body.FromType,
 				        "FromId" : request.body.FromId,
+						"FromName" : request.body.From,
 				        "ToIds" :  request.body.ToIds,
 				        "MobileNumbers" : request.body.MobileNumbers,
 				        "Error" : " "
