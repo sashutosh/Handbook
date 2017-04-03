@@ -571,7 +571,7 @@ exports.updateTeacher = function (requestBody, response) {
 	}
 	return;
 	} else {
-	var teacher = toTeacher(requestBody, model);
+	var teacher = toTeacher(requestBody, Teacher);
 	if (!data) {
 	console.log('Teacher with TeacherID: '+ TeacherId
 	+ ' does not exist. The Teacher will be created.');
