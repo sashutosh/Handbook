@@ -1822,9 +1822,9 @@ app.post('/uploadClassData', function(req, res) {
                       	 
                       	var clss =  new Class(
                       			{
-                      				Class: result[i].Class ,
-                      				Section: result[i].Section,
-                      				ClassSection: result[i].Class + result[i].Section
+                      				Class: result[i].class ,
+                      				Section: result[i].section,
+                      				ClassSection: result[i].class + result[i].section
                       				
                       				
                       			});
@@ -1875,13 +1875,13 @@ app.post('/uploadSubjectData', function(req, res) {
                       	 
                       	var subject =  new Subject(
                       			{
-                      				Subject: result[i].Subject ,
-                      				SubjectCode: result[i].SubjectCode
+                      				Subject: result[i].subject ,
+                      				SubjectCode: result[i].subjectcode
                       				
                       				
                       			});
                       	
-                      	dataservice.updateSubject(Class,clss,res);
+                      	dataservice.updateSubject(Subject,subject,res);
                       	}
 
 						 fs.unlink(newPath);  
