@@ -1790,7 +1790,109 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
   	});
 
 
+app.post('/uploadClassData', function(req, res) {
+     
+	  
+	  console.log(req.files.picture);	
+  	  var xlFile = req.files.picture;
 
+		
+  	   var newPath = __dirname + "/Images/" + req.files.picture.name;
+	   xlFile.mv(newPath, function(err){ 
+		   if(err){
+			   res.send("Error Uploading File");
+		   }
+		   else
+		   {
+               try {
+  	    		xlsxtojson({
+                      input: newPath,
+                      output: null, //since we don't need output.json
+                      lowerCaseHeaders:true
+                  }, function(err,result){
+                      if(err) {
+                          return res.json({error_code:1,err_desc:err, data: null});
+                      } 
+                      res.json({data: result});
+                      var i=0;
+                      for(i=0; i<result.length; i++)
+                      	{
+                      	 console.log(i);
+                      	 console.log(result[i]);
+                      	 
+                      	var clss =  new Class(
+                      			{
+                      				Class: result[i].Class ,
+                      				Section: result[i].Section,
+                      				ClassSection: result[i].Class + result[i].Section
+                      				
+                      				
+                      			});
+                      	
+                      	dataservice.updateClass(Class,clss,res);
+                      	}
+
+						 fs.unlink(newPath);  
+                  });
+              } catch (e){
+                  res.json({error_code:1,err_desc:"Corupted excel file"});
+              }
+  	      
+		   }
+		   }); 
+  	});
+	
+	
+app.post('/uploadSubjectData', function(req, res) {
+     
+	  
+	  console.log(req.files.picture);	
+  	  var xlFile = req.files.picture;
+
+		
+  	   var newPath = __dirname + "/Images/" + req.files.picture.name;
+	   xlFile.mv(newPath, function(err){ 
+		   if(err){
+			   res.send("Error Uploading File");
+		   }
+		   else
+		   {
+               try {
+  	    		xlsxtojson({
+                      input: newPath,
+                      output: null, //since we don't need output.json
+                      lowerCaseHeaders:true
+                  }, function(err,result){
+                      if(err) {
+                          return res.json({error_code:1,err_desc:err, data: null});
+                      } 
+                      res.json({data: result});
+                      var i=0;
+                      for(i=0; i<result.length; i++)
+                      	{
+                      	 console.log(i);
+                      	 console.log(result[i]);
+                      	 
+                      	var subject =  new Subject(
+                      			{
+                      				Subject: result[i].Subject ,
+                      				SubjectCode: result[i].SubjectCode
+                      				
+                      				
+                      			});
+                      	
+                      	dataservice.updateSubject(Class,clss,res);
+                      	}
+
+						 fs.unlink(newPath);  
+                  });
+              } catch (e){
+                  res.json({error_code:1,err_desc:"Corupted excel file"});
+              }
+  	      
+		   }
+		   }); 
+  	});
 
 
 app.get('/',function(req, res) {
