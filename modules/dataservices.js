@@ -467,9 +467,9 @@ exports.AddOrUpdateStudent = function (model, requestBody) {
 
 exports.createTeacher = function (requestBody, response)
 {
-	var Teacher = toTeacher(requestBody, model);
+	var teach = toTeacher(requestBody, Teacher);
 	
-	Teacher.save(function(err){
+	teach.save(function(err){
 		if (err)
 			{
 			//throw err;
