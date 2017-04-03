@@ -1065,9 +1065,8 @@ exports.updateClass = function (Class, requestBody, response) {
 	if (error) {
 	console.log(error);
 	if (response != null) {
-	response.writeHead(500,
-	{'Content-Type' : 'text/plain'});
-	response.end('Internal server error');
+	
+	//response.send('Internal server error');
 	}
 	return;
 	} else {
@@ -1077,17 +1076,19 @@ exports.updateClass = function (Class, requestBody, response) {
 		ClassSection: requestBody.Class + requestBody.Section
 	});
 	if (!data) {
+		console.log("inside create");
 	console.log('Class with ClassSection: '+ clsSection
 	+ ' does not exist. The Class will be created.');
-	clas.save(function(error) {
-	if (!error)
-		clas.save();
+	clas.save(function(err){
+		if (err)
+			{
+			//throw err;
+			console.log(err);
+            //response.json({"code" : 101, "status" : "Error in creating Record " + err});
+			}
+		//response.json({"code" : 200, "status" : "Class Record saved successfully"});
 	});
-	if (response != null) {
-	response.writeHead(201,
-	{'Content-Type' : 'text/plain'});
-	response.end('Created');
-	}
+	
 	return;
 	}
 	//poulate the document with the updated values
@@ -1105,7 +1106,7 @@ exports.updateClass = function (Class, requestBody, response) {
 	}
 	});
 	if (response != null) {
-	response.send('Updated');
+	//response.json({"code" : 200, "status" : "Subject Record saved successfully"});
 	}
 	}
 	});
@@ -1117,11 +1118,7 @@ exports.updateSubject = function (Subject, requestBody, response) {
 	function(error, data) {
 	if (error) {
 	console.log(error);
-	if (response != null) {
-	response.writeHead(500,
-	{'Content-Type' : 'text/plain'});
-	response.end('Internal server error');
-	}
+	
 	return;
 	} else {
 	var subject = new Subject({
@@ -1133,14 +1130,10 @@ exports.updateSubject = function (Subject, requestBody, response) {
 	console.log('Subject with Name: '+ sub
 	+ ' does not exist. The Subject will be created.');
 	subject.save(function(error) {
-	if (!error)
-		subject.save();
+	if (error)
+		console.log(error);
 	});
-	if (response != null) {
-	response.writeHead(201,
-	{'Content-Type' : 'text/plain'});
-	response.end('Created');
-	}
+	
 	return;
 	}
 	//poulate the document with the updated values
@@ -1157,9 +1150,7 @@ exports.updateSubject = function (Subject, requestBody, response) {
 	console.log('error on save');
 	}
 	});
-	if (response != null) {
-	response.send('Updated');
-	}
+	
 	}
 	});
 };
