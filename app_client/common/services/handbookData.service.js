@@ -51,6 +51,20 @@
       return $http.delete('/students/'+ studentId);
     } 
 
+    var uploadFile = function(fileToUpload,uploadUrl){
+        var fd = new FormData();
+        fd.append('picture', fileToUpload);
+        $http.post(uploadUrl,fd,{
+        transformRequest: angular.identity,
+        headers: {'Content-Type': undefined}}).success(function(data){
+          console.log("Uploaded Image successfully"+data);
+          console.log("ImageUrl"+data.ImageUrl);
+        })
+        .error(function(data){
+          console.log("Failed to upload image:"+ data);
+       });
+    
+  }
     var addStudentBulk = function(studentRecordfile){
         var fd = new FormData();
         fd.append('picture', studentRecordfile);
@@ -59,6 +73,7 @@
           transformRequest: angular.identity,
           headers: {'Content-Type': undefined}})
     };
+    
     return {
       schoolDetailsById : schoolDetailsById,
       addSchool: addSchool,
@@ -67,8 +82,11 @@
       getStudents:getStudents,
       deleteTeacher:deleteTeacher,
       deleteStudent:deleteStudent,
+      getSelectedTeacher:getSelectedTeacher,
+      setSelectedTeacher:setSelectedTeacher,
       getSelectedStudent:getSelectedStudent,
-      setSelectedStudent:setSelectedStudent
+      setSelectedStudent:setSelectedStudent,
+      uploadFile:uploadFile
     };
   }
 

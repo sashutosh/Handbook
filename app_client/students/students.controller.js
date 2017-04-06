@@ -4,8 +4,8 @@
     .module('handbook')
     .controller('studentCtrl', studentCtrl);
 
-  studentCtrl.$inject= ['handbookData'];  
-  function studentCtrl(handbookData) {
+  studentCtrl.$inject= ['$location','handbookData'];  
+  function studentCtrl($location,handbookData) {
     var vm = this;
     vm.schoolId=100;  
     vm.selectedIds = {"002": true,"003":false};

@@ -7,7 +7,7 @@
         <!--<a ng-click="changeView('list')" class="floatRTL btn btn-danger btn-flat pull-right marginBottom15">Cancel</a>-->
         <div class="box col-xs-12">
             <div class="box-body table-responsive">
-                <form class="form-horizontal" name="editAdmin" role="form" ng-upload="saveEdit(content)" method="post" action="{{'students/' + form.id}}" novalidate>
+                <form class="form-horizontal" name="editAdmin" role="form">
                     <div class="form-group" ng-class="{'has-error': editAdmin.fullName.$invalid}">
                         <label for="inputPassword3" class="col-sm-2 control-label">Full Name </label>
                         <div class="col-sm-10">
@@ -17,7 +17,7 @@
                     <div class="form-group" ng-class="{'has-error': editAdmin.email.$invalid}">
                         <label for="inputPassword3" class="col-sm-2 control-label">Std</label>
                         <div class="col-sm-10">
-                            <input type="email" name="email" ng-model="vm.student.StudentClassStandard" class="form-control" placeholder="Std" required>
+                            <input  name="std" ng-model="vm.student.StudentClassStandard" class="form-control" placeholder="Std" required>
                         </div>
                     </div>
                     
@@ -61,13 +61,13 @@
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">Photo</label>
                         <div class="col-sm-10">
-                            <input type="file" name="photo">
+                            <input type="file" file-model="vm.myFile" name="photo">
                         </div>
                     </div>
                     <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input type="hidden" name="_token" value="{{CSRF_TOKEN}}">
-                        <button type="submit" class="btn btn-default" ng-disabled="editAdmin.$invalid || $isUploading">Edit student</button>
+                        <button type="submit" class="btn btn-default" ng-click= "vm.onSubmit()" ng-disabled="editAdmin.$invalid || $isUploading">Edit student</button>
                     </div>
                     </div>
                 </form>

@@ -30,7 +30,7 @@
         controllerAs: 'vm'
       })
       .when('/students/edit', {
-        templateUrl: '/students/Student.view.html',
+        templateUrl: '/students/editStudent.view.html',
         controller: 'editStudentCtrl',
         controllerAs: 'vm'
       })
