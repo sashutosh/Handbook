@@ -1025,7 +1025,8 @@ exports.createClass = function (Class, requestBody, response)
 	var clas = new Class({
 		Class: requestBody.Class,
 		Section: requestBody.Section,
-		ClassSection: requestBody.Class + requestBody.Section
+		ClassSection: requestBody.Class + requestBody.Section,
+		SchoolId : requestBody.SchoolId
 	});	
 	clas.save(function(err){
 		if (err)
@@ -1042,7 +1043,8 @@ exports.createSubject = function (Subject, requestBody, response)
 {
 	var subj = new Subject({
 		Subject: requestBody.Subject,
-		SubjectCode: requestBody.SubjectCode
+		SubjectCode: requestBody.SubjectCode,
+		SchoolId: requestBody.SchoolId
 		
 	});	
 	subj.save(function(err){
@@ -1073,7 +1075,8 @@ exports.updateClass = function (Class, requestBody, response) {
 	var clas = new Class({
 		Class: requestBody.Class,
 		Section: requestBody.Section,
-		ClassSection: requestBody.Class + requestBody.Section
+		ClassSection: requestBody.Class + requestBody.Section,
+		SchoolId: requestBody.SchoolId
 	});
 	if (!data) {
 		console.log("inside create");
@@ -1095,6 +1098,7 @@ exports.updateClass = function (Class, requestBody, response) {
 	data.Class = requestBody.Class;
 	data.Section = requestBody.Section;
 	data.ClassSection = requestBody.Class + requestBody.Section;
+	data.SchoolId = requestBody.SchoolId;
 	
 	// now save
 	data.save(function (error) {
@@ -1124,6 +1128,7 @@ exports.updateSubject = function (Subject, requestBody, response) {
 	var subject = new Subject({
 		Subject: requestBody.Subject,
 		SubjectCode: requestBody.SubjectCode,
+		SchoolId: requestBody.SchoolId
 		
 	});
 	if (!data) {
@@ -1139,7 +1144,7 @@ exports.updateSubject = function (Subject, requestBody, response) {
 	//poulate the document with the updated values
 	data.Subject = requestBody.Subject;
 	data.SubjectCode = requestBody.SubjectCode;
-	
+	data.SchoolId = requestBody.SchoolId;
 	
 	// now save
 	data.save(function (error) {
@@ -1155,8 +1160,8 @@ exports.updateSubject = function (Subject, requestBody, response) {
 	});
 };
 
-exports.getAllClass = function (model, request, response) {
-	model.find({}, function(error, result) {
+exports.getAllClass = function (model, _SchoolId, response) {
+	model.find({SchoolId: _SchoolId}, function(error, result) {
 	if (error) {
 	console.error(error);
 	return null;
@@ -1170,8 +1175,8 @@ exports.getAllClass = function (model, request, response) {
 }
 
 
-exports.getAllSubject = function (model, request, response) {
-	model.find({}, function(error, result) {
+exports.getAllSubject = function (model, _SchoolId, response) {
+	model.find({SchoolId: _SchoolId}, function(error, result) {
 	if (error) {
 	console.error(error);
 	return null;
@@ -1185,8 +1190,8 @@ exports.getAllSubject = function (model, request, response) {
 }	
 
 
-exports.getClassByClassSection = function (model, _Section, response) {
-		model.findOne({ClassSection: _Section},
+exports.getClassByClassSection = function (model, _Section, SchoolId, response) {
+		model.findOne({ClassSection: _Section, SchoolId: _SchoolId},
 		function(error, result) {
 		if (error) {
 		console.error(error);
@@ -1212,8 +1217,8 @@ exports.getClassByClassSection = function (model, _Section, response) {
 	}
 	
 		
-exports.getClassByName = function (model, _Name, response) {
-	model.find({Class: _Name}, function(error, result) {
+exports.getClassByName = function (model, _Name, _SchoolId, response) {
+	model.find({Class: _Name, SchoolId: _SchoolId}, function(error, result) {
 	if (error) {
 	console.error(error);
 	return null;
@@ -1227,8 +1232,8 @@ exports.getClassByName = function (model, _Name, response) {
 }
 
 		
-exports.getSubjectByName = function (model, _Name, response) {
-		model.findOne({Subject: _Name},
+exports.getSubjectByName = function (model, _Name, _SchoolId, response) {
+		model.findOne({Subject: _Name, SchoolId: _SchoolId},
 		function(error, result) {
 		if (error) {
 		console.error(error);
@@ -1254,10 +1259,10 @@ exports.getSubjectByName = function (model, _Name, response) {
 	}
 			
 		
-exports.deleteClassByClassSection = function (model, _Section, response)
+exports.deleteClassByClassSection = function (model, _Section, _SchoolId, response)
 {
 console.log('Deleting Class with ClassSection: ' + _Section);
-model.findOne({ClassSection: _Section},
+model.findOne({ClassSection: _Section, SchoolId: _SchoolId},
 function(error, data) {
 if (error) {
 console.log(error);
@@ -1293,10 +1298,10 @@ if (response != null){
 	});
 }
 
-exports.deleteSubjectByName = function (model, _Name, response)
+exports.deleteSubjectByName = function (model, _Name, _SchoolId, response)
 {
 console.log('Deleting Subject with SubjectName: ' + _Name);
-model.findOne({Subject: _Name},
+model.findOne({Subject: _Name, SchoolId: _SchoolId},
 function(error, data) {
 if (error) {
 console.log(error);
