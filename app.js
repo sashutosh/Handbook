@@ -1830,7 +1830,8 @@ app.post('/uploadClassData', function(req, res) {
                       			{
                       				Class: result[i].class ,
                       				Section: result[i].section,
-                      				ClassSection: result[i].class + result[i].section
+                      				ClassSection: result[i].class + result[i].section,
+									SchoolId: req.body.schoolId  
                       				
                       				
                       			});
@@ -1882,7 +1883,8 @@ app.post('/uploadSubjectData', function(req, res) {
                       	var subject =  new Subject(
                       			{
                       				Subject: result[i].subject ,
-                      				SubjectCode: result[i].subjectcode
+                      				SubjectCode: result[i].subjectcode,
+									SchoolId: req.body.schoolId
                       				
                       				
                       			});
