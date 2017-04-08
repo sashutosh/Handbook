@@ -1,0 +1,53 @@
+<navigation></navigation>
+
+<div class="container-fluid">
+  <page-header content="vm.pageHeader"></page-header>
+  <side-navigation></side-navigation>
+<div class="row">
+     <div class="col-md-6 col-sm-12">
+       <button type="button" class="btn btn-primary" ng-click="vm.addSubject()">Add</button>
+      <!-- Secondary, outline button -->
+       <button type="button" class="btn btn-danger" ng-click="vm.deleteSubject()">Delete</button> 
+       <div>
+        <label for="filter">Filter results</label>
+        <input ng-model="q" id="search" placeholder="Filter text">
+       </div>
+      <div class="error">{{ vm.message }}</div>
+      <!--<div class="row list-group">
+        <div class="col-xs-12 list-group-item" dir-paginate="teacher in vm.teachers | filter:q | itemsPerPage: 3">
+          <h4><a href="#/teacher/{{teacher.TeacherId}}">{{ teacher.TeacherFirstName }}</a>
+            
+          <div class="input-group pull-right">
+            <input type="checkbox" class="pull-right" ng-model="vm.selectedIds[teacher.TeacherId]" ng-click="vm.onCheckBoxClick(teacher)" aria-label="Checkbox for following text input">
+            
+            </h4>
+          </div>
+        </div>
+        <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>-->
+         <div class="box-body table-responsive">
+          <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
+                  <th>Name</th>
+                  <th>Code</th>
+                </tr>
+              <tr dir-paginate="subject in vm.subjects | filter:q | itemsPerPage:20">
+                   <td>
+                      <input type="checkbox" ng-model="subject.selected"/></td>
+                  <td>
+                    <input type="text" class="form-control" ng-model="subject.Subject" required/></td>
+                  <td>
+                    <input type="text" class="form-control" ng-model="subject.SubjectCode" required/></td>
+                </tr>
+              <tr ng-show="!vm.subjects.length"><td class="noTableData" colspan="5">No Subjects</td></tr>
+          </tbody></table>
+          <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+      </div> 
+
+      </div>
+      
+  </div>
+  </div>
+ <footer-generic></footer-generic>
+</div>

@@ -39,6 +39,11 @@
         controller: 'classCtrl',
         controllerAs: 'vm'
       })
+      .when('/subjects', {
+        templateUrl: '/subjects/subjects.view.html',
+        controller: 'subjectCtrl',
+        controllerAs: 'vm'
+      })
       .when('/messages', {
         templateUrl: '/messages/messages.view.html',
         controller: 'messageCtrl',

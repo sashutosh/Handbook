@@ -39,6 +39,9 @@
       return $http.get('/teachers/');
     }
 
+    var getSubjects= function (schoolId){
+      return $http.get('/subject/');
+    }
     var getStudents= function (schoolId){
       return $http.get('/students/');
     }
@@ -51,18 +54,26 @@
       return $http.delete('/students/'+ studentId);
     } 
 
+    var updateStudent =function(student){
+      return $http.post('/students/studentId',student);
+    }
+
     var uploadFile = function(fileToUpload,uploadUrl){
         var fd = new FormData();
         fd.append('picture', fileToUpload);
-        $http.post(uploadUrl,fd,{
+        return $http.post(uploadUrl,fd,{
         transformRequest: angular.identity,
-        headers: {'Content-Type': undefined}}).success(function(data){
-          console.log("Uploaded Image successfully"+data);
-          console.log("ImageUrl"+data.ImageUrl);
-        })
-        .error(function(data){
-          console.log("Failed to upload image:"+ data);
-       });
+        headers: {'Content-Type': undefined}})
+        .then(function(result){
+          return result.data;
+        });
+      //   .success(function(data){
+      //     console.log("Uploaded Image successfully"+data);
+      //     console.log("ImageUrl"+data.ImageUrl);
+      //   })
+      //   .error(function(data){
+      //     console.log("Failed to upload image:"+ data);
+      //  });
     
   }
     var addStudentBulk = function(studentRecordfile){
@@ -80,6 +91,7 @@
       addStudentBulk: addStudentBulk,
       getTeachers:getTeachers,
       getStudents:getStudents,
+      getSubjects,getSubjects,
       deleteTeacher:deleteTeacher,
       deleteStudent:deleteStudent,
       getSelectedTeacher:getSelectedTeacher,
