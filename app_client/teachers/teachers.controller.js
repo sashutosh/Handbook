@@ -57,6 +57,8 @@
             }
         }
     };
+
+    
     
     handbookData.getTeachers(vm.schoolId)
     .success(function(data){
