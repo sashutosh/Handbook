@@ -85,15 +85,21 @@ console.log('Connecting to DB ' + dbURI);
 mongoose.connect(dbURI);
 
 var SubjectSchema = new mongoose.Schema({
-     Subject: {type: String, required: true, unique: true },
-	 SubjectCode: String
+     Subject: {type: String, required: true },
+	 SubjectCode: String,
+	 SchoolId: String
 });
+
+SubjectSchema.index({Subject:1, SchoolId:1},{unique: true});
 
 var ClassSchema = new mongoose.Schema({
      Class: String,
 	 Section: String,
-	 ClassSection : {type: String, required: true, unique: true}
+	 ClassSection : {type: String, required: true},
+	 SchoolId: String
 });
+
+ClassSchema.index({ClassSection:1, SchoolId:1},{unique: true});
 
 var ParentTypeSchema = new mongoose.Schema({
 	ParentType: String
@@ -307,46 +313,46 @@ app.post('/Subject', function(request, response) {
 	dataservice.updateSubject(Subject, request.body, response);
 });	
 
-app.get('/Class', function(request, response) {
+app.get('/Class/:SchoolId', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.getAllClass(Class, request, response);
+	dataservice.getAllClass(Class, request.params.SchoolId, response);
 });
 
-app.get('/ClassByName/:Name', function(request, response) {
+app.get('/ClassByName', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.getClassByName(Class, request.params.Name, response);
+	dataservice.getClassByName(Class, request.param('Name'), request.param('SchoolId') , response);
 });
 
-app.get('/ClassByClassSection/:ClassSection', function(request, response) {
+app.get('/ClassByClassSection', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.getClassByClassSection(Class, request.params.ClassSection, response);
+	dataservice.getClassByClassSection(Class, request.param('ClassSection'), request.param('SchoolId'), response);
 });
 
-app.del('/ClassByClassSection/:ClassSection', function(request, response) {
+app.del('/ClassByClassSection', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.deleteClassByClassSection(Class, request.params.ClassSection, response);
+	dataservice.deleteClassByClassSection(Class, request.param('ClassSection'), request.param('SchoolId'), response);
 });
 
-app.get('/Subject', function(request, response) {
+app.get('/Subject/:SchoolId', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.getAllSubject(Subject, request, response);
+	dataservice.getAllSubject(Subject, request.params.SchoolId, response);
 });	
 
-app.get('/SubjectByName/:Name', function(request, response) {
+app.get('/SubjectByName', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.getSubjectByName(Subject, request.params.Name, response);
+	dataservice.getSubjectByName(Subject, request.param('Name'), request.param('SchoolId'), response);
 });
 
-app.del('/SubjectByName/:Name', function(request, response) {
+app.del('/SubjectByName', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	dataservice.deleteSubjectByName(Subject, request.params.Name, response);
+	dataservice.deleteSubjectByName(Subject, request.param('Name'), request.param('SchoolId'), response);
 });
 
 
@@ -749,7 +755,7 @@ app.get('/TeacherDetailForStudent/:StudentId', function(request, response) {
 									        	       
 									        	        "RoleforSubject": Teachers[teachercount].TeacherRoleList[teacherrolecount].TeacherRoleforSubject,
 									        	        
-									        	        "ImageUrl": request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Teacher_"+ Teachers[teachercount].TeacherId +".jpg"
+									        	        "ImageUrl": Teachers[teachercount].ImageUrl
 									          };
 									          TeacherList.push(teacher );
 									   }
@@ -1790,7 +1796,111 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
   	});
 
 
+app.post('/uploadClassData', function(req, res) {
+     
+	  
+	  console.log(req.files.picture);	
+  	  var xlFile = req.files.picture;
 
+		
+  	   var newPath = __dirname + "/Images/" + req.files.picture.name;
+	   xlFile.mv(newPath, function(err){ 
+		   if(err){
+			   res.send("Error Uploading File");
+		   }
+		   else
+		   {
+               try {
+  	    		xlsxtojson({
+                      input: newPath,
+                      output: null, //since we don't need output.json
+                      lowerCaseHeaders:true
+                  }, function(err,result){
+                      if(err) {
+                          return res.json({error_code:1,err_desc:err, data: null});
+                      } 
+                      res.json({data: result});
+                      var i=0;
+                      for(i=0; i<result.length; i++)
+                      	{
+                      	 console.log(i);
+                      	 console.log(result[i]);
+                      	 
+                      	var clss =  new Class(
+                      			{
+                      				Class: result[i].class ,
+                      				Section: result[i].section,
+                      				ClassSection: result[i].class + result[i].section,
+									SchoolId: req.body.schoolId  
+                      				
+                      				
+                      			});
+                      	
+                      	dataservice.updateClass(Class,clss,res);
+                      	}
+
+						 fs.unlink(newPath);  
+                  });
+              } catch (e){
+                  res.json({error_code:1,err_desc:"Corupted excel file"});
+              }
+  	      
+		   }
+		   }); 
+  	});
+	
+	
+app.post('/uploadSubjectData', function(req, res) {
+     
+	  
+	  console.log(req.files.picture);	
+  	  var xlFile = req.files.picture;
+
+		
+  	   var newPath = __dirname + "/Images/" + req.files.picture.name;
+	   xlFile.mv(newPath, function(err){ 
+		   if(err){
+			   res.send("Error Uploading File");
+		   }
+		   else
+		   {
+               try {
+  	    		xlsxtojson({
+                      input: newPath,
+                      output: null, //since we don't need output.json
+                      lowerCaseHeaders:true
+                  }, function(err,result){
+                      if(err) {
+                          return res.json({error_code:1,err_desc:err, data: null});
+                      } 
+                      res.json({data: result});
+                      var i=0;
+                      for(i=0; i<result.length; i++)
+                      	{
+                      	 console.log(i);
+                      	 console.log(result[i]);
+                      	 
+                      	var subject =  new Subject(
+                      			{
+                      				Subject: result[i].subject ,
+                      				SubjectCode: result[i].subjectcode,
+									SchoolId: req.body.schoolId
+                      				
+                      				
+                      			});
+                      	
+                      	dataservice.updateSubject(Subject,subject,res);
+                      	}
+
+						 fs.unlink(newPath);  
+                  });
+              } catch (e){
+                  res.json({error_code:1,err_desc:"Corupted excel file"});
+              }
+  	      
+		   }
+		   }); 
+  	});
 
 
 app.get('/',function(req, res) {
