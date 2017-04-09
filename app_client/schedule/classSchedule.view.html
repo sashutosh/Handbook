@@ -1,0 +1,51 @@
+<navigation></navigation>
+
+<div class="container-fluid">
+  <page-header content="vm.pageHeader"></page-header>
+  <side-navigation></side-navigation>
+
+  <div class="row">
+    <section class="content">
+    <a ng-click="changeView('list')" class="floatRTL btn btn-danger btn-flat pull-right marginBottom15">Return</a>
+    <a href="javascript:window.print()" class="floatRTL btn btn-success btn-flat pull-right marginBottom15">Print</a>
+    <div class="box col-xs-8">
+        <div class="box-header">
+            <h3 class="box-title">Edit Class Schedule</h3>
+        </div>
+        <div class="box-body table-responsive">
+        <form class="form-horizontal" name="editDorm" role="form" ng-submit="saveEdit()" novalidate>
+            <table class="table table-bordered table-hover">
+            <tbody>
+                <tr>
+                    <th style="width: 10px">Day</th>
+                    <th>Class Schedule</th>
+                    <th style="width: 10px">Add</th>
+                </tr>
+                <tr ng-repeat="(key,sch) in vm.classSchedule.Days">
+                    <td>{{sch.Day}}</td>
+                    <td>
+                    <div class="btn-group" ng-repeat="subSch in sch.TimeSlots">
+                        <button type="button" class="btn btn-default">{{subSch.SubjectName}} - {{subSch.StartTime}} -> {{subSch.EndTime}}</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">{{phrase.toggleDropdown}}</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a ng-click="vm.editSubOne(subSch.id,key)">Edit</a></li>
+                            <li><a ng-click="vm.removeSub(subSch.id,key)">Remove</a></li>
+                        </ul>
+                    </div>
+                    </td>
+                    <td>
+                    <a ng-click="addSubOne(key)" type="button" class="btn btn-info btn-flat"><i class="glyphicon glyphicon-plus"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+        </form>
+        </div>
+    </div>
+    </section>
+  </div>
+ <footer-generic></footer-generic>
+</div>

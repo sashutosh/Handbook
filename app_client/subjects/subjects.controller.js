@@ -3,11 +3,12 @@
   angular
     .module('handbook')
     .controller('subjectCtrl', subjectCtrl);
-subjectCtrl.$inject= ['handbookData'];  
+  subjectCtrl.$inject= ['handbookData'];  
 
   function subjectCtrl(handbookData) {
     var vm = this;
-    
+    var newlyAddedSubjectsList =[];
+    var deletedSubjectsList=[];    
     handbookData.getSubjects(vm.schoolId)
     .success(function(data){
       if(data){
@@ -33,6 +34,20 @@ subjectCtrl.$inject= ['handbookData'];
          Subject:"",
          SubjectCode:"" 
       });
+    }
+    vm.deleteSubject=function(){
+      var newList=[];
+      var deleteList=[];
+      vm.selectedAll=false;
+      angular.forEach(vm.subjects,function(subject){
+        if(!subject.selected){
+           newList.push(subject); 
+        }
+        else{
+          deleteList.push(subject);
+        }
+      });
+      vm.subjects=newList;
     }
     vm.selectedAll=false;
 

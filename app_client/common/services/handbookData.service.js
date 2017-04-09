@@ -9,13 +9,22 @@
     
     var selectedTeacher={};
     var selectedStudent={};
-
+    var selectedClass ={};
+    
     var setSelectedTeacher=function(teacher){
       selectedTeacher=teacher;
     }
 
     var getSelectedTeacher=function(){
       return selectedTeacher;
+    }
+
+    var setSelectedClass=function(selClass){
+      selectedClass=selClass;
+    }
+
+    var getSelectedClass=function(){
+      return selectedClass;
     }
 
     var setSelectedStudent=function(student){
@@ -26,6 +35,9 @@
       return selectedStudent;
     }
 
+    var getClassTimetable=function(classSection){
+      return $http.get('/StudentTimeTableForClassStandard/' + classSection);
+    }
 
     var schoolDetailsById = function (schoolId) {
       return $http.get('/school/' + schoolId);
@@ -41,6 +53,10 @@
 
     var getSubjects= function (schoolId){
       return $http.get('/subject/');
+    }
+
+    var getClasses= function (schoolId){
+      return $http.get('/class/');
     }
     var getStudents= function (schoolId){
       return $http.get('/students/');
@@ -92,12 +108,16 @@
       getTeachers:getTeachers,
       getStudents:getStudents,
       getSubjects,getSubjects,
+      getClasses,getClasses,
       deleteTeacher:deleteTeacher,
       deleteStudent:deleteStudent,
       getSelectedTeacher:getSelectedTeacher,
       setSelectedTeacher:setSelectedTeacher,
       getSelectedStudent:getSelectedStudent,
       setSelectedStudent:setSelectedStudent,
+      getSelectedClass:getSelectedClass,
+      setSelectedClass:setSelectedClass,
+      getClassTimetable:getClassTimetable,
       uploadFile:uploadFile
     };
   }
