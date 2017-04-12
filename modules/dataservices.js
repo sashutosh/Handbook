@@ -733,7 +733,15 @@ exports.findStudentTimeTableByStudentId = function (model,Student, _studentId, r
                     {
                       
                        response.setHeader('Content-Type', 'application/json');
-		       response.send(res);
+					   if(res != null)
+					   {
+		                    response.send(res);
+					   }
+					   else
+					   {
+                          response.send(defaultStudentTimeTable(model,result));
+					   }
+
                     }
                  
                  });
@@ -757,19 +765,276 @@ exports.findStudentTimeTableByClassStandard = function (model, _ClassStandard, r
 		} else {
 		if (!result) {
 		if (response != null) {
-		response.writeHead(404, {'Content-Type' : 'text/plain'});
-		response.end('Student Time Table Not Found');
+			response.setHeader('Content-Type', 'application/json');
+		response.send(defaultStudentTimeTable(model,result));
 		}
 		return;
 		}
 		if (response != null){
 		response.setHeader('Content-Type', 'application/json');
+		if(result !=null && result.ClassStandard !=undefined)
+		{
 		response.send(result);
+	    }
+		else
+		{
+			response.send(defaultStudentTimeTable(model,result));
+		}
+	
 		}
 		//console.log(result);
 		}
 		});
 		}
+
+function defaultTeacherTimeTable(TeacherTimeTable, result)
+{
+	var tid = "";
+	if(result !=null &&  result !=undefined && result.TeacherId !=undefined)
+	{
+		tid = result.TeacherId;
+	}
+	var sid = "";
+	if(result !=null && result !=undefined && result.SchoolId !=undefined)
+	{
+		sid = result.SchoolId;
+	}
+   var resp = new TeacherTimeTable(
+	   {
+          TeacherId: "",
+		  SchoolId: "",
+
+		  Days: [
+										    {
+												Day: "Monday",
+												TimeSlots: [
+													         {
+																 ClassStandard: "",
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Tuesday",
+												TimeSlots: [
+													         {
+																  ClassStandard: "",
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Wednesday",
+												TimeSlots: [
+													         {
+																  ClassStandard: "",
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Thursday",
+												TimeSlots: [
+													         {
+																  ClassStandard: "",
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Friday",
+												TimeSlots: [
+													         {
+																 ClassStandard: "",
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Saturday",
+												TimeSlots: [
+													         {
+																 ClassStandard: "",
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Sunday",
+												TimeSlots: [
+													         {
+																  ClassStandard: "",
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											}
+
+									      ]
+
+	   }
+   );
+   
+   return JSON.stringify(resp);
+}
+
+function defaultStudentTimeTable(StudentTimeTable, result)
+{
+	var classstd  = "";
+	if(result != null && result !=undefined && result.StudentClassStandard !=undefined)
+	{
+         classstd = result.StudentClassStandard;
+	}
+	var schid = "";
+	if(result != null && result !=undefined && result.SchoolId !=undefined)
+	{
+       schid = result.SchoolId;
+	}
+  
+
+  var resp = new StudentTimeTable({
+                                    ClassStandard: classstd,
+									SchoolId: schid,
+									Days: [
+										    {
+												Day: "Monday",
+												TimeSlots: [
+													         {
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 TeacherId: "",
+																 TeacherName: "",
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Tuesday",
+												TimeSlots: [
+													         {
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 TeacherId: "",
+																 TeacherName: "",
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Wednesday",
+												TimeSlots: [
+													         {
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 TeacherId: "",
+																 TeacherName: "",
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Thursday",
+												TimeSlots: [
+													         {
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 TeacherId: "",
+																 TeacherName: "",
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Friday",
+												TimeSlots: [
+													         {
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 TeacherId: "",
+																 TeacherName: "",
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Saturday",
+												TimeSlots: [
+													         {
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 TeacherId: "",
+																 TeacherName: "",
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											},
+											{
+												Day: "Sunday",
+												TimeSlots: [
+													         {
+																 StartTime: "",
+																 EndTime: "",
+																 PeriodNumber: "",
+																 TeacherId: "",
+																 TeacherName: "",
+																 SubjectId: "",
+																 SubjectName: "",
+															 }
+												           ]
+											}
+
+									      ]
+						  });
+                         
+						 return JSON.stringify(resp);
+
+}
 
 exports.listStudentTimeTableForAllClass = function (model, response) {
 	model.find({}, function(error, result) {
@@ -779,14 +1044,27 @@ exports.listStudentTimeTableForAllClass = function (model, response) {
 	}
 	if (response != null) {
 	response.setHeader('content-type', 'application/json');
-	response.end(JSON.stringify(result));
+	if(result !=null && result.length !=undefined && result.length > 0)
+	{
+	  response.end(JSON.stringify(result));
+    }
+    else
+    {
+	  response.end(defaultTeacherTimeTable(model,result));
+    }
+   }
+    if(result !=null && result.length !=undefined && result.length > 0)
+	{
+       return JSON.stringify(result);
 	}
-	return JSON.stringify(result);
+	else
+	{
+	    return defaultStudentTimeTable(model,result);
+	}
 	});
 	}
 
-exports.removeStudentTimeTableForClassStandard = function (model, _ClassStandard, response)
-{
+exports.removeStudentTimeTableForClassStandard = function (model, _ClassStandard, response){
 console.log('Deleting Student with Student Id: ' + _studentId);
 model.findOne({ClassStandard: _ClassStandard},
 function(error, data) {
@@ -903,14 +1181,22 @@ exports.findTeacherTimeTableByTeacherId = function (model, _teacherId, response)
 	} else {
 	if (!result) {
 	if (response != null) {
-	response.writeHead(404, {'Content-Type' : 'text/plain'});
-	response.end('Teacher Not Found');
+	response.setHeader('Content-Type', 'application/json');
+	response.send(defaultTeacherTimeTable(model,result));
 	}
 	return;
 	}
 	if (response != null){
 	response.setHeader('Content-Type', 'application/json');
+	if(result !=null && result.TeacherId != undefined)
+	{
 	response.send(result);
+    }
+	else
+	{
+		response.send(defaultTeacherTimeTable(model,result));
+	}
+
 	}
 	//console.log(result);
 	}
@@ -925,9 +1211,24 @@ exports.listTeachersTimeTable = function (model, response) {
 	}
 	if (response != null) {
 	response.setHeader('content-type', 'application/json');
-	response.end(JSON.stringify(result));
+	if(result !=null && result.length !=undefined && result.length > 0)
+	{
+	   response.end(JSON.stringify(result));
+    }
+	else
+	{
+		response.end(defaultTeacherTimeTable(model,result));
 	}
+
+}
+    if(result !=null && result.length !=undefined && result.length > 0)
+	{
 	return JSON.stringify(result);
+}
+else
+{
+	 defaultTeacherTimeTable(model,result);
+}
 	});
 	}
 
