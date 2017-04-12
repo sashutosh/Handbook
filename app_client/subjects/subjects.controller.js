@@ -3,13 +3,16 @@
   angular
     .module('handbook')
     .controller('subjectCtrl', subjectCtrl);
-  subjectCtrl.$inject= ['handbookData'];  
+  subjectCtrl.$inject= ['handbookData','authentication'];  
 
-  function subjectCtrl(handbookData) {
+  function subjectCtrl(handbookData,authentication) {
     var vm = this;
     var newlyAddedSubjectsList =[];
     var deletedSubjectsList=[];    
-    handbookData.getSubjects(vm.schoolId)
+
+    vm.schoolId = authentication.schoolId();
+    
+    handbookData.getSubjects(vm.schoolId.schoolId)
     .success(function(data){
       if(data){
         vm.subjects=data; 

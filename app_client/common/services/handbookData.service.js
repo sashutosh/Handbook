@@ -52,7 +52,8 @@
     }
 
     var getSubjects= function (schoolId){
-      return $http.get('/subject/');
+      var url = "/subject/" + schoolId;
+      return $http.get(url);
     }
 
     var getClasses= function (schoolId){
