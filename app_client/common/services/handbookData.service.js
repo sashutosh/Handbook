@@ -111,6 +111,7 @@
       getClasses,getClasses,
       deleteTeacher:deleteTeacher,
       deleteStudent:deleteStudent,
+      updateStudent:updateStudent,
       getSelectedTeacher:getSelectedTeacher,
       setSelectedTeacher:setSelectedTeacher,
       getSelectedStudent:getSelectedStudent,

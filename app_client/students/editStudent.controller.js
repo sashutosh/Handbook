@@ -12,27 +12,37 @@
         vm.myFile={};
         vm.uploadCompleted=false;
         vm.student = handbookData.getSelectedStudent();
-        
+        vm.loading=false;
         vm.pageHeader = {
           title: 'Edit Student'
         };
 
         vm.onSubmit=function(){
-          //Step-1 Upload the myFile
+          handbookData.updateStudent(vm.student)
+            .success(function(result){
+              alert("Record updated successfully");  
+              $location.path("/students/edit");
+            })
+            .error(function(e){
+               console.log(e);
+               alert("Failed to update record. Please try again");
 
-          var uploadedUrl= handbookData.uploadFile(vm.myFile,'/uploadTeacherOrStudentImage');
-          uploadedUrl.then(function(result){
-            console.log("Upload image completed"+result);
-            vm.uploadCompleted=true;    
           });
-          while(vm.uploadCompleted==false){
+        }
 
-          }
-          console.log("Image upload completed");
-          vm.student.ImageUrl = result.ImageUrl;
-          //console.log("Upload image url"+datuploadedUrla);
-          //Step-2 Make a post call to update the data
-          handbookData.updateStudent(vm.student);  
+        vm.uploadFile=function(event){
+            vm.loading=true;
+            console.log("Image file to upload"+ event.target.files[0]);
+            var uploadedUrl= handbookData.uploadFile(vm.myFile,'/uploadTeacherOrStudentImage');
+            uploadedUrl.then(function(result){
+              console.log("Upload image completed"+result);
+              console.log("Uploaded Image url" + result.ImageUrl);
+              vm.student.ImageUrl = result.ImageUrl;
+              vm.loading=false;    
+
+          });
+          
+          
         }
 
     }
