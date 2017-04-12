@@ -4,17 +4,18 @@
     .module('handbook')
     .controller('scheduleCtrl', scheduleCtrl);
 
-  scheduleCtrl.$inject= ['$location','handbookData'];  
+  scheduleCtrl.$inject= ['$location','handbookData','authentication'];  
   
-  function scheduleCtrl($location,handbookData) {
+  function scheduleCtrl($location,handbookData,authentication) {
     var vm = this;
 
-    
+    vm.schoolId = authentication.schoolId();
+
     vm.pageHeader = {
       title: 'Class Timetable'
     };
     
-    handbookData.getClasses(vm.schoolId)
+    handbookData.getClasses(vm.schoolId.schoolId)
     .success(function(data){
       if(data){
         vm.classes=data; 

@@ -57,7 +57,7 @@
     }
 
     var getClasses= function (schoolId){
-      return $http.get('/class/');
+      return $http.get('/class/'+schoolId);
     }
     var getStudents= function (schoolId){
       return $http.get('/students/');

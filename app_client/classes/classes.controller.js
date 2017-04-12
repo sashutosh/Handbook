@@ -3,16 +3,61 @@
   angular
     .module('handbook')
     .controller('classCtrl', classCtrl);
+  classCtrl.$inject= ['handbookData','authentication'];  
 
-  function classCtrl() {
+  function classCtrl(handbookData,authentication) {
     var vm = this;
+    var newlyAddedClassList =[];
+    var deletedClassList=[];    
+
+    vm.schoolId = authentication.schoolId();
+    
+    handbookData.getClasses(vm.schoolId.schoolId)
+    .success(function(data){
+      if(data){
+        vm.classes=data; 
+      }
+    });
+
+    vm.checkAll=function(){
+
+      if(!vm.selectedAll){
+        vm.selectedAll=true
+      }
+      else{
+        vm.selectedAll=false;
+      }
+      angular.forEach(vm.classes,function(selectedClass){
+        selectedClass.selected=vm.selectedAll;
+      })
+
+    }
+    vm.addClass=function(){
+      vm.classes.push({
+         Class:"",
+         Section:"" 
+      });
+    }
+    vm.deleteClass=function(){
+      var newList=[];
+      var deleteList=[];
+      vm.selectedAll=false;
+      angular.forEach(vm.classes,function(selectedClass){
+        if(!selectedClass.selected){
+           newList.push(selectedClass); 
+        }
+        else{
+          deleteList.push(selectedClass);
+        }
+      });
+      vm.classes=newList;
+    }
+    vm.selectedAll=false;
 
     vm.pageHeader = {
-      title: 'School Std'
+      title: 'School Classes'
     };
-    vm.main = {
-      content: 'SchoolLink was created to bring the parents and school together and improve overall development of child.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed lorem ac nisi dignissim accumsan. Nullam sit amet interdum magna. Morbi quis faucibus nisi. Vestibulum mollis purus quis eros adipiscing tristique. Proin posuere semper tellus, id placerat augue dapibus ornare. Aenean leo metus, tempus in nisl eget, accumsan interdum dui. Pellentesque sollicitudin volutpat ullamcorper.\n\nSuspendisse tincidunt, lectus non suscipit pharetra, purus ipsum vehicula sapien, a volutpat mauris ligula vel dui. Proin varius interdum elit, eu porttitor quam consequat et. Quisque vitae felis sed ante fringilla fermentum in vitae sem. Quisque fermentum metus at neque sagittis imperdiet. Phasellus non laoreet massa, eu laoreet nibh. Pellentesque vel magna vulputate, porta augue vel, dapibus nisl. Phasellus aliquet nibh nec nunc posuere fringilla. Quisque sit amet dignissim erat. Nulla facilisi. Donec in sollicitudin ante. Cras rhoncus accumsan rutrum. Sed aliquet ligula dui, eget laoreet turpis tempor vitae.'
-    };
+    
   }
 
 })();
