@@ -68,11 +68,11 @@
     }
 
     var deleteStudent= function(studentId){
-      return $http.delete('/students/'+ studentId);
+      return $http.delete('/students'+ studentId);
     } 
 
     var updateStudent =function(student){
-      return $http.post('/students/studentId',student);
+      return $http.post('/students',student);
     }
 
     var uploadFile = function(fileToUpload,uploadUrl){

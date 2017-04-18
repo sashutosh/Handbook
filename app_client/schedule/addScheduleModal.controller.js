@@ -3,12 +3,27 @@ angular
     .module('handbook')
     .controller('addScheduleModalCtrl', addScheduleModalCtrl);
     
-    addScheduleModalCtrl.$inject = ['$modalInstance','handbookData','authentication'];
-    function addScheduleModalCtrl ($modalInstance,handbookData,authentication) {
+    addScheduleModalCtrl.$inject = ['$modalInstance','handbookData','authentication','currentDaySchedule'];
+    
+    function addScheduleModalCtrl ($modalInstance,handbookData,authentication,currentDaySchedule) {
         var vm = this;
         //vm.schoolData = $modalInstance.schoolData;
         vm.formData ={};    
+        vm.currentDaySchedule=currentDaySchedule;
         
+        vm.startTimeHour ="";
+        vm.startTimeMin ="";
+
+        vm.endTimeHour ="";
+        vm.endTimeMin ="";
+        vm.selectedSubject="";    
+
+        vm.timeSlot = {
+            subject : "",
+            startTime: "",
+            endTime:"",
+
+        }
         vm.schoolId = authentication.schoolId();
 
         handbookData.getSubjects(vm.schoolId.schoolId)
@@ -22,17 +37,14 @@ angular
         
         vm.onSubmit = function () {
             vm.formError = "";
-            // if(!vm.formData.picture) {
-            //     vm.formError = "All fields required, please try again";
-            //     return false;
-            // } else 
-            {
-                // vm.formData.picture ="E:\\Handbook\\StudentRecord\\StudentTemp.xlsx"
-                
-                // console.log(vm.formData);
-                // vm.addStudentBulk(vm.formData);
-                return false;
-            }
+           vm.timeSlot.SubjectName=vm.selectedSubject;
+           
+           vm.startTime = vm.startTimeHour+ ':' +vm.startTimeMin;
+           vm.endTime = vm.endTimeHour+ ':' +vm.endTimeMin;
+
+           vm.timeSlot.StartTime=vm.startTime;
+           vm.timeSlot.EndTime=vm.endTime;
+           vm.modal.close(vm.timeSlot);
         };
         
 

@@ -31,13 +31,13 @@
                             <span class="sr-only">{{phrase.toggleDropdown}}</span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a ng-click="vm.editSubOne(subSch.id,key)">Edit</a></li>
-                            <li><a ng-click="vm.removeSub(subSch.id,key)">Remove</a></li>
+                            <li><a ng-click="vm.editSubOne(subSch)">Edit</a></li>
+                            <li><a ng-click="vm.removeSub(subSch)">Remove</a></li>
                         </ul>
                     </div>
                     </td>
                     <td>
-                    <a ng-click="vm.addSubOne(key)" type="button" class="btn btn-info btn-flat"><i class="glyphicon glyphicon-plus"></i></a>
+                    <a ng-click="vm.addSubOne(sch)" type="button" class="btn btn-info btn-flat"><i class="glyphicon glyphicon-plus"></i></a>
                     </td>
                 </tr>
             </tbody>
