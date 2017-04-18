@@ -3,14 +3,15 @@
 .module('handbook')
 .controller('homeCtrl', homeCtrl);
 
-homeCtrl.$inject = ['$scope','handbookData','authentication','$modal'];
-function homeCtrl ($scope,handbookData,authentication,$modal) {
+homeCtrl.$inject = ['$scope','handbookData','authentication','$modal','$location'];
+function homeCtrl ($scope,handbookData,authentication,$modal,$location) {
     var vm=this;
 
     vm.school = {
         schoolId : 116,
         schoolName : "DPS East"    
     };
+    
     var schoolData= authentication.schoolId();
     if(typeof schoolData !=="undefined"){
         

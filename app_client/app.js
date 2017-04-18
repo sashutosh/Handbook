@@ -4,9 +4,14 @@
 
   function config ($routeProvider,$locationProvider) {
     $routeProvider
-      .when('/', {
+      .when('/home', {
         templateUrl: 'home/home.view.html',
         controller: 'homeCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/', {
+        templateUrl: 'home/siteHome.view.html',
+        controller: 'siteHomeCtrl',
         controllerAs: 'vm'
       })
       .when('/about', {
