@@ -1,6 +1,6 @@
 <navigation></navigation>
 
-<div class="container-fluid">
+<div class="container">
   <page-header content="vm.pageHeader"></page-header>
   <side-navigation></side-navigation> 
  
@@ -39,18 +39,23 @@
          <div class="box-body table-responsive">
           <table class="table table-hover">
               <tbody><tr>
-                  <th>ID</th>
+                  <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
+                  <!--<th>ID</th>-->
+                  <th>Image</th>
                   <th>Name</th>
                   <th>Mobile Number</th>
                   <th>Email</th>
                   <th class="no-print">Operation</th>
               </tr>
               <tr dir-paginate="teacher in vm.teachers | filter:q | itemsPerPage:20">
-                  <td>{{teacher.TeacherId}}</td>
+                  <!--<td>{{teacher.TeacherId}}</td>-->
+                   <td>
+                      <input type="checkbox" ng-model="teacher.selected"/></td>
                   <td>
                       <img class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{teacher.ImageUrl}}">
-                      <a href="" ng-click="teacherProfile( teacher.id )">{{teacher.TeacherFirstName}}</a>
+                      
                   </td>
+                  <td><a href="" ng-click="vm.teacherProfile(teacher)">{{teacher.TeacherFirstName}}</a></td>
                   <td>{{teacher.MobileNumber}}</td>
                   <td>{{teacher.EmailId}}</td>
                   <td class="no-print">

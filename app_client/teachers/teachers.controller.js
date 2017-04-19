@@ -8,7 +8,7 @@
   
   function teacherCtrl($location,handbookData,messaging) {
     var vm = this;
-    
+    vm.selectedAll=false;
     vm.schoolId=100;  
     vm.selectedIds = {"002": true,"003":false};
     vm.selectedTeacher =[];
@@ -19,13 +19,30 @@
 
     vm.sendMessage=function(){
         
-      for (var i = 0, l = vm.selectedTeacher.length; i < l; i++) {
-        messaging.addtoTeacherList(vm.selectedTeacher[i]);
+      for (var i = 0, l = vm.teachers.length; i < l; i++) {
+        
+        if(vm.teachers[i].selected){
+          messaging.addtoTeacherList(vm.teachers[i]);
+        }
       }
       
       $location.path("/messages")  
 
     };
+
+    vm.checkAll=function(){
+
+      if(!vm.selectedAll){
+        vm.selectedAll=true
+      }
+      else{
+        vm.selectedAll=false;
+      }
+      angular.forEach(vm.teachers,function(teacher){
+        teacher.selected=vm.selectedAll;
+      })
+
+    }
 
     vm.onCheckBoxClick =function(teacherObj){
      
@@ -45,10 +62,17 @@
     vm.addTeacher = function(){
       console.log(vm.selectedTeacher);
     };
+    
     vm.edit= function(teacher){
       handbookData.setSelectedTeacher(teacher);
       $location.path("/teachers/edit");
     };
+    
+    vm.teacherProfile=function(teacher){
+      handbookData.setSelectedTeacher(teacher);
+      $location.path("/teachers/edit");
+    }
+
     vm.deleteTeacher=function(){
         for(var teacherId in vm.selectedIds){
             
