@@ -21,7 +21,7 @@
           handbookData.updateStudent(vm.student)
             .success(function(result){
               alert("Record updated successfully");  
-              $location.path("/students/edit");
+              $location.path("/students");
             })
             .error(function(e){
                console.log(e);

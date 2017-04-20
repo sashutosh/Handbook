@@ -4,8 +4,8 @@
     .module('handbook')
     .controller('studentCtrl', studentCtrl);
 
-  studentCtrl.$inject= ['$location','handbookData'];  
-  function studentCtrl($location,handbookData) {
+  studentCtrl.$inject= ['$location','handbookData','messaging'];  
+  function studentCtrl($location,handbookData,messaging) {
     var vm = this;
     vm.schoolId=100;  
     vm.selectedIds = {"002": true,"003":false};
@@ -13,6 +13,36 @@
     vm.pageHeader = {
       title: 'Students'
     };
+
+
+
+    vm.checkAll=function(){
+
+      if(!vm.selectedAll){
+        vm.selectedAll=true
+      }
+      else{
+        vm.selectedAll=false;
+      }
+      angular.forEach(vm.students,function(student){
+        student.selected=vm.selectedAll;
+      })
+
+    }
+
+    vm.sendMessage=function(){
+        
+      for (var i = 0, l = vm.students.length; i < l; i++) {
+        
+        if(vm.students[i].selected){
+          messaging.addtoStudentsList(vm.students[i]);
+        }
+      }
+      
+      $location.path("/messages")  
+
+    };
+
 
     vm.addStudent = function(){
       console.log(vm.selectedIds);
@@ -31,6 +61,11 @@
             }
         }
     };
+
+    vm.studentProfile=function(student){
+      handbookData.setSelectedStudent(student``);
+      $location.path("/students/edit");
+    }
     
     handbookData.getStudents(vm.schoolId)
     .success(function(data){

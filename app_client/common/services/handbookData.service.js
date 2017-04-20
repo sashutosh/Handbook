@@ -67,6 +67,10 @@
       return $http.delete('/teachers/'+ teacherId);
     }
 
+    var updateTeacher =function(teacher){
+      return $http.post('/teachers',teacher);
+    }
+
     var deleteStudent= function(studentId){
       return $http.delete('/students'+ studentId);
     } 
@@ -107,6 +111,7 @@
       addSchool: addSchool,
       addStudentBulk: addStudentBulk,
       getTeachers:getTeachers,
+      updateTeacher:updateTeacher,
       getStudents:getStudents,
       getSubjects,getSubjects,
       getClasses,getClasses,

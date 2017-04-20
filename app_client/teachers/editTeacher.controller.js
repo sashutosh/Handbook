@@ -8,12 +8,43 @@
     function editTeacherCtrl($location,handbookData,messaging) {
   
       
-        var vm = this;
-        vm.teacher = handbookData.getSelectedTeacher();
-        
-        vm.pageHeader = {
-          title: 'Edit Teacher'
-        };
+      var vm = this;
+      vm.teacher = handbookData.getSelectedTeacher();
+      vm.myFile={};
+      vm.uploadCompleted=false;
+      vm.loading=false;        
+      vm.pageHeader = {
+        title: 'Edit Teacher'
+      };
+      
+      vm.uploadFile=function(event){
+            vm.loading=true;
+            console.log("Image file to upload"+ event.target.files[0]);
+            var uploadedUrl= handbookData.uploadFile(vm.myFile,'/uploadTeacherOrStudentImage');
+            uploadedUrl.then(function(result){
+              console.log("Upload image completed"+result);
+              console.log("Uploaded Image url" + result.ImageUrl);
+              vm.teacher.ImageUrl = result.ImageUrl;
+              vm.loading=false;    
+
+          });
+          
+          
+        }
+
+        vm.onSubmit=function(){
+          handbookData.updateTeacher(vm.teacher)
+            .success(function(result){
+              alert("Record updated successfully");  
+              $location.path("/teachers");
+            })
+            .error(function(e){
+               console.log(e);
+               alert("Failed to update record. Please try again");
+
+          });
+        }
+
 
     }
 })();

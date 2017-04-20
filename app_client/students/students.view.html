@@ -18,7 +18,7 @@
      <div class="col-md-6 col-sm-12">
        <button type="button" class="btn btn-primary" ng-click="vm.addStudent()">Add</button>
       <!-- Secondary, outline button -->
-       <button type="button" class="btn btn-secondary">Message</button>
+       <button type="button" class="btn btn-secondary" ng-click="vm.sendMessage()">Message</button>
        <button type="button" class="btn btn-danger" ng-click="vm.deleteStudent()">Delete</button> 
        <div>
         <label for="filter">Filter results</label>
@@ -29,19 +29,24 @@
         <div class="box-body table-responsive">
           <table class="table table-hover">
               <tbody><tr>
-                  <th>ID</th>
+                  <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
+                  <th>Image</th>
                   <th>FullName</th>
                   <th>Mobile Number(s)</th>
                   <th>Std / Section</th>
                   <th class='no-print'>Operations</th>
               </tr>
               <tr dir-paginate="student in vm.students | filter:q | itemsPerPage:20">
-                  <td>{{student.StudentId}}</td>
+                  <!--<td>{{student.StudentId}}</td>-->
+                  <td>
+                      <input type="checkbox" ng-model="student.selected"/>
+                  </td>
+                  <td>
                   <td>
                       <img class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{student.ImageUrl}}">
-                      <a href="" ng-click="studentProfile( student.id )">{{student.fullName}}</a>
+                     
                   </td>
-                  <td>{{student.StudentFirstName }}</td>
+                  <td><a href="" ng-click="vm.studentProfile(student)">{{student.StudentFirstName }}</a></td>
                   <td>{{student.StudentParentMobiles}}</td>
                   <td>{{student.StudentClassStandard}}</td>
                   <td class='no-print'>
