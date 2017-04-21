@@ -297,7 +297,23 @@ exports.findStudentById = function (model, _studentId, response) {
 		//console.log(result);
 		}
 		});
-		}
+	}
+	
+exports.findStudentBySchoolId = function (model, _schoolid, response) {
+	  model.find({SchoolId: _schoolid}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+}
+
+	
 
 exports.listStudent = function (model, response) {
 	model.find({}, function(error, result) {
@@ -503,7 +519,22 @@ exports.findTeacherById = function (_teacherId, response) {
 	//console.log(result);
 	}
 	});
+}
+
+exports.findTeacherBySchoolId = function (_schoolid, response) {
+	Teacher.find({SchoolId: _schoolid }, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
 	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+}
+
 
 exports.listTeachers = function (response) {
 	Teacher.find({}, function(error, result) {
@@ -517,7 +548,8 @@ exports.listTeachers = function (response) {
 	}
 	return JSON.stringify(result);
 	});
-	}
+}
+
 
 exports.removeTeacher = function ( _teacherId, response)
 {
@@ -1367,10 +1399,7 @@ exports.updateClass = function (Class, requestBody, response) {
 	function(error, data) {
 	if (error) {
 	console.log(error);
-	if (response != null) {
 	
-	//response.send('Internal server error');
-	}
 	return;
 	} else {
 	var clas = new Class({
@@ -1410,9 +1439,7 @@ exports.updateClass = function (Class, requestBody, response) {
 	console.log('error on save');
 	}
 	});
-	if (response != null) {
-	//response.json({"code" : 200, "status" : "Subject Record saved successfully"});
-	}
+	
 	}
 	});
 };

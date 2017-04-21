@@ -486,7 +486,17 @@ app.get('/students/:StudentId', function(request, response) {
 	request.params.StudentId);
 	dataservice.findStudentById(Student, request.params.StudentId,
 	response);
-	});
+});
+
+app.get('/AllStudents/:SchoolId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log(request.url + ' : querying for ' +
+	request.params.StudentId);
+	dataservice.findStudentBySchoolId(Student, request.params.SchoolId,
+	response);
+});
+
 
 app.post('/students', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
@@ -524,7 +534,17 @@ app.get('/teachers/:TeacherId', function(request, response) {
 	request.params.TeacherId);
 	dataservice.findTeacherById(request.params.TeacherId,
 	response);
-	});
+});
+
+app.get('/AllTeachers/:SchoolId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log(request.url + ' : querying for ' +
+	request.params.TeacherId);
+	dataservice.findTeacherBySchoolId(request.params.SchoolId,
+	response);
+});
+
 
 app.post('/teachers', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
