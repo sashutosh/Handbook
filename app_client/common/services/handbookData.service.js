@@ -60,6 +60,16 @@
       return $http.get(url);
     }
 
+    var updateSubjectList=function(subjects){
+      var url ="/uploadMultipleSubjectData"
+      return $http.post(url,subjects);
+    }
+
+    var updateClassesList=function(teachers){
+      var url ="/uploadMultipleClassData"
+      return $http.post(url,teachers);
+    }
+
     var getClasses= function (schoolId){
       return $http.get('/class/'+schoolId);
     }
@@ -118,6 +128,8 @@
       updateTeacher:updateTeacher,
       getStudents:getStudents,
       getSubjects,getSubjects,
+      updateClassesList,updateClassesList,
+      updateSubjectList,updateSubjectList,
       getClasses,getClasses,
       deleteTeacher:deleteTeacher,
       deleteStudent:deleteStudent,

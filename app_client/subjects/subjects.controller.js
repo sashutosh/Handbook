@@ -3,9 +3,9 @@
   angular
     .module('handbook')
     .controller('subjectCtrl', subjectCtrl);
-  subjectCtrl.$inject= ['handbookData','authentication'];  
+  subjectCtrl.$inject= ['handbookData','authentication','$location'];  
 
-  function subjectCtrl(handbookData,authentication) {
+  function subjectCtrl(handbookData,authentication,$location) {
     var vm = this;
     var newlyAddedSubjectsList =[];
     var deletedSubjectsList=[];    
@@ -35,9 +35,25 @@
     vm.addSubject=function(){
       vm.subjects.push({
          Subject:"",
-         SubjectCode:"" 
+         SubjectCode:"",
+         SchoolId: vm.schoolId.schoolId
       });
     }
+
+    vm.updateSubject=function(){
+      
+      handbookData.updateSubjectList(vm.subjects)
+            .success(function(result){
+              alert("Subjects updated successfully");  
+              $location.path("/home");
+            })
+            .error(function(e){
+               console.log(e);
+               alert("Failed to update record. Please try again");
+
+          });
+    }
+    
     vm.deleteSubject=function(){
       var newList=[];
       var deleteList=[];

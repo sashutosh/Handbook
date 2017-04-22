@@ -5,14 +5,15 @@
   <side-navigation></side-navigation>
 <div class="row">
      <div class="col-md-6 col-sm-12">
-       <button type="button" class="btn btn-primary" ng-click="vm.addSubject()">Add</button>
+       <button type="button" class="btn btn-primary btn-space" ng-click="vm.addSubject()">Add</button>
       <!-- Secondary, outline button -->
-       <button type="button" class="btn btn-danger" ng-click="vm.deleteSubject()">Delete</button> 
+       <button type="button" class="btn btn-danger btn-space" ng-click="vm.deleteSubject()">Delete</button> 
+       <button type="button" class="btn btn-default btn-space" ng-click="vm.updateSubject()">Update</button> 
        <div>
-       <button type="button" class="btn btn-default" ng-click="vm.updateSubject()">Delete</button> 
+       
        <div> 
         <label for="filter">Filter results</label>
-        <input ng-model="q" id="search" placeholder="Filter text">
+        <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
        </div>
       <div class="error">{{ vm.message }}</div>
       <!--<div class="row list-group">
