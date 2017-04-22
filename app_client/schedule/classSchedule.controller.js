@@ -16,7 +16,8 @@
     vm.selectedDay =0;
     handbookData.getClassTimetable(vm.selectedClass.ClassSection)
     .success(function(data){
-       vm.classSchedule=data;     
+       vm.classSchedule=data;
+       vm.classSchedule.ClassStandard = vm.selectedClass.ClassSection;     
     });
     
     vm.getSelectedDayId =function(day){

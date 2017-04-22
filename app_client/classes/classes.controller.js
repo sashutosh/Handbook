@@ -36,7 +36,7 @@
       vm.classes.push({
          Class:"",
          Section:"",
-         School: vm.schoolId.schoolId
+         SchoolId: vm.schoolId.schoolId
       });
     }
     vm.deleteClass=function(){
