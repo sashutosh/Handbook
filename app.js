@@ -486,7 +486,17 @@ app.get('/students/:StudentId', function(request, response) {
 	request.params.StudentId);
 	dataservice.findStudentById(Student, request.params.StudentId,
 	response);
-	});
+});
+
+app.get('/AllStudents/:SchoolId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log(request.url + ' : querying for ' +
+	request.params.StudentId);
+	dataservice.findStudentBySchoolId(Student, request.params.SchoolId,
+	response);
+});
+
 
 app.post('/students', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
@@ -524,7 +534,17 @@ app.get('/teachers/:TeacherId', function(request, response) {
 	request.params.TeacherId);
 	dataservice.findTeacherById(request.params.TeacherId,
 	response);
-	});
+});
+
+app.get('/AllTeachers/:SchoolId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log(request.url + ' : querying for ' +
+	request.params.TeacherId);
+	dataservice.findTeacherBySchoolId(request.params.SchoolId,
+	response);
+});
+
 
 app.post('/teachers', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
@@ -806,14 +826,17 @@ app.get('/GetAllStudentDetailsForTeacher/:TeacherId', function(request, response
 			  var StudentsList = { StudentList : []};
 			  var TeacherRole = [];
 			  var teacherRolecount =0;
+			  var allstudents = false;
 			  for(teacherRolecount = 0; teacherRolecount < result.TeacherRoleList.length; teacherRolecount++ )
 				  {
 				  if(TeacherRoleList[teacherRolecount].TeacherRoleforStd === "All"){
-					  TeacherRole = ["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th"];
+					  allstudents = true;
+					  //TeacherRole = ["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th"];
 				  }
 				  TeacherRole.push(TeacherRoleList[teacherRolecount].TeacherRoleforStd);
 				  }
-				  
+				  if(allstudents === false)
+				  {
 				  Student.find({StudentClassStandard : {$in: TeacherRole } }, function(error, result) {
 						if (error) {
 							console.error(error);
@@ -873,7 +896,73 @@ app.get('/GetAllStudentDetailsForTeacher/:TeacherId', function(request, response
 							  response.end(JSON.stringify(StudentsList));
 							}
 							
-							});
+						});
+				  }
+				  else
+				  {
+
+                    Student.find({}, function(error, result) {
+						if (error) {
+							console.error(error);
+							return null;
+							}
+							if (result !== null) {
+							  var Students = JSON.parse(JSON.stringify(result));
+							  
+							  var studentcount=0;
+							  for (studentcount=0; studentcount < Students.length ; studentcount++  ) {
+								  var parentListcount =0;
+								  var student = {
+										    "StudentId": Students[studentcount].StudentId, 
+										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
+										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
+										    "ImageUrl": request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ Students[studentcount].StudentId +".jpg",
+										    "MotherName" : "",
+										    "MotherMobile" : "",
+										    "MotherEmailID" : "",
+										    "FatherName" : "",
+										    "FatherMobile" : "",
+										    "FatherEmailID" : "",
+										    "GuardianName" : "",
+										    "GuardianMobile" : "",
+										    "GuardianEmailID" : "",
+										    
+								                };
+								   for(parentListcount =0; parentListcount < Students[studentcount].ParentList.length; parentListcount++  ){
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Mother")
+										   {
+										   student.MotherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.MotherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.MotherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+										          
+										   }
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Father")
+									   {
+										   student.FatherName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.FatherMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.FatherEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+									          
+									   }
+									   if(Students[studentcount].ParentList[parentListcount].ParentType === "Guardian")
+									   {
+										   student.GuardianName = Students[studentcount].ParentList[parentListcount].ParentFirstName + " " + Students[studentcount].ParentList[parentListcount].ParentLastname;
+										   student.GuardianMobile = Students[studentcount].ParentList[parentListcount].MobileNumber;
+										   student.GuardianEmailID = Students[studentcount].ParentList[parentListcount].EmailId;
+									          
+									   }
+									  
+								   }
+								   
+								   StudentList.push(student );
+								   
+								}
+							  StudentsList.StudentList = StudentList;
+							  response.end(JSON.stringify(StudentsList));
+							}
+							
+						});
+
+				  }
 				      
 				  }
 			  
@@ -1696,6 +1785,8 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
  
  app.post('/uploadStudentData', function(req, res) {
      
+	 res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	  console.log("1");
 	  console.log(req.files.picture);	
   	  var xlFile = req.files.picture;
@@ -1798,6 +1889,8 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 
 app.post('/uploadClassData', function(req, res) {
      
+	 res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	  
 	  console.log(req.files.picture);	
   	  var xlFile = req.files.picture;
@@ -1852,6 +1945,8 @@ app.post('/uploadClassData', function(req, res) {
 	
 app.post('/uploadSubjectData', function(req, res) {
      
+	 res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	  
 	  console.log(req.files.picture);	
   	  var xlFile = req.files.picture;
@@ -1901,6 +1996,64 @@ app.post('/uploadSubjectData', function(req, res) {
 		   }
 		   }); 
   	});
+
+app.post('/uploadMultipleSubjectData', function(req, res) {
+     
+	 res.header("Access-Control-Allow-Origin", "*");
+     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                      var i=0;
+                      for(i=0; i<req.body.length; i++)
+                      	{
+                      	 console.log(i);
+                      	 console.log(req.body[i]);
+                      	 
+                      	var subject =  new Subject(
+                      			{
+                      				Subject: req.body[i].Subject ,
+                      				SubjectCode: req.body[i].SubjectCode,
+									SchoolId: req.body[i].SchoolId
+                      				
+                      				
+                      			});
+                      	
+                      	dataservice.updateSubject(Subject,subject,res);
+					}
+					
+					res.json({"code" : 200, "status" : "Subject Records saved successfully"});
+         
+});
+
+app.post('/uploadMultipleClassData', function(req, res) {
+     
+	 res.header("Access-Control-Allow-Origin", "*");
+     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	  
+
+               
+                      var i=0;
+                      for(i=0; i<req.body.length; i++)
+                      	{
+                      	 console.log(i);
+                      	 console.log(req.body[i]);
+                      	 
+                      	var clss =  new Class(
+                      			{
+                      				Class: req.body[i].Class ,
+                      				Section: req.body[i].Section,
+                      				ClassSection: req.body[i].Class + req.body[i].Section,
+									SchoolId: req.body[i].SchoolId  
+                      				
+                      				
+                      			});
+                      	
+                      	dataservice.updateClass(Class,clss,res);
+					}
+					
+					res.json({"code" : 200, "status" : "Class Records saved successfully"});
+     
+  	});
+
+
 
 
 app.get('/',function(req, res) {
