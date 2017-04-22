@@ -39,6 +39,10 @@
       return $http.get('/StudentTimeTableForClassStandard/' + classSection);
     }
 
+    var updateTimeTable=function(classStd,classSchedule){
+      return $http.post('/StudentTimeTableForClassStandard/',classSchedule);
+    }
+
     var schoolDetailsById = function (schoolId) {
       return $http.get('/school/' + schoolId);
     };
@@ -125,6 +129,7 @@
       getSelectedClass:getSelectedClass,
       setSelectedClass:setSelectedClass,
       getClassTimetable:getClassTimetable,
+      updateTimeTable:updateTimeTable,
       uploadFile:uploadFile
     };
   }

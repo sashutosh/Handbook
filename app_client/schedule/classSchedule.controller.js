@@ -4,8 +4,8 @@
     .module('handbook')
     .controller('classScheduleCtrl', classScheduleCtrl);
 
-  classScheduleCtrl.$inject= ['handbookData','$modal'];    
-  function classScheduleCtrl(handbookData,$modal) {
+  classScheduleCtrl.$inject= ['handbookData','$modal','$location'];    
+  function classScheduleCtrl(handbookData,$modal,$location) {
     var vm = this;
     vm.classSchedule={};
     vm.pageHeader = {
@@ -46,9 +46,18 @@
       }
     }
 
+    vm.onSubmit=function(){
+      
+      handbookData.updateTimeTable(vm.selectedClass.ClassSection, vm.classSchedule)
+      .success(function(result){
+              alert("Timetable updated successfully");  
+              $location.path("/schedule");
+            })
+            .error(function(e){
+               console.log(e);
+               alert("Failed to update record. Please try again");
 
-    vm.editSubOne=function(subSchedule){
-
+          });
     }
     
     vm.addSubOne=function(daySchedule){

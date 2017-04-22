@@ -3,6 +3,9 @@
 .review-header {margin-bottom: 10px;}
 .reviewAuthor {margin: 0 5px;}
 .reviewTimestamp {color: #ccc;}
+.btn-space {
+    margin-right: 5px;
+}
 body,html{
     height: 100%;
   }
@@ -121,3 +124,4 @@ body,html{
   section{
     padding-left: 15px;
   }
+  
