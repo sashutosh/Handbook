@@ -93,6 +93,10 @@
       return $http.post('/students',student);
     }
 
+    var getSchoolEvents= function (schoolId){
+      return $http.get('/EventsForSchool/' + schoolId);
+    }
+
     var uploadFile = function(fileToUpload,uploadUrl){
         var fd = new FormData();
         fd.append('picture', fileToUpload);

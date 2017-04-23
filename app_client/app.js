@@ -84,6 +84,11 @@
         controller: 'loginCtrl',
         controllerAs: 'vm'
       })
+      .when('/schoolCalendar', {
+        templateUrl: 'schoolCalendar/schoolCalendar.view.html',
+        controller: 'schoolCalendarCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({redirectTo: '/'});
     $locationProvider.html5Mode(true);
   }

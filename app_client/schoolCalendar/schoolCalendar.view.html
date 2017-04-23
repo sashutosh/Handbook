@@ -1,0 +1,77 @@
+<navigation></navigation>
+
+<div class="container">
+  <page-header content="vm.pageHeader"></page-header>
+  <side-navigation></side-navigation> 
+ 
+  <!--<div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div>Showing list of teachers</div>
+      <table>
+        <tbody ng-repeat="teacher in vm.teachers">
+          <tr>{{teacher.TeacherLastName}}</tr>
+        </tbody>
+      </table>
+    </div>
+  </div>-->
+  <div class="row">
+     <div class="col-md-6 col-sm-12">
+       <button type="button" class="btn btn-primary" ng-click="vm.addEvent()">Add</button>
+      <!-- Secondary, outline button -->
+      
+       <button type="button" class="btn btn-danger" ng-click="vm.deleteEvent()">Delete</button> 
+       <div>
+        <label for="filter">Filter results</label>
+        <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+       </div>
+      <div class="error">{{ vm.message }}</div>
+      <!--<div class="row list-group">
+        <div class="col-xs-12 list-group-item" dir-paginate="teacher in vm.teachers | filter:q | itemsPerPage: 3">
+          <h4><a href="#/teacher/{{teacher.TeacherId}}">{{ teacher.TeacherFirstName }}</a>
+            
+          <div class="input-group pull-right">
+            <input type="checkbox" class="pull-right" ng-model="vm.selectedIds[teacher.TeacherId]" ng-click="vm.onCheckBoxClick(teacher)" aria-label="Checkbox for following text input">
+            
+            </h4>
+          </div>
+        </div>
+        <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>-->
+         <div class="box-body table-responsive">
+          <table class="table table-hover">
+              <tbody><tr>
+                  <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
+                  <!--<th>ID</th>-->
+                  <th>EventName</th>
+                  <th>EventDate</th>
+                  <th>EventPlace</th>
+                  <th>EventStartTime</th>
+                  <th>EventEndTime</th>
+                  <th class="no-print">Operation</th>
+              </tr>
+              <tr dir-paginate="event in vm.events | filter:q | itemsPerPage:20">
+                  <!--<td>{{teacher.TeacherId}}</td>-->
+                   <td>
+                      <input type="checkbox" ng-model="events.selected"/></td>
+                  
+                  <td>{{event.EventName}}</td>
+                  <td>{{event.EventDate}}</td>
+                  <td>{{event.EventPlace}}</td>
+                  <td>{{event.EventStartTime}}</td>
+                  <td>{{event.EventEndTime}}</td>
+                  
+                  <td class="no-print">
+                    <a ng-click="vm.edit(event)" type="button" class="btn btn-info btn-flat" title="Edit" tooltip><i class="glyphicon glyphicon-edit"></i></a>
+                    <a ng-click="remove(event,$index)" type="button" class="btn btn-danger btn-flat" title="Remove" tooltip><i class="glyphicon glyphicon-trash"></i></a>
+                  </td>
+              </tr>
+              <tr ng-show="!vm.event.length"><td class="noTableData" colspan="5">No Events</td></tr>
+          </tbody></table>
+          <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+      </div> 
+
+      </div>
+      
+  </div>
+  </div>
+  <footer-generic></footer-generic>
+</div>
