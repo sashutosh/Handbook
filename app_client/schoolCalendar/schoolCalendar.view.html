@@ -41,11 +41,11 @@
               <tbody><tr>
                   <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
                   <!--<th>ID</th>-->
-                  <th>EventName</th>
-                  <th>EventDate</th>
-                  <th>EventPlace</th>
-                  <th>EventStartTime</th>
-                  <th>EventEndTime</th>
+                  <th>Event</th>
+                  <th>Date</th>
+                  <th>Place</th>
+                  <th>StartTime</th>
+                  <th>EndTime</th>
                   <th class="no-print">Operation</th>
               </tr>
               <tr dir-paginate="event in vm.events | filter:q | itemsPerPage:20">
