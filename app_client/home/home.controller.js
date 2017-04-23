@@ -11,7 +11,10 @@ function homeCtrl ($scope,handbookData,authentication,$modal,$location) {
         schoolId : 116,
         schoolName : "DPS East"    
     };
-    
+    vm.classes=0;
+    vm.students=0;
+    vm.teachers=0;
+    vm.newmwssages=0;
     var schoolData= authentication.schoolId();
     if(typeof schoolData !=="undefined"){
         

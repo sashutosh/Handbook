@@ -3,18 +3,56 @@
   <page-header content="vm.pageHeader"></page-header>
 <side-navigation></side-navigation>
 
+<section class="content-header">
+    <h1>
+        <i class="glyphicon glyphicon-dashboard"></i> Dashboard
+    </h1>
+</section>
+
+<section class="content">
 <div class="row">
-  <div class="col-xs-12 col-sm-8">
-    <label for="filter">Filter results</label>
-    <input id="filter" type="text", name="filter", ng-model="textFilter">
-    <div class="error">{{ vm.message }}</div>
-    <!--<div class="row list-group">-->
-      
-    <!--</div>-->
-    <div class="col-xs-12 col-sm-4">
-      <p class="lead">{{ vm.sidebar.content }}</p>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box bg-aqua reportsDiv">
+        <span class="info-box-icon"><i class="glyphicon glyphicon-users"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">{{vm.classes}}</span>
+          <span class="progress-description">Classes</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
     </div>
-  </div>
-  <footer-generic></footer-generic>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box bg-yellow reportsDiv">
+        <span class="info-box-icon"><i class="glyphicon glyphicon-user"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">{{vm.students}}</span>
+          <span class="progress-description">Students</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box bg-green reportsDiv">
+        <span class="info-box-icon"><i class="glyphicon glyphicon-male"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">{{vm.teachers}}</span>
+          <span class="progress-description">Teachers</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box bg-red reportsDiv">
+        <span class="info-box-icon"><i class="glyphicon glyphicon-inbox"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">{{vm.newMessages}}</span>
+          <span class="progress-description">Messages</span>
+        </div><!-- /.info-box-content -->
+      </div><!-- /.info-box -->
+    </div>
+
 </div>
+</section>
+
 </div>
