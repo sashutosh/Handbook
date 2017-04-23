@@ -146,6 +146,7 @@
       setSelectedClass:setSelectedClass,
       getClassTimetable:getClassTimetable,
       updateTimeTable:updateTimeTable,
+      getSchoolEvents:getSchoolEvents,
       uploadFile:uploadFile
     };
   }
