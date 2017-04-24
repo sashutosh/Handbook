@@ -208,7 +208,7 @@ var LocalMessageSchema = new mongoose.Schema({
 
 
 var StudentTimeTableSchema = new mongoose.Schema({
-	ClassStandard: {type: String, required: true, unique: true },
+	ClassStandard: {type: String, required: true},
 	SchoolId: String,
 	Days: [
 	       {
@@ -228,7 +228,9 @@ var StudentTimeTableSchema = new mongoose.Schema({
 	 ]
 	      }
 	]
-	});
+});
+
+StudentTimeTableSchema.index({ClassStandard:1, SchoolId:1},{unique: true});
 
 var TeacherTimeTableSchema = new mongoose.Schema({
     TeacherId:  {type: String, required: true, unique: true },
@@ -1857,7 +1859,8 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
                       	 
                       	var student =  new Student(
                       			{
-                      				StudentId: result[i].studentfirstname + result[i].fatherfirstname + result[i].dob + schoolId,
+                      				//StudentId: result[i].studentfirstname + result[i].fatherfirstname + result[i].dob + schoolId,
+									StudentId: result[i].studentid, 
                       				SchoolId: req.body.schoolId,
                       				StudentFirstName: result[i].studentfirstname,
                       				StudentMiddleName: result[i].studentmiddleName,
