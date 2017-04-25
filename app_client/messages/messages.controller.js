@@ -3,8 +3,8 @@
   angular
     .module('handbook')
     .controller('messageCtrl', messageCtrl);
-  messageCtrl.$inject= ['$location','messaging'];     
-  function messageCtrl($location,messaging) {
+  messageCtrl.$inject= ['$location','messaging','$modal'];     
+  function messageCtrl($location,messaging,$modal) {
     
     var vm = this;
     vm.messageSubject="";
@@ -21,6 +21,15 @@
       var msgJsonObject = vm.prepareMessage();
       messaging.sendMessage(msgJsonObject);
     };
+
+    vm.selectRecipients=function(){
+
+      var modalInstance=$modal.open({
+            templateUrl:'/messages/selectRecipientsModal.view.html',
+            controller: 'selectRecipientsModalCtrl as vm',
+            });
+
+    }
     
     vm.prepareMessage=function(){
 
