@@ -63,7 +63,7 @@
     };
 
     vm.studentProfile=function(student){
-      handbookData.setSelectedStudent(student``);
+      handbookData.setSelectedStudent(student);
       $location.path("/students/edit");
     }
     
