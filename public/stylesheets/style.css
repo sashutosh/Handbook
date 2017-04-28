@@ -6,6 +6,16 @@
 .btn-space {
     margin-right: 5px;
 }
+.chip {
+    display: inline-block;
+    padding: 0 5px;
+    height: 20px;
+    font-size: 10px;
+    color: black;
+    line-height: 20px;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+}
 /*
  * Component: Info Box
  * -------------------
