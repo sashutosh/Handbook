@@ -74,7 +74,7 @@
       return $http.get('/class/'+schoolId);
     }
     var getStudents= function (schoolId){
-      return $http.get('/students/');
+      return $http.get('/students/', { cache: true});
     }
 
     var deleteTeacher= function(teacherId){

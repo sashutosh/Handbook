@@ -28,13 +28,18 @@
     };
 
     var setPhoneNumbersAndIds=function(selectRecipients){
-        angular.forEach(selectRecipients,function(selectedObject){
-          angular.forEach(selectedObject.StudentParentMobiles,function(mobileNumber){
-              vm.selectedRecipientsPhoneNumbers.push(mobileNumber)
-          })
-          vm.selectedRecipientsId.push(selectedObject.StudentId);
-          vm.selectedRecipients.push(selectedObject.StudentFirstName);  
-        });
+      //Clear the previous data if any
+      vm.selectedRecipientsPhoneNumbers.length=0;
+      vm.selectedRecipientsId.length=0;
+      vm.selectedRecipients.length=0;
+
+      angular.forEach(selectRecipients,function(selectedObject){
+        angular.forEach(selectedObject.StudentParentMobiles,function(mobileNumber){
+            vm.selectedRecipientsPhoneNumbers.push(mobileNumber)
+        })
+        vm.selectedRecipientsId.push(selectedObject.StudentId);
+        vm.selectedRecipients.push(selectedObject.StudentFirstName);  
+      });
     }
     vm.selectRecipients=function(){
 

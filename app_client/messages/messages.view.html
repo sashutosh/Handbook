@@ -21,7 +21,10 @@
                   <div class="chip" ng-repeat="recipient in vm.selectedRecipients">
                     {{recipient}}
                   </div>
-                  <a href="#" class="btn btn-warning col-sm-3" ng-click="vm.selectRecipients()"><span class="glyphicon glyphicon-envelope"></span> Select.. </a>
+                  
+                </div>
+                <div class="row">
+                  <a href="#" class="btn btn-warning col-sm-3 pull-right" ng-click="vm.selectRecipients()"><span class="glyphicon glyphicon-envelope"></span> Select.. </a>
                 </div>
                 <!--<div class="form-group">
                   <label class="col-sm-2" for="inputTo">To</label>
