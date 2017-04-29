@@ -25,7 +25,7 @@
                                           <li><a href=""  ng-click="markDelete()">Remove</a></li>
                                       </ul>
                                   </div>
-                                  <div class="btn-group"><a ng-click="changeView('create')" class="btn btn-sm btn-flat btn-primary"><i class="glyphicon glyphicon-edit"></i> Compose </a></div>
+                                  <div class="btn-group"><a ng-click="vm.compose()" class="btn btn-sm btn-flat btn-primary"><i class="glyphicon glyphicon-edit"></i> Compose </a></div>
                               </div>
                               <div class="col-sm-6 search-form">
 
@@ -39,14 +39,27 @@
 
                           <div class="box-body table-responsive">
                               <table class="table">
-                                  <tr dir-paginate="message in vm.messages | filter:searchText | itemsPerPage:20">
-                                      <td class="small-col" style="width:90px;">
+                                  <tr ng-repeat-start="message in vm.messages | filter:searchText" >
+                                      <!--<td class="small-col" style="width:90px;">
                                           <input name="checked[]" ng-model="message.selected" type="checkbox" />
                                           <img class="user-image img-circle" style="width:40px; height:40px;" ng-src="{{'dashboard/profileImage/'+message.userId}}">
-                                      </td>
-                                      <td class="name"><a href="#messages/{{message.id}}">{{message.FromId}}</a></td>
-                                      <td class="subject"><a href="#messages/{{message.id}}">{{message.title}}</a></td>
+                                      </td>-->
+                                      <td class="name">{{message.FromId}}</a></td>
+                                      <td class="subject">{{message.title}}</a></td>
                                       <td class="time">{{message.date}}</td>
+                                      <td><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo-{{message._id}}">Show</button>
+                                  </tr>
+                                  <tr ng-repeat-end >
+                                    <td colspan="4">
+                                        <span id="demo-{{message._id}}" class="collapse well">
+                                            <div class="row">
+                                                {{message.body}}
+                                            </div>
+                                            <div class="row">
+                                                <a href="#" class="btn btn-warning pull-right" ng-click="vm.compose()"><span class="glyphicon glyphicon-envelope" ></span>Reply</a>
+                                            </div>
+                                        </span>
+                                    </td>
                                   </tr>
                                   <tr ng-show="!vm.messages.length"><td class="noTableData" colspan="4">No message</td></tr>
                               </table>

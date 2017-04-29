@@ -92,7 +92,8 @@
       register : register,
       login : login,
       logout : logout,
-      schoolId:schoolId
+      schoolId:schoolId,
+      userId:userId
     };
   }
 
