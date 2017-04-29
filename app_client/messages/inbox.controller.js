@@ -21,7 +21,7 @@
       title: 'Inbox'
     };
 
-    messaging.getMessages(vm.schoolId,vm.userId)
+    messaging.getAllMessages(vm.schoolId)
     .success(function(data){
         vm.messages=data;
     });

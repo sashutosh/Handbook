@@ -50,6 +50,11 @@
      
    }
 
+   var getAllMessages=function(schoolId){
+     return $http.get('/Messages');
+     
+   }
+
    var getSentMessages=function(schoolId, userId){
      return $http.get('/Messages/from/'+userId);
      
@@ -98,7 +103,8 @@
         getSelectedRecipientsId:getSelectedRecipientsId,
         sendMessage:sendMessage,
         getMessages:getMessages,
-        getSentMessages:getSentMessages
+        getSentMessages:getSentMessages,
+        getAllMessages:getAllMessages
     };
   }
 })();
