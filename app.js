@@ -2056,6 +2056,70 @@ app.post('/uploadMultipleClassData', function(req, res) {
      
   	});
 
+app.get('/ModelCount/:SchoolId', function(request, response){
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	var getalldatacount = {
+			"TeacherCount": 0,
+			"StudentCount" : 0,
+			"ClassCount" : 0,
+			"MessageCount" : 0,
+			"EventsCount" : 0
+	};
+	
+	Teacher.count({SchoolId: request.params.SchoolId},
+			function(error, teachercount) 
+			{
+			  if (error)
+				  {
+			        console.error(error);
+			        response.writeHead(500,{'Content-Type' : 'text/plain'});
+			        response.end('Internal server error');
+			        return;
+			     } 
+				 else 
+				 {
+			       getalldatacount.TeacherCount = teachercount;
+				       Student.count({SchoolId: request.params.SchoolId }, function(err, studentcount) {
+						   if (err) 
+						   {
+							console.error(err);
+							
+						   }
+						   else
+						   {
+							   getalldatacount.StudentCount = studentcount;
+							   Class.count({SchoolId: request.params.SchoolId} , function(e1, classcount){
+								  if(!e1) {
+									 getalldatacount.ClassCount = classcount; 
+									 LocalMessageLogging.count({},function(e2, messagecount){
+										 if(!e2){
+											 getalldatacount.MessageCount = messagecount;
+											 Events.count({SchoolId: request.params.SchoolId}, function(e3, eventscount){
+												 if(!e3){
+													 getalldatacount.EventsCount = eventscount;
+													 response.end(JSON.stringify(getalldatacount));
+												 }
+												 else
+												 {
+													 response.end(JSON.stringify(getalldatacount));
+												 }
+											 });
+										 }
+									 });
+								  }
+							   });
+						   }
+							
+							});
+							
+					}
+			});
+	
+});
+
+
+
 
 
 
