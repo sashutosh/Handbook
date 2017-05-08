@@ -36,6 +36,25 @@ function homeCtrl ($scope,handbookData,authentication,$modal,$location) {
         vm.popupAddSchoolForm();
        //alert("School data not found");
     });
+
+    handbookData.getModelCounts(vm.school.schoolId)
+    .success(function(data){
+        if(data){
+            vm.classes = data.ClassCount;
+            vm.students = data.StudentCount;
+            vm.teachers= data.TeacherCount;
+            vm.newmwssages = data.MessageCount;
+   
+        }
+        else
+        {
+        }
+    })
+    .error(function(e){
+        console.log(e);
+        vm.popupAddSchoolForm();
+       //alert("School data not found");
+    });
     
     vm.pageHeader = {
         title: 'SchoolLink',
