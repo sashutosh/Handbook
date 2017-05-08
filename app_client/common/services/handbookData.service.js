@@ -97,6 +97,10 @@
       return $http.get('/EventsForSchool/' + schoolId);
     }
 
+    var getModelCounts =function(schoolId){
+      return $http.get('/ModelCount/' + schoolId);
+    }
+
     var uploadFile = function(fileToUpload,uploadUrl){
         var fd = new FormData();
         fd.append('picture', fileToUpload);
@@ -147,6 +151,7 @@
       getClassTimetable:getClassTimetable,
       updateTimeTable:updateTimeTable,
       getSchoolEvents:getSchoolEvents,
+      getModelCounts:getModelCounts,
       uploadFile:uploadFile
     };
   }
