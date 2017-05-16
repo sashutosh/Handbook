@@ -55,6 +55,8 @@ angular
 
            vm.timeSlot.StartTime=vm.startTime;
            vm.timeSlot.EndTime=vm.endTime;
+           vm.timeSlot.TeacherName=vm.TeacherName;
+           vm.timeSlot.TeacherId =vm.TeacherId;
            vm.modal.close(vm.timeSlot);
         };
         

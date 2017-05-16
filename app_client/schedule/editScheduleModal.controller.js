@@ -31,7 +31,7 @@ angular
             vm.endTimeHour ="";
             vm.endTimeMin ="";
         }
-        vm.selectedSubject="";    
+            
         
         vm.schoolId = authentication.schoolId();
 
@@ -39,15 +39,50 @@ angular
             .success(function(data){
                 if(data){
                     vm.subjects=data; 
+                    vm.selectedSubject = vm.subjects[getSelectedSubject()];
+                }
+        });
+
+        handbookData.getTeachers(vm.schoolId.schoolId)
+            .success(function(data){
+                if(data){
+                    vm.teachers=data; 
+                    vm.selectedTeacher=vm.teachers[getSelectedTeacher()];
                 }
         });
         
+        getSelectedSubject=function(){
+            
+            for(var i=0; i < vm.subjects.length; i++)
+            {
+
+                if(vm.subjects[i].Subject===vm.timeSlot.SubjectName)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        getSelectedTeacher=function(){
+            
+            for(var i=0; i < vm.teachers.length; i++)
+            {
+
+                if(vm.teachers[i].TeacherFirstName===vm.timeSlot.TeacherName)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
         vm.days =['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+        
         
         vm.onSubmit = function () {
         
             vm.formError = "";
-            vm.timeSlot.SubjectName=vm.selectedSubject;
+            vm.timeSlot.SubjectName=vm.selectedSubject.SubjectName;
            
             vm.startTime = vm.startTimeHour+ ':' +vm.startTimeMin;
             vm.endTime = vm.endTimeHour+ ':' +vm.endTimeMin;
