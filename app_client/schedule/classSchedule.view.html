@@ -25,7 +25,7 @@
                     <td>{{sch.Day}}</td>
                     <td>
                     <div class="btn-group btn-space" ng-repeat="subSch in sch.TimeSlots">
-                        <button type="button" class="btn btn-default">{{subSch.SubjectName}} - {{subSch.StartTime}} -> {{subSch.EndTime}}</button>
+                        <button type="button" class="btn btn-default">{{subSch.SubjectName}} {{subSch.StartTime}}-{{subSch.EndTime}}</button>
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                             <span class="sr-only">{{phrase.toggleDropdown}}</span>

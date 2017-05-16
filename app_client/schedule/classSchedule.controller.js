@@ -86,6 +86,29 @@
         });
 
     }
+
+    vm.removeSub=function(subSch){
+
+        for(var i=0;i< vm.classSchedule.Days[vm.selectedDay].TimeSlots.length; i++){
+          var currentSlot = vm.classSchedule.Days[vm.selectedDay].TimeSlots[i];
+          if(compareSlots(currentSlot,subSch)){
+            //Remove the corresponding element from the array
+            vm.classSchedule.Days[vm.selectedDay].TimeSlots.splice(i,1);
+            break;
+          }
+        }
+    }
+
+    compareSlots=function(currentSlot,subSch){
+      if(currentSlot.StartTime===subSch.StartTime){
+        if(currentSlot.EndTime===subSch.EndTime){
+          if(currentSlot.SubjectName===subSch.SubjectName){
+            return true;
+          }
+        }
+      }
+      return false;
+    }
     
     vm.editSubOne=function(subSched){
       
