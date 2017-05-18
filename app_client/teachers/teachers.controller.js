@@ -22,7 +22,11 @@
       for (var i = 0, l = vm.teachers.length; i < l; i++) {
         
         if(vm.teachers[i].selected){
-          messaging.addtoTeacherList(vm.teachers[i]);
+          messaging.addtoMessageList({
+            Name:vm.teachers[i].TeacherFirstName,
+            MobileNumber:vm.teachers[i].MobileNumber,
+            Id:vm.teachers[i].TeacherId
+        });
         }
       }
       
