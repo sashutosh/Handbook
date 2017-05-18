@@ -13,7 +13,8 @@
               <tbody><tr>
                   <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
                   <th>Image</th>
-                  <th>FullName</th>
+                  <th>Name</th>
+                  <th>Std</th>
               </tr>
               <tr dir-paginate="student in vm.students | filter:q | itemsPerPage:10">
                   <!--<td>{{student.StudentId}}</td>-->
@@ -24,6 +25,7 @@
                       <img class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{student.ImageUrl}}">
                   </td>
                   <td>{{student.StudentFirstName }}</td>
+                  <td>{{student.StudentClassStandard }}</td>
               </tr>
               <tr ng-show="!vm.students.length"><td class="noTableData" colspan="6">{{phrase.noStudents}}</td></tr>
           </tbody></table>

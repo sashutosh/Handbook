@@ -3,8 +3,8 @@
   angular
     .module('handbook')
     .controller('messageCtrl', messageCtrl);
-  messageCtrl.$inject= ['$location','messaging','$modal'];     
-  function messageCtrl($location,messaging,$modal) {
+  messageCtrl.$inject= ['$location','messaging','handbookData','$modal'];     
+  function messageCtrl($location,messaging,handbookData,$modal) {
     
     var vm = this;
     vm.messageSubject="";
@@ -60,6 +60,22 @@
           $log.info('Modal dismissed at: ' + new Date());
         });
 
+    }
+
+    vm.uploadFile=function(event){
+    
+        vm.loading=true;
+        console.log("Image file to upload"+ event.target.files[0]);
+        var uploadedUrl= handbookData.uploadFile(vm.myFile,'/uploadTeacherOrStudentImage');
+        uploadedUrl.then(function(result){
+          console.log("Upload image completed"+result);
+          console.log("Uploaded Image url" + result.ImageUrl);
+          vm.selectedImageUrl = result.ImageUrl;
+          vm.loading=false;    
+
+      });
+      
+      
     }
     
     vm.prepareMessage=function(){

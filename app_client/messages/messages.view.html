@@ -11,11 +11,8 @@
                 Compose New Message 
             </div>
             <div class="panel-body">
-                <div class="alert alert-info">
-                    Please fill details to send a new message
-                </div>
-                <hr />
-                <label>Enter Recipient Name : </label>
+             
+                <label>To</label>
                 <div class="form-group well">
                   <!--<input type="text" class="form-control col-sm-3" ng-model="vm.selectedRecipients" readonly/>-->
                   <div class="chip" ng-repeat="recipient in vm.selectedRecipients">
@@ -30,7 +27,7 @@
                   <label class="col-sm-2" for="inputTo">To</label>
                   <div class="col-sm-10"><input type="email" class="form-control" id="inputTo" placeholder="comma separated list of recipients"></div>
                 </div>-->
-                <label>Enter Subject :  </label>
+                <label>Subject</label>
                 <div class="form-group">
                   
                   <input type="text" class="form-control" ng-model="vm.messageSubject"/>
@@ -41,9 +38,16 @@
                 </div>-->
                 <label>Message</label>
                 <textarea rows="6" class="form-control" ng-model="vm.messageText"></textarea>
+                <!--<div class="form-group">-->
+                        <label class="control-label">Attachment</label>
+                        <div>
+                            <input type="file" custom-on-change="vm.uploadFile" file-model="vm.myFile" name="photo">
+                            
+                        </div>
+                        <div class="spinner"></div>
+                <!--</div>-->
                 <hr />
                 <a href="#" class="btn btn-warning" ng-click="vm.send()"><span class="glyphicon glyphicon-envelope" ></span> Send Message </a>&nbsp;
-                <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-tags"></span> Save To Drafts </a>
             </div>
            </div>
         </div>
