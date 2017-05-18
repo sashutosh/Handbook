@@ -35,7 +35,11 @@
       for (var i = 0, l = vm.students.length; i < l; i++) {
         
         if(vm.students[i].selected){
-          messaging.addtoStudentsList(vm.students[i]);
+          messaging.addtoMessageList({
+            Name:vm.students[i].StudentFirstName,
+            MobileNumber:vm.students[i].StudentParentMobiles,
+            Id:vm.students[i].StudentId
+        });
         }
       }
       

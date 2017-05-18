@@ -18,7 +18,28 @@
     .success(function(data){
        vm.classSchedule=data;
        vm.classSchedule.ClassStandard = vm.selectedClass.ClassSection;     
+       for(var i=0;i<vm.classSchedule.Days.length;i++){
+         vm.classSchedule.Days[i].TimeSlots.sort(sortTimeSlots);
+       }
     });
+
+
+    sortTimeSlots=function(){
+      return function(t1,t2){
+        var splitTime = t1.StartTime.split(':');
+        var t1Hour=splitTime[0];
+        var t1Min=splitTime[1];
+        splitTime = t2.StartTime.split(':');
+        var t2Hour=splitTime[0];
+        var t2Min=splitTime[1];
+        if(parseInt(t1Hour)===parseInt(t2Hour)){
+          return (parseInt(t1Min)-parseInt(t2Min));
+        }
+        else{
+          return (parseInt(t1Hour)-parseInt(t2Hour))   
+        }  
+      }
+    }
     
     vm.getSelectedDayId =function(day){
       if(day==="Monday"){
@@ -135,8 +156,6 @@
         });
 
     }
-
-
   }
 
 })();

@@ -14,7 +14,7 @@
     vm.selectedRecipientsId=[];
     vm.selectedRecipientsPhoneNumbers=[];
 
-    //vm.selectedRecipients= messaging.getSelectedRecipientsList();  
+    vm.selectedRecipients= messaging.getSelectedRecipientsList();  
     vm.selectedRecipientsPhoneNumbers=messaging.getSelectedRecipientsPhone();
     vm.selectedRecipientsId= messaging.getSelectedRecipientsId();
     vm.pageHeader = {

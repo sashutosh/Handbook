@@ -6,33 +6,28 @@
 
   messaging.$inject = ['$http'];
   function messaging ($http) {
-    var studentList=[];
+    var messageList=[];
     var teacherList=[];
+    var selecetedObjList =[];
+    var selecetedPhoneList =[];
+    var selecetedIdList =[];
 
    var getSelectedRecipientsList=function(){
-     var selecetedObjList ="";
-     for(var i=0; i<teacherList.length; i++){
-        if(selecetedObjList==="")
-          selecetedObjList= getTeacherName(teacherList[i]); 
-        else  
-          selecetedObjList= selecetedObjList + "," + getTeacherName(teacherList[i]);;
+     
+     for(var i=0; i<messageList.length; i++){
+        selecetedObjList.push(messageList[i].Name);
+        selecetedPhoneList.push(messageList[i].MobileNumber)
+        selecetedIdList.push(messageList[i].TeacherId)
       }
       return selecetedObjList;
    }
 
    var getSelectedRecipientsPhone=function(){
-     var selecetedPhoneList =[];
-     for(var i=0; i<teacherList.length; i++){
-        selecetedPhoneList.push(teacherList[i].MobileNumber)
-      }
       return selecetedPhoneList;
    }
 
    var getSelectedRecipientsId=function(){
-     var selecetedIdList =[];
-     for(var i=0; i<teacherList.length; i++){
-        selecetedIdList.push(teacherList[i].TeacherId)
-      }
+     
       return selecetedIdList;
    }
 
@@ -63,16 +58,16 @@
    var getTeacherName=function(teacher){
         return teacher.TeacherFirstName + " " +teacher.TeacherLastName;
     }
-    var addtoStudentList=function(studentObj){
-       studentList.push(studentObj);     
+    var addtoMessageList=function(studentObj){
+       messageList.push(studentObj);     
     };
 
-    var getStudentList=function(){
-       return studentList;     
+    var getMessageList=function(){
+       return messageList;     
     };
 
-    var clearStudentList=function(){
-        studentList=[];    
+    var clearMessageList=function(){
+        messageList=[];    
     };
 
     var addtoTeacherList=function(teacherObj){
@@ -92,9 +87,9 @@
     };
 
     return{
-        addtoStudentList:addtoStudentList,
-        getStudentList:getStudentList,
-        clearStudentList:clearStudentList,
+        addtoMessageList:addtoMessageList,
+        getMessageList:getMessageList,
+        clearMessageList:clearMessageList,
         addtoTeacherList:addtoTeacherList,
         getTeacherList:getTeacherList,
         clearTeacherList:clearTeacherList,
