@@ -73,6 +73,11 @@
     .success(function(data){
       if(data){
         vm.events=data;
+        vm.events.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.EventDate) - new Date(a.EventDate);
+      });
       }
     })
     .error(function(e){
