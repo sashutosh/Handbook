@@ -47,7 +47,7 @@
                   <th>Email</th>
                   <th class="no-print">Operation</th>
               </tr>
-              <tr dir-paginate="teacher in vm.teachers | filter:q | itemsPerPage:20">
+              <tr dir-paginate="teacher in vm.teachers | filter:q | orderBy:['TeacherFirstName'] | itemsPerPage:20">
                   <!--<td>{{teacher.TeacherId}}</td>-->
                    <td>
                       <input type="checkbox" ng-model="teacher.selected"/></td>

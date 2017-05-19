@@ -36,7 +36,7 @@
                   <th>Std / Section</th>
                   <th class='no-print'>Operations</th>
               </tr>
-              <tr dir-paginate="student in vm.students | filter:q | itemsPerPage:20">
+              <tr dir-paginate="student in vm.students | filter:q | orderBy:['StudentFirstName','StudentClassStandard']|itemsPerPage:20">
                   <!--<td>{{student.StudentId}}</td>-->
                   <td>
                       <input type="checkbox" ng-model="student.selected"/>
