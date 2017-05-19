@@ -9,7 +9,7 @@ var TeacherSchema = new mongoose.Schema({
 	SchoolId: String,
 	TeacherFirstName: {type: String, required: true},
 	TeacherMiddleName: String,
-	TeacherLastName: {type: String, required: true},
+	TeacherLastName: {type: String},
 	TeacherDOB : Date,
 	Age : Number,
 	TeacherGender: String,
