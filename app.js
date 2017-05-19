@@ -110,9 +110,9 @@ var StudentSchema = new mongoose.Schema({
 	SchoolId: String,
 	StudentFirstName: {type: String, required: true},
 	StudentMiddleName: String,
-	StudentLastName: {type: String, required: true},
+	StudentLastName: {type: String},
 	StudentDOB : Date,
-	Age : {type:Number, min:2, max: 24},
+	Age : {type:Number, min:2, max: 34},
 	StudentGender: String,
 	StudentClassStandard: String,
 	StudentFullAddress: String,
@@ -125,7 +125,7 @@ var StudentSchema = new mongoose.Schema({
 		{
 			ParentType: String,
 			ParentFirstName: {type: String, required: true},
-			ParentLastname: {type: String, required: true},
+			ParentLastname: {type: String},
 			MobileNumber: {type:Number ,required: true},
 			AlternateMobNumber: Number,
 			EmailId: String,
@@ -201,6 +201,10 @@ var LocalMessageSchema = new mongoose.Schema({
 		[
 		  String
 		 ],
+   ToNames:
+   [
+     String
+   ],		 
 		 MobileNumbers: [Number] ,
 		 Error: String,
 		 RespMessage: Object
@@ -1482,7 +1486,8 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	        "FromType" : request.body.FromType,
 	        "FromId" : request.body.FromId,
 			"FromName" : request.body.From,
-	        "ToIds" :  request.body.ToIds
+	        "ToIds" :  request.body.ToIds,
+			"ToNames" : request.body.ToNames,
 	        
 	        
 	    },
@@ -1526,7 +1531,8 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 						"FromName" : request.body.From,
 				        "ToIds" :  request.body.ToIds,
 				        "MobileNumbers" : request.body.MobileNumbers,
-				        "Error" : " "
+				        "Error" : " ",
+						"ToNames" : request.body.ToNames,
 				  });
 				  
 				// Set up the sender with you API key
