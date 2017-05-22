@@ -11,6 +11,7 @@
     vm.userId=authentication.userId().userId; 
     vm.schoolId=authentication.schoolId().schoolId;  
     //vm.selectedIds = {"002": true,"003":false};
+    vm.displayMessages=[];
     vm.selectedMessage =[];
 
     vm.compose=function(){
@@ -21,9 +22,18 @@
       title: 'Inbox'
     };
 
+    updateNames=function(messages){
+      for(var i=0;i<messages.length;i++)
+      {
+        
+      }
+    }
+
     messaging.getAllMessages(vm.schoolId)
     .success(function(data){
         vm.messages=data;
+        vm.displayMessages=updateNames(vm.messages);
+
     });
 
   }

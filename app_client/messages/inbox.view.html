@@ -39,12 +39,21 @@
 
                           <div class="box-body table-responsive">
                               <table class="table">
+                                  <tr>
+                                    <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th class='no-print'>Operations</th>
+                                  </tr>
                                   <tr dir-paginate-start="message in vm.messages | itemsPerPage:10 |filter:searchText" >
                                       <!--<td class="small-col" style="width:90px;">
                                           <input name="checked[]" ng-model="message.selected" type="checkbox" />
                                           <img class="user-image img-circle" style="width:40px; height:40px;" ng-src="{{'dashboard/profileImage/'+message.userId}}">
                                       </td>-->
-                                      <td class="name">{{message.FromId}}</a></td>
+                                      <td class="name">{{message.FromType}}</a></td>
+                                      <td class="">{{message.FromName}}</td>
                                       <td class="subject">{{message.title}}</a></td>
                                       <td class="time">{{message.date}}</td>
                                       <td><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo-{{message._id}}">Show</button>
