@@ -40,12 +40,11 @@
                           <div class="box-body table-responsive">
                               <table class="table">
                                   <tr>
-                                    <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
                                     <th>Type</th>
                                     <th>Name</th>
                                     <th>Title</th>
                                     <th>Date</th>
-                                    <th class='no-print'>Operations</th>
+                                    
                                   </tr>
                                   <tr dir-paginate-start="message in vm.messages | itemsPerPage:10 |filter:searchText" >
                                       <!--<td class="small-col" style="width:90px;">
