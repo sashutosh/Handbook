@@ -93,7 +93,8 @@
       login : login,
       logout : logout,
       schoolId:schoolId,
-      userId:userId
+      userId:userId,
+      userRole:userRole
     };
   }
 

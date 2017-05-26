@@ -1,6 +1,6 @@
 (function () {
 
-  angular.module('handbook', ['ngRoute','ngSanitize','ui.bootstrap','angularUtils.directives.dirPagination']);
+  angular.module('handbook', ['ngRoute','ngSanitize','ui.bootstrap','angularUtils.directives.dirPagination','angularjs-dropdown-multiselect']);
 
   function config ($routeProvider,$locationProvider) {
     $routeProvider

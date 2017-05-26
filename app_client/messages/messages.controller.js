@@ -3,22 +3,56 @@
   angular
     .module('handbook')
     .controller('messageCtrl', messageCtrl);
-  messageCtrl.$inject= ['$location','messaging','handbookData','$modal'];     
-  function messageCtrl($location,messaging,handbookData,$modal) {
+  messageCtrl.$inject= ['$location','messaging','handbookData','authentication','$modal'];     
+  function messageCtrl($location,messaging,handbookData,authentication,$modal) {
     
     var vm = this;
     vm.messageSubject="";
     vm.messageText="";
+    vm.messageType="DIARY_NOTE";
     vm.selectedRecipientsObjectList=[];
     vm.selectedRecipients=[];
     vm.selectedRecipientsId=[];
     vm.selectedRecipientsPhoneNumbers=[];
-
+    vm.selectedClasses=[];  
     vm.selectedRecipients= messaging.getSelectedRecipientsList();  
     vm.selectedRecipientsPhoneNumbers=messaging.getSelectedRecipientsPhone();
     vm.selectedRecipientsId= messaging.getSelectedRecipientsId();
     vm.pageHeader = {
       title: 'Messages'
+    };
+    vm.buttonLabel= {
+      buttonDefaultText:'Classes'
+    };
+    vm.schoolId = authentication.schoolId().schoolId;
+
+    handbookData.getClasses(vm.schoolId)
+    .success(function(data){
+      if(data){
+        vm.classes=data;
+        updateClasses(vm.classes); 
+      }
+    });
+
+    var updateClasses=function(classes){
+        
+        for(var i=0;i<vm.classes.length;i++){
+            vm.classes[i].label= vm.classes[i].ClassSection;
+        }
+    }
+
+ 
+
+    vm.controlSettings = {
+        scrollableHeight: '200px',
+        scrollable: true,
+        enableSearch: true
+    };
+
+    vm.firedEvents={
+      onSelectionChanged: function(){
+          alert("Messages");
+      }
     };
 
     vm.send=function(){
@@ -26,6 +60,10 @@
       var msgJsonObject = vm.prepareMessage();
       messaging.sendMessage(msgJsonObject);
     };
+
+    var classSelectionChanged=function(){
+      alert("Cahnged");
+    }
 
     var setPhoneNumbersAndIds=function(selectRecipients){
       //Clear the previous data if any
@@ -84,9 +122,9 @@
         
         msgObject.MessageBody= vm.messageSubject;
         msgObject.MessageTitle= vm.messageSubject;
-        msgObject.type="DIARY_NOTE";
-        msgObject.FromType="Admin";
-        msgObject.FromId="007";
+        msgObject.type=vm.messageType;
+        msgObject.FromType=authentication.userRole().userRole;
+        msgObject.FromId=authentication.userId().userId;
         msgObject.MobileNumbers=vm.selectedRecipientsPhoneNumbers;
         msgObject.ToIds=vm.selectedRecipientsId;
         return msgObject;  
