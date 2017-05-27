@@ -26,6 +26,18 @@
     };
     vm.schoolId = authentication.schoolId().schoolId;
 
+    handbookData.getStudents(vm.schoolId)
+    .success(function(data){
+      if(data){
+        vm.students=data;
+      }
+    })
+    .error(function(e){
+        console.log(e);
+       // vm.popupAddSchoolForm();
+       //alert("School data not found");
+    });
+
     handbookData.getClasses(vm.schoolId)
     .success(function(data){
       if(data){
@@ -51,18 +63,24 @@
 
     vm.firedEvents={
       onSelectionChanged: function(){
-          alert("Messages");
+          updateSelectedStudents();
+          vm.countMessage="Selected Students: "+vm.selectedStudents.length;
       }
     };
 
-    vm.send=function(){
-      console.log("Sending message");
-      var msgJsonObject = vm.prepareMessage();
-      messaging.sendMessage(msgJsonObject);
-    };
-
-    var classSelectionChanged=function(){
-      alert("Cahnged");
+    
+    var updateSelectedStudents=function(){
+      vm.selectedStudents=[];
+      for(j=0;j<vm.students.length;j++){
+      
+        //Check if the students class is in selected classes
+        for(var i=0;i<vm.selectedClasses.length;i++){
+          if(vm.selectedClasses[i].ClassSection===vm.students[j].StudentClassStandard){
+            vm.selectedStudents.push(vm.students[j]);
+            break;
+          }
+        }
+      };
     }
 
     var setPhoneNumbersAndIds=function(selectRecipients){
@@ -79,19 +97,26 @@
         vm.selectedRecipients.push(selectedObject.StudentFirstName);  
       });
     }
+    
     vm.selectRecipients=function(){
 
       var modalInstance=$modal.open({
             templateUrl:'/messages/selectRecipientsModal.view.html',
             controller: 'selectRecipientsModalCtrl as vm',
+            resolve : {
+                currentSelectedStudents : function() {
+                  return {
+                    students : vm.selectedStudents
+                };
+              } 
+            }
           });
           
       modalInstance.result.then(function (selectedStudentsList) {
             
-            vm.selectedRecipientsObjectList=selectedStudentsList;
-            if(vm.selectedRecipientsObjectList.length>0){
-              setPhoneNumbersAndIds(vm.selectedRecipientsObjectList);
-            }      
+            console.log("Filtered object count ="+ selectedStudentsList.length);    
+            vm.selectedStudents=selectedStudentsList;
+            vm.countMessage="Selected Students: "+vm.selectedStudents.length;
             console.log("Edited a new timeslot");  
 
         }, function () {
@@ -112,10 +137,15 @@
           vm.loading=false;    
 
       });
-      
-      
     }
-    
+
+    vm.send=function(){
+        console.log("Sending message");
+        setPhoneNumbersAndIds(vm.selectedStudents);
+        var msgJsonObject = vm.prepareMessage();
+        messaging.sendMessage(msgJsonObject);
+      };
+
     vm.prepareMessage=function(){
 
         var msgObject={};

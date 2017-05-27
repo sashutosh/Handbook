@@ -4,23 +4,18 @@
     .module('handbook')
     .controller('selectRecipientsModalCtrl', selectRecipientsModalCtrl);
   
-  selectRecipientsModalCtrl.$inject = ['$modalInstance','handbookData','authentication'];  
+  selectRecipientsModalCtrl.$inject = ['$modalInstance','handbookData','authentication','currentSelectedStudents'];  
   
-  function selectRecipientsModalCtrl($modalInstance,handbookData,authentication) {
+  function selectRecipientsModalCtrl($modalInstance,handbookData,authentication,currentSelectedStudents) {
     var vm = this;
+    vm.students=currentSelectedStudents.students;
+    
+    //Mark all students as selected by default
+    
+    
     var selectedStudentsList =[];
-    handbookData.getStudents(vm.schoolId)
-    .success(function(data){
-      if(data){
-        vm.students=data;
-      }
-    })
-    .error(function(e){
-        console.log(e);
-       // vm.popupAddSchoolForm();
-       //alert("School data not found");
-    });
-
+   
+    
     vm.checkAll=function(){
 
       if(!vm.selectedAll){
@@ -34,7 +29,7 @@
       })
 
     }
-
+    vm.checkAll();
     vm.modal = {
         close : function (result) {
             $modalInstance.close(result);

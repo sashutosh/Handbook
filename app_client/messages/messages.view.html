@@ -8,7 +8,7 @@
         <div class="Compose-Message">               
         <div class="panel panel-default">
             <div class="panel-heading">
-                Compose New Message 
+                Compose New Student Message 
             </div>
             <div class="panel-body">
                 
@@ -16,20 +16,14 @@
                   <label>Select</label>
                   <div>
                     <div class= "col-sm-3" ng-dropdown-multiselect="" options="vm.classes" selected-model="vm.selectedClasses" extra-settings="vm.controlSettings" events= "vm.firedEvents" translation-texts="vm.buttonLabel"></div>
-                    <a href="#" class="btn col-sm-3" ng-click="vm.selectRecipients()"> Filter Students </a>
+                    <button type="button" class="btn btn-secondary" ng-click="vm.selectRecipients()"> Filter Students </button>
                   </div>
                 </div>
-                
-                
+                <div class="row">
+                  <label class="col-sm-offset-1">{{vm.countMessage}}</label>                
+                </div>
+                <label>Type</label>
                 <div class="form-group">
-                  <div>
-                    <label></label>
-                  </div>
-
-                  <div class ="row">
-                    <label>Type</label>
-                  </div>
-                  <div>
                     <label>
                       <input type="radio" ng-model="vm.messageType" value="DIARY_NOTE">
                       Diary Note
@@ -37,9 +31,8 @@
                     <label>
                       <input type="radio" ng-model="vm.messageType" ng-value="HOMEWORK">
                       Homework
-                    </label><br/>
-                  </div>
-                </div>  
+                    </label>
+                </div>
 
                 <label>Subject</label>
                 <div class="form-group">
