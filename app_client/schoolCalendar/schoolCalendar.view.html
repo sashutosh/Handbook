@@ -48,7 +48,7 @@
                   <th>EndTime</th>
                   <th class="no-print">Operation</th>
               </tr>
-              <tr dir-paginate="event in vm.events | filter:q | itemsPerPage:20">
+              <tr dir-paginate="event in vm.events | filter:q |orderBy:['EventDate']| itemsPerPage:20">
                   <!--<td>{{teacher.TeacherId}}</td>-->
                    <td>
                       <input type="checkbox" ng-model="events.selected"/></td>
