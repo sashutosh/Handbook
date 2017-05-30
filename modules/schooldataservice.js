@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var School = mongoose.model('School');
 
 
-function toSchool(request,body) {
+function toSchool(request,body, School) {
 var school =  new School(
 {
 	
@@ -29,7 +29,7 @@ return school;
 
 exports.createSchool = function (model,request, requestBody, response)
 {
-	var school = toSchool(request,requestBody);
+	var school = toSchool(request,requestBody, model);
 	
 	school.save(function(err){
 		if (err)

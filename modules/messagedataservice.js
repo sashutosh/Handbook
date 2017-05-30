@@ -63,7 +63,22 @@ console.log(result);
 	//console.log(result);
 	}
 	});
-	}
+}
+
+exports.findMessagebySchoolId = function (model, _SchoolId, response){
+	model.find({SchoolId: SchoolId}, function(error, result) {
+		if (error) {
+		console.error(error);
+		return null;
+		}
+		if (response != null) {
+		response.setHeader('content-type', 'application/json');
+		response.end(JSON.stringify(result));
+		}
+		return JSON.stringify(result);
+		});
+}
+
 
 exports.listMessages = function (model, response) {
 	model.find({}, function(error, result) {
