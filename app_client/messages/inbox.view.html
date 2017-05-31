@@ -46,7 +46,7 @@
                                     <th>Date</th>
                                     
                                   </tr>
-                                  <tr dir-paginate-start="message in vm.messages | itemsPerPage:10 |filter:searchText" >
+                                  <tr dir-paginate-start="message in vm.messages |filter:searchText | orderBy: vm.sortDate : true | itemsPerPage:10" >
                                       <!--<td class="small-col" style="width:90px;">
                                           <input name="checked[]" ng-model="message.selected" type="checkbox" />
                                           <img class="user-image img-circle" style="width:40px; height:40px;" ng-src="{{'dashboard/profileImage/'+message.userId}}">

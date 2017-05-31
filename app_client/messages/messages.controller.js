@@ -144,19 +144,23 @@
         setPhoneNumbersAndIds(vm.selectedStudents);
         var msgJsonObject = vm.prepareMessage();
         messaging.sendMessage(msgJsonObject);
+        $location.path("/inbox")  
       };
 
     vm.prepareMessage=function(){
 
         var msgObject={};
         
-        msgObject.MessageBody= vm.messageSubject;
-        msgObject.MessageTitle= vm.messageSubject;
+        msgObject.MessageBody= vm.messageText;
+        msgObject.MessageTitle=vm.messageSubject;
         msgObject.type=vm.messageType;
         msgObject.FromType=authentication.userRole().userRole;
         msgObject.FromId=authentication.userId().userId;
+        msgObject.FromName=authentication.currentUser().name; 
         msgObject.MobileNumbers=vm.selectedRecipientsPhoneNumbers;
         msgObject.ToIds=vm.selectedRecipientsId;
+        msgObject.ToNames=vm.selectedRecipients;
+        msgObject.ImageUrl= vm.selectedImageUrl;
         return msgObject;  
     };
   }

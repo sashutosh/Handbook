@@ -29,6 +29,11 @@
       }
     }
 
+    vm.sortDate=function(message){
+      var date = new Date(message.date);
+      return date;
+    }
+    
     messaging.getAllMessages(vm.schoolId)
     .success(function(data){
         vm.messages=data;

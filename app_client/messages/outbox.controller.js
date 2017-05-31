@@ -24,7 +24,16 @@
     messaging.getSentMessages(vm.schoolId, vm.userId)
     .success(function(data){
         vm.messages=data;
+        formatSentMessages(vm.messages);
     });
 
+  }
+  var formatSentMessages=function(messages){
+    for(var i=0;i<messages.length;i++){
+      if(messages[i].ToNames.length > 1)
+      {
+        messages[i].SentToText = messages[i].ToNames[0]+" +" +messages[i].ToNames.length +" Others"
+      }
+    }
   }
 })();
