@@ -194,6 +194,7 @@ var LocalMessageSchema = new mongoose.Schema({
 	date: String,
 	notification_id: String,
 	ImageUrl: String,
+	SchoolId: String,
 	FromType: String,
 	FromName : String,
 	FromId: String,
@@ -585,10 +586,20 @@ app.get('/Messages/:Id', function(request, response) {
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
 	request.params.Id);
-	console.log("before " + request.params.Id);
+	
 	messagedataservice.findMessagebyId(LocalMessageLogging, request.params.Id,
 	response);
-	});
+});
+
+app.get('/Messages/:SchoolId', function(request, response) {
+    response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log(request.url + ' : querying for ' +
+	request.params.SchoolId);
+	
+	messagedataservice.findMessagebySchoolId(LocalMessageLogging, request.params.SchoolId,
+	response);
+});
 
 app.post('/messages', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
@@ -699,14 +710,17 @@ app.post('/school', function(request, response) {
 	});
 
 app.put('/school', function(request, response) {
+	
+
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	
 	schooldataservice.createSchool(School,request, request.body, response);
 	});
 	
 	
 app.get('/school', function(request, response) {
-		
+		console.log("test 2");
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
 	schooldataservice.listSchools(School, response);
@@ -1488,6 +1502,7 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 			"FromName" : request.body.From,
 	        "ToIds" :  request.body.ToIds,
 			"ToNames" : request.body.ToNames,
+			"SchoolId" : request.body.SchoolId,
 	        
 	        
 	    },
@@ -1533,6 +1548,7 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 				        "MobileNumbers" : request.body.MobileNumbers,
 				        "Error" : " ",
 						"ToNames" : request.body.ToNames,
+						"SchoolId" : request.body.SchoolId,
 				  });
 				  
 				// Set up the sender with you API key
