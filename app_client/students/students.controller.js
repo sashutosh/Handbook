@@ -4,10 +4,10 @@
     .module('handbook')
     .controller('studentCtrl', studentCtrl);
 
-  studentCtrl.$inject= ['$location','handbookData','messaging'];  
-  function studentCtrl($location,handbookData,messaging) {
+  studentCtrl.$inject= ['$location','handbookData','messaging','authentication'];  
+  function studentCtrl($location,handbookData,messaging,authentication) {
     var vm = this;
-    vm.schoolId=100;  
+    vm.schoolId=authentication.schoolId().schoolId;;  
     vm.selectedIds = {"002": true,"003":false};
     
     vm.pageHeader = {
