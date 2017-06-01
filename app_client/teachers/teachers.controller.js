@@ -4,12 +4,12 @@
     .module('handbook')
     .controller('teacherCtrl', teacherCtrl);
 
-  teacherCtrl.$inject= ['$location','handbookData','messaging'];  
+  teacherCtrl.$inject= ['$location','handbookData','messaging','authentication'];  
   
-  function teacherCtrl($location,handbookData,messaging) {
+  function teacherCtrl($location,handbookData,messaging,authentication) {
     var vm = this;
     vm.selectedAll=false;
-    vm.schoolId=100;  
+    vm.schoolId=authentication.schoolId().schoolId;  
     vm.selectedIds = {"002": true,"003":false};
     vm.selectedTeacher =[];
     

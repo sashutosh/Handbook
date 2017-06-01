@@ -52,7 +52,7 @@
     };
 
     var getTeachers= function (schoolId){
-      return $http.get('/teachers/');
+      return $http.get('/AllTeachers/' + schoolId);
     }
 
     var getSubjects= function (schoolId){
