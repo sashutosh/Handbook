@@ -30,10 +30,10 @@
     }
 
     vm.sortDate=function(message){
-      var date = new Date(message.date);
+      var date = new Date( message.date.replace( /(\d{2})\/(\d{2})\/(\d{4})/, "$2/$1/$3") );;
       return date;
     }
-    
+
     messaging.getAllMessages(vm.schoolId)
     .success(function(data){
         vm.messages=data;
