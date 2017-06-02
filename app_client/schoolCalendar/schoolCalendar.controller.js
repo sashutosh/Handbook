@@ -4,9 +4,9 @@
     .module('handbook')
     .controller('schoolCalendarCtrl', schoolCalendarCtrl);
 
-  schoolCalendarCtrl.$inject= ['$location','handbookData','messaging'];  
+  schoolCalendarCtrl.$inject= ['$location','$modal','handbookData','messaging'];  
   
-  function schoolCalendarCtrl($location,handbookData,messaging) {
+  function schoolCalendarCtrl($location,$modal,handbookData,messaging) {
     var vm = this;
     vm.selectedAll=false;
     vm.schoolId= "100";  
@@ -14,7 +14,7 @@
    
     
     vm.pageHeader = {
-      title: 'SchoolCalendar'
+      title: 'School Calendar'
     };
 
     
@@ -48,9 +48,25 @@
       }
     }
 
-    vm.addEvent = function(){
-      console.log(vm.selectedevent);
-    };
+    
+
+    vm.addEvent=function(){
+        
+        var modalInstance=$modal.open({
+            templateUrl:'/schoolCalendar/addCalendarEventModal.view.html',
+            controller: 'addEventModalCtrl as vm',
+        });
+
+        modalInstance.result.then(function (timeSlot) {
+            
+            //vm.classSchedule.Days[vm.selectedDay].TimeSlots.push(timeSlot);
+            console.log("Added a new event");  
+
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });
+
+    }
     
     vm.edit= function(event){
       

@@ -1,0 +1,93 @@
+<modal>
+    <form class="form-horizontal" name="addSubForm" role="form" ng-submit="vm.onSubmit()" novalidate>
+        <div class="modal-header">
+          <button type="button" ng-click="vm.modal.cancel()" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <h4 id="myModalLabel" class="modal-title">Add Event</h4>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': addSubForm.teacherId.$invalid}">
+          <label for="inputPassword3" class="col-sm-2 control-label">Title</label>
+          <div class="col-sm-10">
+            <input type="text" ng-model="vm.eventTitle" name="eventDay">
+          </div>
+        </div>
+        
+        <div class="form-group" ng-class="{'has-error': addSubForm.teacherId.$invalid}">
+          <label for="inputPassword3" class="col-sm-2 control-label">Details</label>
+          <div class="col-sm-10">
+            <textarea rows="2" class="form-control" ng-model="vm.eventText"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': addSubForm.teacherId.$invalid}">
+          <label for="inputPassword3" class="col-sm-2 control-label">Teacher</label>
+          <div class="col-sm-5">
+            <select class="form-control" ng-model="vm.selectedTeacher" required name="teacherId">
+              <option ng-repeat="teacherOne in vm.teachers" value="{{$index}}">{{teacherOne.TeacherFirstName}}</option>
+            </select>
+          </div>
+          <div class="col-sm-5">
+            <div class= "col-sm-3" ng-dropdown-multiselect="" options="vm.classes" selected-model="vm.selectedClasses" extra-settings="vm.controlSettings" events= "vm.firedEvents" translation-texts="vm.buttonLabel"></div>
+          </div>
+        </div>
+
+        <!--<div class="form-group" ng-class="{'has-error': addSubForm.dayOfWeek.$invalid}">
+          <label for="inputPassword3" class="col-sm-2 control-label">Day *</label>
+          <div class="col-sm-10">
+            <select class="form-control" ng-model="form.dayOfWeek" required name="dayOfWeek">
+              <option ng-repeat="(key, value) in vm.days" value="{{key}}">{{value}}</option>
+            </select>
+          </div>
+        </div>-->
+       
+       <div class="form-group" ng-class="{'has-error': addSubForm.teacherId.$invalid}">
+          <label for="inputPassword3" class="col-sm-2 control-label">Date</label>
+          <div class="col-sm-10">
+            <input type="date" ng-model="vm.selectedDay" name="eventDay">
+          </div>
+        </div>   
+
+        <div class="form-group" ng-class="{'has-error': addSubForm.startTimeHour.$invalid || addSubForm.startTimeMin.$invalid}">
+          <label for="inputPassword3" class="col-sm-2 control-label">Start time *</label>
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-xs-3">
+                <select class="form-control" ng-model="vm.startTimeHour" required name="startTimeHour">
+                  <option ng-repeat="i in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]" value="{{i}}">{{i}}</option>
+                </select>
+              </div>
+              <div class="col-xs-3">
+                <select class="form-control" ng-model="vm.startTimeMin" required name="startTimeMin">
+                  <option ng-repeat="i in [00,05,10,15,20,25,30,35,40,45,50,55]" value="{{i}}">{{i}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': addSubForm.endTimeHour.$invalid || addSubForm.endTimeMin.$invalid}">
+          <label for="inputPassword3" class="col-sm-2 control-label">EndTime *</label>
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-xs-3">
+                <select class="form-control" ng-model="vm.endTimeHour" required name="endTimeHour">
+                  <option ng-repeat="i in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]" value="{{i}}">{{i}}</option>
+                </select>
+              </div>
+              <div class="col-xs-3">
+                <select class="form-control" ng-model="vm.endTimeMin" required name="endTimeMin">
+                  <option ng-repeat="i in [00,05,10,15,20,25,30,35,40,45,50,55]" value="{{i}}">{{i}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-12">
+            <button type="submit" class="btn btn-default" ng-disabled="addSubForm.$invalid || $isUploading">Add</button>
+          </div>
+        </div>
+    </form>
+</modal>
