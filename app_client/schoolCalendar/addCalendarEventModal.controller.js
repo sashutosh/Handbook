@@ -10,7 +10,7 @@ angular
     //vm.schoolData = $modalInstance.schoolData;
     vm.formData ={};    
     vm.currentEvent={};
-    
+    vm.selectedDay =new Date();
     vm.startTimeHour ="";
     vm.startTimeMin ="";
 
