@@ -4,14 +4,17 @@
     .module('handbook')
     .controller('schoolCalendarCtrl', schoolCalendarCtrl);
 
-  schoolCalendarCtrl.$inject= ['$location','$modal','handbookData','messaging'];  
+  schoolCalendarCtrl.$inject= ['$location','$modal','handbookData','messaging','authentication'];  
   
-  function schoolCalendarCtrl($location,$modal,handbookData,messaging) {
+  function schoolCalendarCtrl($location,$modal,handbookData,messaging,authentication) {
     var vm = this;
     vm.selectedAll=false;
-    vm.schoolId= "100";  
+    vm.schoolId= authentication.schoolId().schoolId;
     vm.selectedIds = {"002": true,"003":false};
-   
+    var addMode="ADD_EVENT";
+    vm.currentCommand=addMode;
+    var modifyMode="MODIFY_EVENT";
+    var viewMode="VIEW_EVENT";
     
     vm.pageHeader = {
       title: 'School Calendar'
@@ -52,14 +55,21 @@
 
     vm.addEvent=function(){
         
+        vm.currentCommand=addMode
         var modalInstance=$modal.open({
             templateUrl:'/schoolCalendar/addCalendarEventModal.view.html',
             controller: 'addEventModalCtrl as vm',
         });
 
-        modalInstance.result.then(function (timeSlot) {
+        modalInstance.result.then(function (newEvent) {
             
             //vm.classSchedule.Days[vm.selectedDay].TimeSlots.push(timeSlot);
+            vm.currentEvent=newEvent;
+            vm.currentEvent.SchoolId=vm.schoolId;
+            if(vm.currentCommand===addMode)
+            {
+              handbookData.addSchoolEvent(vm.currentEvent);
+            }
             console.log("Added a new event");  
 
         }, function () {

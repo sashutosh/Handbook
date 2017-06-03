@@ -6,43 +6,35 @@ angular
     addEventModalCtrl.$inject = ['$modalInstance','handbookData','authentication'];
     
     function addEventModalCtrl ($modalInstance,handbookData,authentication) {
-        var vm = this;
-        //vm.schoolData = $modalInstance.schoolData;
-        vm.formData ={};    
-        
-        
-        vm.startTimeHour ="";
-        vm.startTimeMin ="";
+    var vm = this;
+    //vm.schoolData = $modalInstance.schoolData;
+    vm.formData ={};    
+    vm.currentEvent={};
+    
+    vm.startTimeHour ="";
+    vm.startTimeMin ="";
 
-        vm.endTimeHour ="";
-        vm.endTimeMin ="";
-        vm.selectedSubject=null;
-        vm.selectedClasses=[];  
-        vm.selectedTeacher={};    
+    vm.endTimeHour ="";
+    vm.endTimeMin ="";
+    vm.selectedSubject=null;
+    vm.selectedClasses=[];  
+    vm.selectedTeacher={};    
 
-        vm.timeSlot = {
-            subject : "",
-            startTime: "",
-            endTime:"",
+    vm.schoolId = authentication.schoolId().schoolId;
 
-        }
-        vm.schoolId = authentication.schoolId();
-
-        handbookData.getSubjects(vm.schoolId.schoolId)
-            .success(function(data){
-                if(data){
-                    vm.subjects=data; 
-                }
-        });
-        
-        handbookData.getTeachers(vm.schoolId.schoolId)
-            .success(function(data){
-                if(data){
-                    vm.teachers=data; 
-                }
-        });  
-
-    handbookData.getClasses(vm.schoolId.schoolId)
+    handbookData.getStudents(vm.schoolId)
+    .success(function(data){
+      if(data){
+        vm.students=data;
+      }
+    })
+    .error(function(e){
+        console.log(e);
+       // vm.popupAddSchoolForm();
+       //alert("School data not found");
+    });
+    
+    handbookData.getClasses(vm.schoolId)
     .success(function(data){
       if(data){
         vm.classes=data;
@@ -65,29 +57,39 @@ angular
     
     vm.firedEvents={
       onSelectionChanged: function(){
-          //updateSelectedStudents();
+          updateSelectedStudents();
           //vm.countMessage="Selected Students: "+vm.selectedStudents.length;
           alert("Classes changed");
       }
-    };  
+    };
+
+    var updateSelectedStudents=function(){
+      vm.selectedStudentIds=[];
+      for(j=0;j<vm.students.length;j++){
+      
+        //Check if the students class is in selected classes
+        for(var i=0;i<vm.selectedClasses.length;i++){
+          if(vm.selectedClasses[i].ClassSection===vm.students[j].StudentClassStandard){
+            vm.selectedStudentIds.push(vm.students[j].StudentId);
+            break;
+          }
+        }
+      };
+    }  
 
 
         vm.days =['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
         
         vm.onSubmit = function () {
             vm.formError = "";
-           vm.timeSlot.SubjectName=vm.subjects[vm.selectedSubject].Subject;
-           vm.timeSlot.SubjectId=vm.subjects[vm.selectedSubject].SubjectCode;
-           vm.startTime = vm.startTimeHour+ ':' +vm.startTimeMin;
-           vm.TeacherName = vm.teachers[vm.selectedTeacher].TeacherFirstName;
-           vm.TeacherId=vm.teachers[vm.selectedTeacher].TeacherId;
-           vm.endTime = vm.endTimeHour+ ':' +vm.endTimeMin;
-
-           vm.timeSlot.StartTime=vm.startTime;
-           vm.timeSlot.EndTime=vm.endTime;
-           vm.timeSlot.TeacherName=vm.TeacherName;
-           vm.timeSlot.TeacherId =vm.TeacherId;
-           vm.modal.close();
+           vm.currentEvent.EventName= vm.eventTitle;
+           vm.currentEvent.EventDetail= vm.eventText;
+           vm.currentEvent.EventStartTime = vm.startTimeHour+ ':' +vm.startTimeMin;
+           vm.currentEvent.EventDate= vm.selectedDay;            
+           vm.currentEvent.EventEndTime = vm.endTimeHour+ ':' +vm.endTimeMin;
+           vm.currentEvent.EventPlace= vm.eventLocation;
+           vm.currentEvent.StudentIDS= vm.selectedStudentIds;      
+           vm.modal.close(vm.currentEvent);
         };
         
 
