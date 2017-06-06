@@ -20,11 +20,17 @@
       <!-- Secondary, outline button -->
        <button type="button" class="btn btn-secondary" ng-click="vm.sendMessage()">Message</button>
        <button type="button" class="btn btn-danger" ng-click="vm.deleteStudent()">Delete</button> 
-       <div>
-        <label for="filter">Filter results</label>
-        <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+       <div class="row" style="margin-top: 10px;">
+        <label for="filter" style="margin-right: 10px; margin-left: 20px;">Search</label>
+        <input ng-model="q" id="search" placeholder="Search text">
+        
+        <label for="inputPassword3" style="margin-right: 10px; margin-left: 10px;" class="control-label">Class</label>
+        <select ng-model="vm.selectedClass" ng-change="vm.classChanged()" required name="selectedClass">
+          <option ng-repeat="i in vm.classes" value="{{i.ClassSection}}">{{i.ClassSection}}</option>
+        </select>
+        
        </div>
-      <div class="error">{{ vm.message }}</div>
+      <div class="error">{{vm.message }}</div>
       <div class="row list-group">
         <div class="box-body table-responsive">
           <table class="table table-hover">
@@ -36,7 +42,7 @@
                   <th>Std / Section</th>
                   <th class='no-print'>Operations</th>
               </tr>
-              <tr dir-paginate="student in vm.students | filter:q | orderBy:['StudentClassStandard','StudentFirstName']|itemsPerPage:20">
+              <tr dir-paginate="student in vm.filteredStudents | filter:q | orderBy:['StudentClassStandard','StudentFirstName']|itemsPerPage:20">
                   <!--<td>{{student.StudentId}}</td>-->
                   <td>
                       <input type="checkbox" ng-model="student.selected"/>
@@ -45,7 +51,7 @@
                       <img class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{student.ImageUrl}}">
                      
                   </td>
-                  <td><a href="" ng-click="vm.studentProfile(student)">{{student.StudentFirstName }}</a></td>
+                  <td><a href="" ng-click="vm.studentProfile(student)">{{student.StudentFirstName|titleCase }}</a></td>
                   <td>{{student.StudentParentMobiles}}</td>
                   <td>{{student.StudentClassStandard}}</td>
                   <td class='no-print'>

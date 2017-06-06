@@ -4,17 +4,29 @@
     .module('handbook')
     .controller('studentCtrl', studentCtrl);
 
-  studentCtrl.$inject= ['$location','handbookData','messaging','authentication'];  
-  function studentCtrl($location,handbookData,messaging,authentication) {
+  studentCtrl.$inject= ['$location','$filter','handbookData','messaging','authentication'];  
+  function studentCtrl($location,$filter,handbookData,messaging,authentication) {
     var vm = this;
     vm.schoolId=authentication.schoolId().schoolId;;  
     vm.selectedIds = {"002": true,"003":false};
-    
+    vm.classes=[];
+    vm.filteredStudents=[];
+    vm.selectedClass="";
     vm.pageHeader = {
       title: 'Students'
     };
+    var allClass= {};
+    allClass.ClassSection="All";
 
-
+    vm.classChanged=function(){
+      if(vm.selectedClass===allClass.ClassSection)
+      {
+         vm.filteredStudents=vm.students; 
+      }
+      else{
+        vm.filteredStudents = $filter('filter')(vm.students,{StudentClassStandard:vm.selectedClass});
+      }
+    }
 
     vm.checkAll=function(){
 
@@ -24,7 +36,7 @@
       else{
         vm.selectedAll=false;
       }
-      angular.forEach(vm.students,function(student){
+      angular.forEach(vm.filteredStudents,function(student){
         student.selected=vm.selectedAll;
       })
 
@@ -32,7 +44,7 @@
 
     vm.sendMessage=function(){
         
-      for (var i = 0, l = vm.students.length; i < l; i++) {
+      for (var i = 0, l = vm.filteredStudents.length; i < l; i++) {
         
         if(vm.students[i].selected){
           messaging.addtoMessageList({
@@ -75,6 +87,7 @@
     .success(function(data){
       if(data){
         vm.students=data;
+        vm.filteredStudents=vm.students;
       }
     })
     .error(function(e){
@@ -82,6 +95,22 @@
         vm.popupAddSchoolForm();
        //alert("School data not found");
     });
+
+    handbookData.getClasses(vm.schoolId)
+    .success(function(data){
+      if(data){
+        vm.classes=data;
+        vm.classes.push(allClass);
+        //updateClasses(vm.classes); 
+      }
+    });
+
+    var updateClasses=function(classes){
+        
+        for(var i=0;i<vm.classes.length;i++){
+            vm.classes[i].label= vm.classes[i].ClassSection;
+        }
+    }
 
   }
 
