@@ -31,16 +31,16 @@
               <tbody>
                 <tr>
                   <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
-                  <th>Name</th>
-                  <th>Code</th>
+                  <th>Class</th>
+                  <th>Section</th>
                 </tr>
-              <tr dir-paginate="class in vm.classes | filter:q | itemsPerPage:20">
+              <tr dir-paginate="(key, value) in vm.classSectionMap | itemsPerPage:20">
                    <td>
                       <input type="checkbox" ng-model="class.selected"/></td>
                   <td>
-                    <input type="text" class="form-control" ng-model="class.Class" required/></td>
+                    <label>{{key}}</label></td>
                   <td>
-                    <input type="text" class="form-control" ng-model="class.Section" required/></td>
+                    <label>{{value}}</label></td>
                 </tr>
               <tr ng-show="!vm.classes.length"><td class="noTableData" colspan="5">No Subjects</td></tr>
           </tbody></table>

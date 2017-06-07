@@ -15,9 +15,28 @@
     handbookData.getClasses(vm.schoolId.schoolId)
     .success(function(data){
       if(data){
+        vm.classSectionMap={};
         vm.classes=data; 
+         for(var i=0;i<vm.classes.length; i++){
+            if(!vm.classSectionMap.hasOwnProperty(vm.classes[i].Class)){
+              var sections =[];
+              sections.push(vm.classes[i].Section);
+              vm.classSectionMap[vm.classes[i].Class]= sections;
+            }
+            else{
+               var sections = vm.classSectionMap[vm.classes[i].Class];
+               sections.push(vm.classes[i].Section);
+               vm.classSectionMap[vm.classes[i].Class]= sections;
+            }
+          }
+          
+      
       }
     });
+
+
+
+    //vm.classSectionMap = handbookData.getClassSectionMap(vm.schoolId.schoolId);
 
     vm.checkAll=function(){
 
