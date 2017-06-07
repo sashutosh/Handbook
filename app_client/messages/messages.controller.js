@@ -64,7 +64,7 @@
     vm.firedEvents={
       onSelectionChanged: function(){
           updateSelectedStudents();
-          vm.countMessage="Selected Students: "+vm.selectedStudents.length;
+          vm.countMessage=vm.selectedStudents.length + " selected";
       }
     };
 
@@ -116,7 +116,7 @@
             
             console.log("Filtered object count ="+ selectedStudentsList.length);    
             vm.selectedStudents=selectedStudentsList;
-            vm.countMessage="Selected Students: "+vm.selectedStudents.length;
+            vm.countMessage=vm.selectedStudents.length + " selected";
             console.log("Edited a new timeslot");  
 
         }, function () {

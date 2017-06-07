@@ -13,30 +13,32 @@
             <div class="panel-body">
                 
                 <div class="form-group">
-                  <label>Select</label>
-                  <div>
-                    <div class= "col-sm-3" ng-dropdown-multiselect="" options="vm.classes" selected-model="vm.selectedClasses" extra-settings="vm.controlSettings" events= "vm.firedEvents" translation-texts="vm.buttonLabel"></div>
-                    <button type="button" class="btn btn-secondary" ng-click="vm.selectRecipients()"> Filter Students </button>
-                  </div>
+                  <label class="col-sm-2 control-label">Select</label>
+                  <!--<div>-->
+                  <div class= "col-sm-3" ng-dropdown-multiselect="" options="vm.classes" selected-model="vm.selectedClasses" extra-settings="vm.controlSettings" events= "vm.firedEvents" translation-texts="vm.buttonLabel"></div>
+                  <button type="button" class="btn btn-secondary" ng-click="vm.selectRecipients()"> Filter Students </button>
+                  <!--</div>-->
                 </div>
-                <div class="row">
-                  <label class="col-sm-offset-1">{{vm.countMessage}}</label>                
+                
+                <div class="form-group" ng-show="vm.selectedStudents.length > 0">
+                  <label class="col-sm-12">{{vm.countMessage}}</label>                
                 </div>
-                <label>Type</label>
+                
                 <div class="form-group">
-                    <label>
+                    <label class="col-sm-2 control-label">Type</label>
+                    <label class="col-sm-5">
                       <input type="radio" ng-model="vm.messageType" value="DIARY_NOTE">
                       Diary Note
                     </label>
-                    <label>
+                    <label class="col-sm-5">
                       <input type="radio" ng-model="vm.messageType" ng-value="HOMEWORK">
                       Homework
                     </label>
                 </div>
 
-                <label>Subject</label>
+                
                 <div class="form-group">
-                  
+                  <label>Subject</label>  
                   <input type="text" class="form-control" ng-model="vm.messageSubject"/>
                 </div>
                 
