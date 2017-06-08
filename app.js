@@ -591,7 +591,7 @@ app.get('/Messages/:Id', function(request, response) {
 	response);
 });
 
-app.get('/Messages/:SchoolId', function(request, response) {
+app.get('/SchoolMessages/:SchoolId', function(request, response) {
     response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	console.log(request.url + ' : querying for ' +
@@ -1830,6 +1830,7 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
                       input: newPath,
                       output: null, //since we don't need output.json
                       lowerCaseHeaders:true
+					 
                   }, function(err,result){
                       if(err) {
                           return res.json({error_code:1,err_desc:err, data: null});
@@ -2141,6 +2142,112 @@ app.get('/ModelCount/:SchoolId', function(request, response){
 });
 
 
+ app.post('/uploadTeacherData', function(req, res) {
+     
+	 res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	  
+	  console.log(req.files.picture);	
+  	  var xlFile = req.files.picture;
+
+		var schoolId = req.body.schoolId;
+	console.log("School id is "+ schoolId);
+	 var Teachers = [ ];
+  	  //console.log(req.file.picture.path);
+  	   var newPath = __dirname + "/Images/" + req.files.picture.name;
+	   xlFile.mv(newPath, function(err){ 
+		   if(err){
+			   res.send("Error Uploading File");
+		   }
+		   else
+		   {
+               try {
+  	    		xlsxtojson({
+                      input: newPath,
+                      output: null, //since we don't need output.json
+                      lowerCaseHeaders:true,
+					  sheet: "Teacher"
+                  }, function(err,result){
+                      if(err) {
+                          return res.json({error_code:1,err_desc:err, data: null});
+                      } 
+                          xlsxtojson({
+                        input: newPath,
+                        output: null, //since we don't need output.json
+                        lowerCaseHeaders:true,
+                        sheet: "TeacherSubject"
+                    }, function(err2,result2){
+                        if(err2) {
+                        	console.log("inside 2nd error" + err2);
+                            return res.json({error_code:1,err_desc:err2, data: null});
+                        } 
+                        
+                        var i=0;
+                        for(i=0; i<result.length; i++)
+                        	{
+                        	  var teacher = new Teacher(
+                        	   {
+                        		  
+                        		   TeacherId: result[i].teacherid ,
+                        			SchoolId: req.body.schoolId,
+                        			TeacherFirstName: result[i].teachertname,
+                        			TeacherMiddleName: result[i].teachermiddlename,
+                        			TeacherLastName: result[i].teacherlastname,
+                        			TeacherDOB : result[i].teacherdob,
+                        			Age : result[i].age,
+                        			TeacherGender: result[i].teachergender,
+                        			TeacherFullAddress: result[i].presentaddress,
+                        			MobileNumber: result[i].mobilenumber.trim(),
+                        			AlternateMobNumber: result[i].alternatemobnumber,
+                        			EmailId: result[i].emailid,
+                        			AlternateEmailID: result[i].alternateemailid,
+                        			PresentAddress: result[i].presentaddress,
+                        			PresentAddressPOBox: result[i].presentaddresspobox,
+                        			PermanentAddress: result[i].permanentaddress,
+                        			PermanentAddressPOBox: " ",
+                        			ImageUrl: " ",		
+                        			TeacherRoleList: [
+                        					
+                        			]
+                        		});
+                        	  
+                        	     var rolelist = [ ];
+                        	     var j =0;
+                        	     for(j=0; j<result2.length; j++){
+                        	    	 
+                        	    	if(result2[j].mobilenumber.trim() === teacher.MobileNumber.toString()) {
+                        	    		
+                        	       var role = {
+                        	    		   TeacherRoleType: result2[j].teacherroletype ,
+                        	    		   TeacherRoleforStd: result2[j].teacherroleforstd,
+                        	    		   TeacherRoleforSubjectId: result2[j].teacherroleforsubjectId,
+                        	    		   TeacherRoleforSubject: result2[j].teacherroleforsubject
+                        	        };
+                        	       rolelist.push(role);
+                        	      }
+                        	    	else{} 	
+                        	    }
+                        	     teacher.TeacherRoleList = rolelist;
+                        	     Teachers.push(teacher);
+                        	    console.log(JSON.stringify(teacher));
+                        	}
+                        var k =0;
+						for(k=0; k<Teachers.length; k++){
+							dataservice.AddOrUpdateTeacher(Teacher,Teachers[k]);
+						}
+                        //res.end(JSON.stringify(Teachers));
+                    });
+                    
+                    
+                   
+                });
+              } catch (e){
+                  res.json({error_code:1,err_desc:"Corupted excel file"});
+              }
+  	      
+		   }
+		   }); 
+  	});
 
 
 

@@ -656,6 +656,70 @@ exports.updateTeacher = function (requestBody, response) {
 	});
 };
 
+exports.AddOrUpdateTeacher = function (model, requestBody) {
+	var TeacherId = requestBody.TeacherId;
+	model.findOne({TeacherId: TeacherId},
+	function(error, data) {
+	if (error) {
+	console.log(error);
+	return;
+	} else {
+	var teacher = toTeacher(requestBody, model);
+	if (!data) {
+	console.log('Teacher with TeacherID: '+ TeacherId
+	+ ' does not exist. The Teacher will be created.');
+	teacher.save(function(error) {
+	if (!error)
+		{
+		 teacher.save();
+		}
+	else
+		{
+		 console.log(error);
+		}
+	});
+	
+	console.log('Teacher Record Created');
+	return;
+	}
+	//poulate the document with the updated values
+	data.TeacherId = teacher.TeacherId;
+	data.SchoolId = teacher.SchoolId;
+	data.TeacherFirstName = teacher.TeacherFirstName;
+	data.TeacherMiddleName = teacher.TeacherMiddleName;
+	data.TeacherLastName = teacher.TeacherLastName;
+	data.TeacherDOB = teacher.TeacherDOB;
+	data.Age = teacher.Age;
+	data.TeacherGender = teacher.TeacherGender;
+	data.TeacherFullAddress = teacher.TeacherFullAddress;
+	data.MobileNumber = teacher.MobileNumber;
+	data.AlternateMobNumber = teacher.AlternateMobNumber;
+	data.EmailId = teacher.EmailId;
+	data.AlternateEmailID = teacher.AlternateEmailID;
+	data.PresentAddress = teacher.PresentAddress;
+	data.PresentAddressPOBox = teacher.PresentAddressPOBox;
+	data.PermanentAddress = teacher.PermanentAddress;
+	data.PermanentAddressPOBox = teacher.PermanentAddressPOBox;
+	data.Messages = teacher.Messages;
+	data.TeacherRoleList = teacher.TeacherRoleList;
+	data.ImageUrl = teacher.ImageUrl;
+	// now save
+	data.save(function (error) {
+	if (!error) {
+	console.log('Successfully updated Teacher with Teacher Id: '+ TeacherId);
+	data.save();
+	} else {
+	console.log('error on save');
+	}
+	});
+	
+	
+	}
+	});
+};
+
+
+
 exports.createEvents = function (Model, requestBody, response)
 {
 	var events = new Model(
@@ -796,6 +860,7 @@ exports.findStudentTimeTableByClassStandard = function (model, _ClassStandard, r
 		return;
 		} else {
 		if (!result) {
+			console.log("inside no result");
 		if (response != null) {
 			response.setHeader('Content-Type', 'application/json');
 		response.send(defaultStudentTimeTable(model,result));
@@ -804,12 +869,15 @@ exports.findStudentTimeTableByClassStandard = function (model, _ClassStandard, r
 		}
 		if (response != null){
 		response.setHeader('Content-Type', 'application/json');
+		console.log(result);
 		if(result !=null && result.ClassStandard !=undefined)
 		{
+			console.log("inside result");
 		response.send(result);
 	    }
 		else
 		{
+			console.log("default result");
 			response.send(defaultStudentTimeTable(model,result));
 		}
 	
@@ -1148,12 +1216,19 @@ exports.updateStudentTimeTableForClassStandard = function (model, requestBody, r
 	return;
 	} else {
 	var studenttimetable = toStudentTimeTable(requestBody, model);
+	
 	if (!data) {
 	console.log('Student Time Table For Class: '+ classstandard 
 	+ ' does not exist. The student Time Table will be created.');
 	studenttimetable.save(function(error) {
 	if (!error)
+	{
 		studenttimetable.save();
+	}
+	else
+	{
+		console.log(error);
+	}
 	});
 	if (response != null) {
 	response.writeHead(201,
