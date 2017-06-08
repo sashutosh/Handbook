@@ -132,26 +132,7 @@
           headers: {'Content-Type': undefined}})
     };
 
-    var getClassSectionMap = function(schoolId){
-      var classSectionMap= {};
-      getClasses(schoolId)
-      .success(function(data){
-          var classes = data;
-          for(var i=0;i<classes.length; i++){
-            if(!classSectionMap.hasOwnProperty(classes[i].Class)){
-              var sections =[];
-              sections.push(classes[i].Section);
-              classSectionMap[classes[i].Class]= sections;
-            }
-            else{
-               var sections = classSectionMap[classes[i].Class];
-               sections.push(classes[i].Section);
-               classSectionMap[classes[i].Class]= sections;
-            }
-          }
-          return classSectionMap;
-      })
-    }
+
     
     return {
       schoolDetailsById : schoolDetailsById,
@@ -178,8 +159,7 @@
       getSchoolEvents:getSchoolEvents,
       addSchoolEvent:addSchoolEvent,
       getModelCounts:getModelCounts,
-      uploadFile:uploadFile,
-      getClassSectionMap:getClassSectionMap
+      uploadFile:uploadFile
     };
   }
 

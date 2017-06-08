@@ -7,13 +7,8 @@
   <div class="row">
      <div class="col-md-6 col-sm-12">
        <button type="button" class="btn btn-primary btn-space" ng-click="vm.addClass()">Add</button>
-      <!-- Secondary, outline button -->
+      
        <button type="button" class="btn btn-danger btn-space" ng-click="vm.deleteClass()">Delete</button> 
-       <button type="button" class="btn btn-default btn-space" ng-click="vm.updateClasses()">Update</button> 
-       <div>
-        <label for="filter">Filter results</label>
-        <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
-       </div>
       <div class="error">{{ vm.message }}</div>
       <!--<div class="row list-group">
         <div class="col-xs-12 list-group-item" dir-paginate="teacher in vm.teachers | filter:q | itemsPerPage: 3">
@@ -30,17 +25,21 @@
           <table class="table table-hover">
               <tbody>
                 <tr>
-                  <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
+                  <!--<th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>-->
                   <th>Class</th>
                   <th>Section</th>
                 </tr>
               <tr dir-paginate="(key, value) in vm.classSectionMap | itemsPerPage:20">
-                   <td>
-                      <input type="checkbox" ng-model="class.selected"/></td>
+                   <!--<td>
+                      <input type="checkbox" ng-model="class.selected"/>
+                    </td>-->
                   <td>
                     <label>{{key}}</label></td>
                   <td>
-                    <label>{{value}}</label></td>
+                    <span ng-repeat="v in value">
+                      {{v}} {{$last ? '' : ($index==value.length-2) ? ', ' : ', '}}
+                    </span></p>  
+                  </td>
                 </tr>
               <tr ng-show="!vm.classes.length"><td class="noTableData" colspan="5">No Subjects</td></tr>
           </tbody></table>
