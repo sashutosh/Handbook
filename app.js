@@ -263,6 +263,7 @@ var EventsSchema = new mongoose.Schema({
 	EventPlace: String,
 	EventStartTime: String,
 	EventEndTime: String,
+	EventDescription : String,
 	SchoolId: String,
 	TeacherIdS: [ ],
 	StudentIDS: [ ]

@@ -729,6 +729,7 @@ exports.createEvents = function (Model, requestBody, response)
 				EventPlace: requestBody.EventPlace,
 				EventStartTime: requestBody.EventStartTime,
 				EventEndTime: requestBody.EventEndTime,
+				EventDescription: requestBody.EventDescription,
 				SchoolId: requestBody.SchoolId,
 				TeacherIdS: requestBody.TeacherIdS,
 				StudentIDS:	requestBody.StudentIDS
