@@ -7,6 +7,8 @@
   classScheduleCtrl.$inject= ['handbookData','$modal','$location'];    
   function classScheduleCtrl(handbookData,$modal,$location) {
     var vm = this;
+    vm.selectedCopyDay ={};
+    vm.copiedTimeSlots={};
     vm.classSchedule={};
     vm.pageHeader = {
       title: 'Class Schedule'
@@ -105,6 +107,21 @@
         }, function () {
           $log.info('Modal dismissed at: ' + new Date());
         });
+
+    }
+
+    vm.copySubOne=function(daySchedule){
+      vm.selectedCopyDay= vm.getSelectedDayId(daySchedule.Day);
+      vm.copiedTimeSlots = vm.classSchedule.Days[vm.selectedDay].TimeSlots;
+
+    }
+
+    vm.pasteSubOne=function(daySchedule){
+      vm.selectedPasteDay= vm.getSelectedDayId(daySchedule.Day);
+      if(vm.copiedTimeSlots!=null)
+      {
+        vm.classSchedule.Days[vm.selectedPasteDay].TimeSlots= vm.copiedTimeSlots;
+      }
 
     }
 
