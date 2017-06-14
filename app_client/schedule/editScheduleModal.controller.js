@@ -82,10 +82,12 @@ angular
         vm.onSubmit = function () {
         
             vm.formError = "";
-            vm.timeSlot.SubjectName=vm.selectedSubject.SubjectName;
+            vm.timeSlot.SubjectName=vm.subjects[vm.selectedSubject].Subject;;
            
             vm.startTime = vm.startTimeHour+ ':' +vm.startTimeMin;
             vm.endTime = vm.endTimeHour+ ':' +vm.endTimeMin;
+            vm.TeacherName = vm.teachers[vm.selectedTeacher].TeacherFirstName;
+            vm.TeacherId=vm.teachers[vm.selectedTeacher].TeacherId;    
 
             vm.timeSlot.StartTime=vm.startTime;
             vm.timeSlot.EndTime=vm.endTime;
