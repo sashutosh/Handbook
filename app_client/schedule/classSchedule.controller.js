@@ -118,7 +118,7 @@
 
     vm.pasteSubOne=function(daySchedule){
       vm.selectedPasteDay= vm.getSelectedDayId(daySchedule.Day);
-      if(vm.copiedTimeSlots!=null)
+      if(vm.copiedTimeSlots!=null && vm.copiedTimeSlots.length > 0)
       {
         vm.classSchedule.Days[vm.selectedPasteDay].TimeSlots= vm.copiedTimeSlots;
       }
