@@ -112,7 +112,7 @@
 
     vm.copySubOne=function(daySchedule){
       vm.selectedCopyDay= vm.getSelectedDayId(daySchedule.Day);
-      vm.copiedTimeSlots = vm.classSchedule.Days[vm.selectedDay].TimeSlots;
+      vm.copiedTimeSlots = vm.classSchedule.Days[vm.selectedCopyDay].TimeSlots;
 
     }
 
