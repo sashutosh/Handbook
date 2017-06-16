@@ -36,7 +36,7 @@
                   <td>
                     <label>{{key}}</label></td>
                   <td>
-                    <span ng-repeat="v in value">
+                    <span ng-repeat="v in value| orderBy:v">
                       {{v}} {{$last ? '' : ($index==value.length-2) ? ', ' : ', '}}
                     </span></p>  
                   </td>
