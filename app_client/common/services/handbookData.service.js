@@ -52,12 +52,12 @@
     };
 
     var getTeachers= function (schoolId){
-      return $http.get('/AllTeachers/' + schoolId);
+      return $http.get('/AllTeachers/' + schoolId, { cache: true});
     }
 
     var getSubjects= function (schoolId){
       var url = "/subject/" + schoolId;
-      return $http.get(url);
+      return $http.get(url, { cache: true});
     }
 
     var updateSubjectList=function(subjects){
@@ -71,7 +71,7 @@
     }
 
     var getClasses= function (schoolId){
-      return $http.get('/class/'+schoolId);
+      return $http.get('/class/'+schoolId, { cache: true});
     }
     var getStudents= function (schoolId){
       return $http.get('/AllStudents/' + schoolId, { cache: true});

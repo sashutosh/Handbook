@@ -16,7 +16,7 @@
           <label for="inputPassword3" class="col-sm-2 control-label">Subject</label>
           <div class="col-sm-10">
             <select class="form-control" ng-model="vm.selectedSubject" required name="subjectId">
-              <option ng-repeat="subjectOne in vm.subjects" value="{{$index}}">{{subjectOne.Subject}}</option>
+              <option ng-repeat="subjectOne in vm.subjects| orderBy:'Subject'" value="{{$index}}">{{subjectOne.Subject}}</option>
             </select>
           </div>
         </div>
@@ -25,7 +25,7 @@
           <label for="inputPassword3" class="col-sm-2 control-label">Teacher</label>
           <div class="col-sm-10">
             <select class="form-control" ng-model="vm.selectedTeacher" required name="teacherId">
-              <option ng-repeat="teacherOne in vm.teachers" value="{{$index}}">{{teacherOne.TeacherFirstName}}</option>
+              <option ng-repeat="teacherOne in vm.teachers" value="{{$index}}">{{teacherOne.TeacherFirstName|titleCase}}</option>
             </select>
           </div>
         </div>

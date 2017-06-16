@@ -55,7 +55,7 @@
                       <img class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{teacher.ImageUrl}}">
                       
                   </td>
-                  <td><a href="" ng-click="vm.teacherProfile(teacher)">{{teacher.TeacherFirstName}}</a></td>
+                  <td><a href="" ng-click="vm.teacherProfile(teacher)">{{teacher.TeacherFirstName|titleCase}}</a></td>
                   <td>{{teacher.MobileNumber}}</td>
                   <td>{{teacher.EmailId}}</td>
                   <td class="no-print">
