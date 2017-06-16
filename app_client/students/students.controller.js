@@ -8,6 +8,7 @@
   function studentCtrl($location,$filter,handbookData,messaging,authentication) {
     var vm = this;
     vm.schoolId=authentication.schoolId().schoolId;;  
+    vm.loading = true;
     vm.selectedIds = {"002": true,"003":false};
     vm.classes=[];
     vm.filteredStudents=[];
@@ -94,6 +95,9 @@
         console.log(e);
         vm.popupAddSchoolForm();
        //alert("School data not found");
+    })
+    .finally(function(){
+      vm.loading = false;
     });
 
     handbookData.getClasses(vm.schoolId)
