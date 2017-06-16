@@ -15,8 +15,10 @@
         <div class="form-group" ng-class="{'has-error': addSubForm.subjectId.$invalid}">
           <label for="inputPassword3" class="col-sm-2 control-label">Subject</label>
           <div class="col-sm-10">
-            <select class="form-control" ng-model="vm.selectedSubject" required name="subjectId">
+            <!--<select class="form-control" ng-model="vm.selectedSubject" required name="subjectId">
               <option ng-repeat="subjectOne in vm.subjects| orderBy:'Subject'" value="{{$index}}">{{subjectOne.Subject}}</option>
+            </select>-->
+            <select class="form-control" ng-options="subjectOne.Subject for subjectOne in vm.subjects| orderBy:'Subject'" ng-model="vm.selectedSubject" required name="subjectId">
             </select>
           </div>
         </div>
