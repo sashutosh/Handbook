@@ -11,7 +11,7 @@
             <!--<select class="form-control" ng-model="vm.selectedSubject" required name="subjectId">
               <option ng-repeat="subjectOne in vm.subjects" value="{{$index}}">{{subjectOne.Subject}}</option>
             </select>-->
-            <select class="form-control" ng-options="subjectOne.Subject for subjectOne in vm.subjects" ng-model="vm.selectedSubject" required name="subjectId">
+            <select class="form-control" ng-options="subjectOne.Subject for subjectOne in vm.subjects|orderBy:'Subject'" ng-model="vm.selectedSubject" required name="subjectId">
             </select>
           </div>
         </div>
@@ -21,7 +21,7 @@
             <!--<select class="form-control" ng-model="vm.selectedSubject" required name="subjectId">
               <option ng-repeat="subjectOne in vm.subjects" value="{{$index}}">{{subjectOne.Subject}}</option>
             </select>-->
-            <select class="form-control" ng-options="teacherOne.TeacherFirstName for teacherOne in vm.teachers" ng-model="vm.selectedTeacher" required name="teacherId">
+            <select class="form-control" ng-options="teacherOne.TeacherFirstName for teacherOne in vm.teachers| orderBy:'TeacherFirstName'" ng-model="vm.selectedTeacher" required name="teacherId">
             </select>
           </div>
         </div>

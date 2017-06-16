@@ -69,7 +69,7 @@ angular
             for(var i=0; i < vm.teachers.length; i++)
             {
 
-                if(vm.teachers[i].TeacherFirstName===vm.timeSlot.TeacherName)
+                if(vm.teachers[i].TeacherFirstName.toLowerCase()===vm.timeSlot.TeacherName.toLowerCase())
                 {
                     return i;
                 }
