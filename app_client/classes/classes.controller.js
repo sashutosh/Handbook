@@ -3,9 +3,9 @@
   angular
     .module('handbook')
     .controller('classCtrl', classCtrl);
-  classCtrl.$inject= ['handbookData','authentication','$location'];  
+  classCtrl.$inject= ['$modal','$route','handbookData','authentication','$location'];  
 
-  function classCtrl(handbookData,authentication, $location) {
+  function classCtrl($modal,$route,handbookData,authentication, $location) {
     var vm = this;
     var newlyAddedClassList =[];
     var deletedClassList=[];    
