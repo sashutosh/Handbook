@@ -54,7 +54,7 @@
     
     vm.addClass=function(){
 
-        vm.currentCommand=addMode
+        //vm.currentCommand=addMode
         var modalInstance=$modal.open({
             templateUrl:'/classes/addClass.view.html',
             controller: 'addClassModalCtrl as vm',
