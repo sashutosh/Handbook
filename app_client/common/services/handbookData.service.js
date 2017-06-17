@@ -75,6 +75,11 @@
     var getClasses= function (schoolId){
       return $http.get('/class/'+schoolId, { cache: true});
     }
+
+    var addClass= function (newclass){
+      return $http.put('/class', newclass);
+    }
+
     var getStudents= function (schoolId){
       return $http.get('/AllStudents/' + schoolId, { cache: true});
     }
@@ -159,10 +164,11 @@
       getTeachers:getTeachers,
       updateTeacher:updateTeacher,
       getStudents:getStudents,
-      getSubjects,getSubjects,
-      updateClassesList,updateClassesList,
-      updateSubjectList,updateSubjectList,
-      getClasses,getClasses,
+      getSubjects:getSubjects,
+      updateClassesList:updateClassesList,
+      updateSubjectList:updateSubjectList,
+      getClasses:getClasses,
+      addClass:addClass,
       deleteTeacher:deleteTeacher,
       deleteStudent:deleteStudent,
       updateStudent:updateStudent,

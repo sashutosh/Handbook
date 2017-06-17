@@ -5,16 +5,16 @@
           <h2 id="myModalLabel" class="modal-title">Add Class</h2>
         </div>
 
-        <div class="form-group" ng-class="{'has-error': addSubForm.teacherId.$invalid}">
+        <div class="form-group" ng-class="{'has-error': addSubForm.className.$invalid}">
           <label for="inputPassword3" class="col-sm-2 control-label">Class</label>
           <div class="col-sm-4">
-            <input type="text" ng-model="vm.className" name="eventDay">
+            <input type="text" ng-model="vm.className" required name="className">
           </div>
         </div>
-        <div class="form-group" ng-class="{'has-error': addSubForm.teacherId.$invalid}">
+        <div class="form-group" ng-class="{'has-error': addSubForm.classSection.$invalid}">
           <label for="inputPassword3" class="col-sm-2 control-label">Section</label>
           <div class="col-sm-10">
-            <input type="text" ng-model="vm.classSection" name="eventDay">
+            <input type="text" ng-model="vm.classSection" required name="classSection">
           </div>
         </div>
         <div class="form-group">

@@ -38,20 +38,7 @@
 
     //vm.classSectionMap = handbookData.getClassSectionMap(vm.schoolId.schoolId);
 
-    vm.checkAll=function(){
-
-      if(!vm.selectedAll){
-        vm.selectedAll=true
-      }
-      else{
-        vm.selectedAll=false;
-      }
-      angular.forEach(vm.classes,function(selectedClass){
-        selectedClass.selected=vm.selectedAll;
-      })
-
-    }
-    
+        
     vm.addClass=function(){
 
         //vm.currentCommand=addMode
@@ -60,8 +47,9 @@
             controller: 'addClassModalCtrl as vm',
         });
 
-        modalInstance.result.then(function (newEvent) {
+        modalInstance.result.then(function (newClass) {
             
+            newClass.SchoolId = vm.schoolId.schoolId;
             console.log("Added a new class");
             $route.reload();  
             console.log("Reloaded the current page");
