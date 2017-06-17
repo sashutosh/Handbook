@@ -42,6 +42,10 @@
         }  
       }
     }
+
+    vm.onReturnClick=function(){
+      $location.path("/schedule");
+    }
     
     vm.getSelectedDayId =function(day){
       if(day==="Monday"){
@@ -109,6 +113,7 @@
         });
 
     }
+
 
     vm.copySubOne=function(daySchedule){
       vm.selectedCopyDay= vm.getSelectedDayId(daySchedule.Day);
