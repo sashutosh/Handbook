@@ -17,7 +17,7 @@
     var viewMode="VIEW_EVENT";
     
     vm.pageHeader = {
-      title: 'School Calendar'
+      title: 'School Events'
     };
 
     
