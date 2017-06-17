@@ -12,7 +12,7 @@
         vm.myFile={};
         vm.uploadCompleted=false;
         vm.student = handbookData.getSelectedStudent();
-        vm.StudentDOB = formatDOB(vm.student.StudentDOB)
+        
         vm.loading=false;
         vm.pageHeader = {
           title: 'Edit Student'
@@ -33,7 +33,8 @@
           var fomattedDate =dt+"/"+month+"/"+year;
           return fomattedDate;
         }
-
+        vm.StudentDOB = formatDOB(vm.student.StudentDOB);
+        
         vm.onSubmit=function(){
           vm.student.StudentDOB =vm.StudentDOB;
           handbookData.updateStudent(vm.student)
