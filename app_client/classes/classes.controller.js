@@ -51,13 +51,27 @@
       })
 
     }
+    
     vm.addClass=function(){
-      vm.classes.push({
-         Class:"",
-         Section:"",
-         SchoolId: vm.schoolId.schoolId
-      });
+
+        vm.currentCommand=addMode
+        var modalInstance=$modal.open({
+            templateUrl:'/classes/addClass.view.html',
+            controller: 'addClassModalCtrl as vm',
+        });
+
+        modalInstance.result.then(function (newEvent) {
+            
+            console.log("Added a new class");
+            $route.reload();  
+            console.log("Reloaded the current page");
+
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });
+
     }
+
     vm.deleteClass=function(){
       var newList=[];
       var deleteList=[];
