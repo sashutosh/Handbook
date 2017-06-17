@@ -59,6 +59,36 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Father Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="fatherName" class="form-control" ng-model="vm.student.ParentList[0].ParentFirstName" placeholder="fatherName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Father Mobile Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="fatherMobNum" class="form-control" ng-model="vm.student.ParentList[0].MobileNumber" placeholder="fatherMobNum">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Father EmailID</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="fatherEmailId" class="form-control" ng-model="vm.student.ParentList[0].EmailId" placeholder="fatherEmailId">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Mother Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="motherName" class="form-control" ng-model="vm.student.ParentList[1].ParentFirstName" placeholder="motherName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Mother Mobile Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="motherMobNum" class="form-control" ng-model="vm.student.ParentList[1].MobileNumber" placeholder="motherMobNum">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">Photo</label>
                         <div class="col-sm-10">
                             <input type="file" custom-on-change="vm.uploadFile" file-model="vm.myFile" name="photo">
