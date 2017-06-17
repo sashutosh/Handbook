@@ -69,6 +69,31 @@
                             <input type="file" custom-on-change="vm.uploadFile" file-model="vm.myFile" name="photo">
                         </div>
                     </div>
+
+<div class="box-body table-responsive">
+          <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <th><input type="checkbox"  /></th>
+                  <th>Role</th>
+                  <th>Class</th>
+				  <th>Subject</th>
+                </tr>
+              <tr dir-paginate="roles in vm.teacher.TeacherRoleList | filter:q | itemsPerPage:20">
+                   <td>
+                      <input type="checkbox" /></td>
+                  <td>
+                    <input type="text" class="form-control" ng-model="roles.TeacherRoleType" required/></td>
+                  <td>
+                    <input type="text" class="form-control" ng-model="roles.TeacherRoleforStd" required/></td>
+					 <td>
+                    <input type="text" class="form-control" ng-model="roles.TeacherRoleforSubject" required/></td>
+                </tr>
+              <tr ng-show="!vm.teacher.TeacherRoleList.length"><td class="noTableData" colspan="5">No Roles</td></tr>
+          </tbody></table>
+          <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+      </div> 
+
                     <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input type="hidden" name="_token" value="{{CSRF_TOKEN}}">
