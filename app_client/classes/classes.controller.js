@@ -50,6 +50,7 @@
         modalInstance.result.then(function (newClass) {
             
             newClass.SchoolId = vm.schoolId.schoolId;
+            handbookData.addClass(newClass);
             console.log("Added a new class");
             $route.reload();  
             console.log("Reloaded the current page");
