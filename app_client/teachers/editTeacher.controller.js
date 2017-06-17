@@ -13,6 +13,7 @@
       vm.myFile={};
       vm.uploadCompleted=false;
       vm.loading=false;        
+      vm.TeacherDOB = handbookData.formatDOB(vm.teacher.TeacherDOB);
       vm.pageHeader = {
         title: 'Edit Teacher'
       };
@@ -33,6 +34,7 @@
         }
 
         vm.onSubmit=function(){
+          vm.teacher.TeacherDOB =vm.TeacherDOB;
           handbookData.updateTeacher(vm.teacher)
             .success(function(result){
               alert("Record updated successfully");  

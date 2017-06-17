@@ -19,6 +19,8 @@
       return selectedTeacher;
     }
 
+
+
     var setSelectedClass=function(selClass){
       selectedClass=selClass;
     }
@@ -105,6 +107,22 @@
       return $http.get('/ModelCount/' + schoolId);
     }
 
+    var formatDOB=function(birthDate){
+          var date = new Date(birthDate);
+          year = date.getFullYear();
+          month = date.getMonth()+1;
+          dt = date.getDate();
+
+          if (dt < 10) {
+            dt = '0' + dt;
+          }
+          if (month < 10) {
+            month = '0' + month;
+          }
+          var fomattedDate =dt+"/"+month+"/"+year;
+          return fomattedDate;
+        }
+
     var uploadFile = function(fileToUpload,uploadUrl){
         var fd = new FormData();
         fd.append('picture', fileToUpload);
@@ -159,7 +177,8 @@
       getSchoolEvents:getSchoolEvents,
       addSchoolEvent:addSchoolEvent,
       getModelCounts:getModelCounts,
-      uploadFile:uploadFile
+      uploadFile:uploadFile,
+      formatDOB:formatDOB
     };
   }
 
