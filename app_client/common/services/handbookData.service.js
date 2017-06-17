@@ -76,6 +76,10 @@
       return $http.get('/class/'+schoolId, { cache: true});
     }
 
+    var getClassesNoCache= function (schoolId){
+      return $http.get('/class/'+schoolId);
+    }
+
     var addClass= function (newclass){
       return $http.put('/class', newclass);
     }
@@ -168,6 +172,7 @@
       updateClassesList:updateClassesList,
       updateSubjectList:updateSubjectList,
       getClasses:getClasses,
+      getClassesNoCache:getClassesNoCache,
       addClass:addClass,
       deleteTeacher:deleteTeacher,
       deleteStudent:deleteStudent,

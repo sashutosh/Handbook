@@ -12,7 +12,7 @@
 
     vm.schoolId = authentication.schoolId();
     
-    handbookData.getClasses(vm.schoolId.schoolId)
+    handbookData.getClassesNoCache(vm.schoolId.schoolId)
     .success(function(data){
       if(data){
         vm.classSectionMap={};
