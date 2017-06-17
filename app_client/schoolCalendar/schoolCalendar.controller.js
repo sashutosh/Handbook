@@ -4,9 +4,9 @@
     .module('handbook')
     .controller('schoolCalendarCtrl', schoolCalendarCtrl);
 
-  schoolCalendarCtrl.$inject= ['$location','$modal','handbookData','messaging','authentication'];  
+  schoolCalendarCtrl.$inject= ['$location','$modal','$route','handbookData','messaging','authentication'];  
   
-  function schoolCalendarCtrl($location,$modal,handbookData,messaging,authentication) {
+  function schoolCalendarCtrl($location,$modal,$route,handbookData,messaging,authentication) {
     var vm = this;
     vm.selectedAll=false;
     vm.schoolId= authentication.schoolId().schoolId;
@@ -70,7 +70,9 @@
             {
               handbookData.addSchoolEvent(vm.currentEvent);
             }
-            console.log("Added a new event");  
+            console.log("Added a new event");
+            $route.reload();  
+            console.log("Reloaded the current page");
 
         }, function () {
           $log.info('Modal dismissed at: ' + new Date());
