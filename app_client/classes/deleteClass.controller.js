@@ -21,18 +21,20 @@ angular
         }
         return classList;
     }
+    
+    vm.onClassChange = function(){
+       vm.sections=vm.classSectionMap[vm.selectedClass];      
+    }
 
     vm.classes = getClasses(vm.classSectionMap);
     if(vm.classes.length >0){
         vm.selectedClass=vm.classes[0];
+        vm.onClassChange();
     }
-    vm.onClassChange = function(){
-       vm.sections=vm.classSectionMap[vm.selectedClass];      
-    }
+    
     vm.onSubmit = function () {
     
-        vm.Class.Class=vm.selectedClass;
-        vm.Class.Section =vm.selectedSection;  
+        vm.Class.ClassSection=vm.selectedClass+vm.selectedSection;
         vm.modal.close(vm.Class);
     };
     
