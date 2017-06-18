@@ -75,10 +75,13 @@
             }
         });
 
-        modalInstance.result.then(function (timeSlot) {
+        modalInstance.result.then(function (newClass) {
             
-            vm.classSchedule.Days[vm.selectedDay].TimeSlots.push(timeSlot);
-            console.log("Added a new timeslot");  
+            newClass.SchoolId= vm.schoolId.schoolId;
+            handbookData.deleteClass(newClass);
+            console.log("Deleted a new timeslot");
+            $route.reload();  
+            console.log("Reloaded the current page");  
 
         }, function () {
           $log.info('Modal dismissed at: ' + new Date());

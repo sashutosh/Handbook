@@ -92,6 +92,11 @@
       return $http.delete('/teachers/'+ teacherId);
     }
 
+    var deleteClass=function(classtoDelete)
+    {
+      return $http.delete('/ClassByClassSection', classtoDelete);
+    }
+
     var updateTeacher =function(teacher){
       return $http.post('/teachers',teacher);
     }
@@ -189,7 +194,8 @@
       addSchoolEvent:addSchoolEvent,
       getModelCounts:getModelCounts,
       uploadFile:uploadFile,
-      formatDOB:formatDOB
+      formatDOB:formatDOB,
+      deleteClass:deleteClass
     };
   }
 
