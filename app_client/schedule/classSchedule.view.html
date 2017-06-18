@@ -19,9 +19,9 @@
                 <tr>
                     <th style="width: 8px">Day</th>
                     <th>Class Schedule</th>
-                    <th style="width: 8px" class="no-print">Add</th>
-                    <th style="width: 8px" class="no-print">Copy</th>
-                    <th style="width: 8px" class="no-print">Paste</th>
+                    <th style="width: 8px" class="hidden-print">Add</th>
+                    <th style="width: 8px" class="hidden-print">Copy</th>
+                    <th style="width: 8px" class="hidden-print">Paste</th>
                 </tr>
                 <tr ng-repeat="(key,sch) in vm.classSchedule.Days">
                     <td>{{sch.Day}}</td>
@@ -38,13 +38,13 @@
                         </ul>
                     </div>
                     </td>
-                    <td class="no-print">
+                    <td class="hidden-print">
                     <a ng-click="vm.addSubOne(sch)" type="button" class="btn btn-info btn-flat"><i class="glyphicon glyphicon-plus"></i></a>
                     </td>
-                    <td class="no-print">
+                    <td class="hidden-print">
                     <a ng-click="vm.copySubOne(sch)" type="button" class="btn btn-info btn-flat"><i class="glyphicon glyphicon-copy"></i></a>
                     </td>
-                    <td class="no-print">
+                    <td class="hidden-print">
                     <a ng-click="vm.pasteSubOne(sch)" type="button" class="btn btn-info btn-flat"><i class="glyphicon glyphicon-paste"></i></a>
                     </td>
                 </tr>
