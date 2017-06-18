@@ -17,11 +17,11 @@
             <table class="table table-bordered table-hover col-sm-12">
             <tbody>
                 <tr>
-                    <th style="width: 8px">Day</th>
-                    <th>Class Schedule</th>
-                    <th style="width: 8px" class="hidden-print">Add</th>
-                    <th style="width: 20px" class="hidden-print">Copy</th>
-                    <th style="width: 20px" class="hidden-print">Paste</th>
+                    <th style="width:10%">Day</th>
+                    <th style="width:75%">Class Schedule</th>
+                    <th style="width:5%" class="hidden-print">Add</th>
+                    <th style="width:5%" class="hidden-print">Copy</th>
+                    <th style="width:5%" class="hidden-print">Paste</th>
                 </tr>
                 <tr ng-repeat="(key,sch) in vm.classSchedule.Days">
                     <td>{{sch.Day}}</td>
