@@ -10,8 +10,6 @@ angular
     vm.classSectionMap = classSectionMap.currentMap;
     
     vm.Class ={};
-    vm.classSection ="";
-    vm.className="";
     vm.selectedClass="";
     vm.selectedSection="";
     vm.sections=[];
@@ -25,14 +23,16 @@ angular
     }
 
     vm.classes = getClasses(vm.classSectionMap);
-
+    if(vm.classes.length >0){
+        vm.selectedClass=vm.classes[0];
+    }
     vm.onClassChange = function(){
        vm.sections=vm.classSectionMap[vm.selectedClass];      
     }
     vm.onSubmit = function () {
     
-        vm.Class.Class=vm.className;
-        vm.Class.Section =vm.classSection;  
+        vm.Class.Class=vm.selectedClass;
+        vm.Class.Section =vm.selectedSection;  
         vm.modal.close(vm.Class);
     };
     
