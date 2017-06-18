@@ -6,8 +6,8 @@
 
   <div class="row">
     <section class="content">
-    <a ng-click="vm.onReturnClick()" class="floatRTL btn btn-danger btn-flat pull-right btn-space marginBottom15">Return</a>
-    <a href="javascript:window.print()" class="floatRTL btn btn-success btn-flat pull-right btn-space marginBottom15">Print</a>
+    <a ng-click="vm.onReturnClick()" class="floatRTL btn btn-danger btn-flat pull-right btn-space marginBottom15 hidden-print">Return</a>
+    <a href="javascript:window.print()" class="floatRTL btn btn-success btn-flat pull-right btn-space marginBottom15 hidden-print">Print</a>
     <div class="box">
         <div class="box-header">
             <h3 class="box-title">Std {{vm.selectedClass.ClassSection}}</h3>
@@ -50,7 +50,7 @@
                 </tr>
             </tbody>
             </table>
-            <div class="form-group">
+            <div class="form-group hidden-print">
                 <div class="pull-right col-sm-10">
                     <input type="hidden" name="_token" value="{{CSRF_TOKEN}}">
                     <button type="submit" class="btn btn-default" ng-click= "vm.onSubmit()">Update</button>
