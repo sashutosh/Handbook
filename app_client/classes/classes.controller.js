@@ -62,18 +62,27 @@
     }
 
     vm.deleteClass=function(){
-      var newList=[];
-      var deleteList=[];
-      vm.selectedAll=false;
-      angular.forEach(vm.classes,function(selectedClass){
-        if(!selectedClass.selected){
-           newList.push(selectedClass); 
-        }
-        else{
-          deleteList.push(selectedClass);
-        }
-      });
-      vm.classes=newList;
+      var modalInstance=$modal.open({
+            templateUrl:'/classes/deleteClass.view.html',
+            controller: 'deleteClassModalCtrl as vm',
+            resolve : {
+                classSectionMap : function() {
+                  return {
+                    
+                    currentMap : vm.classSectionMap
+                };
+              } 
+            }
+        });
+
+        modalInstance.result.then(function (timeSlot) {
+            
+            vm.classSchedule.Days[vm.selectedDay].TimeSlots.push(timeSlot);
+            console.log("Added a new timeslot");  
+
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });
     }
     vm.updateClasses=function(){
       
