@@ -23,7 +23,7 @@
                     <th>Class Name</th>
                     <th>Schedule</th>
                 </tr>
-                <tr ng-repeat="class in vm.classes | filter:searchText">
+                <tr ng-repeat="class in vm.classes | filter:searchText :true">
                     <td>{{class.ClassSection}}</td>
                     <td>
                         <a ng-click="vm.editSchedule(class)" type="button" class="btn btn-info btn-flat" title="View timetable" tooltip><i class="glyphicon glyphicon-th-list"></i></a>
