@@ -62,11 +62,15 @@
 
 
     vm.addStudent = function(){
+
+      handbookData.setStudentPageMode("Add");
+      $location.path("/students/edit");
       console.log(vm.selectedIds);
     };
 
     vm.edit= function(student){
       handbookData.setSelectedStudent(student);
+      handbookData.setStudentPageMode("Edit");
       $location.path("/students/edit");
     };
 
@@ -81,6 +85,7 @@
 
     vm.studentProfile=function(student){
       handbookData.setSelectedStudent(student);
+      handbookData.setStudentPageMode("Edit");
       $location.path("/students/edit");
     }
     

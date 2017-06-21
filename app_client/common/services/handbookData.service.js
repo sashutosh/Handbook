@@ -10,6 +10,7 @@
     var selectedTeacher={};
     var selectedStudent={};
     var selectedClass ={};
+    var studentPageMode="Edit";
     
     var setSelectedTeacher=function(teacher){
       selectedTeacher=teacher;
@@ -35,6 +36,14 @@
 
     var getSelectedStudent=function(){
       return selectedStudent;
+    }
+
+    var getStudentPageMode=function(){
+      return studentPageMode;
+    }
+
+    var setStudentPageMode=function(mode){
+      studentPageMode =value;
     }
 
     var getClassTimetable=function(classSection){
@@ -170,6 +179,8 @@
       schoolDetailsById : schoolDetailsById,
       addSchool: addSchool,
       addStudentBulk: addStudentBulk,
+      getStudentPageMode:getStudentPageMode,
+      setStudentPageMode:setStudentPageMode,
       getTeachers:getTeachers,
       updateTeacher:updateTeacher,
       getStudents:getStudents,
