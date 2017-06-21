@@ -8,6 +8,7 @@
     function editStudentCtrl($location,handbookData,messaging) {
   
       
+
         var getDefaultStudent=function(){
           var student = {};
           student.StudentFirstName="";
@@ -16,18 +17,27 @@
         var vm = this;
         vm.myFile={};
         vm.uploadCompleted=false;
-
+        vm.showButton =true;
         vm.pagemode= handbookData.getStudentPageMode();
+        
         if(vm.pagemode==="Edit"){
           vm.student = handbookData.getSelectedStudent();
+          vm.modeText="Edit Student"
           vm.pageHeader = {
             title: 'Edit Student'
           };
         }
         else if(vm.pagemode==="Add"){
           vm.student= getDefaultStudent();
+          vm.modeText="Add Student"
           vm.pageHeader = {
             title: 'Add Student'
+          };
+        }
+        else if(vm.pagemode==="View"){
+          vm.showButton =false;
+          vm.pageHeader = {
+            title: 'View Student'
           };
         }
         
