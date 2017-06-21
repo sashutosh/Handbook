@@ -43,7 +43,7 @@
     }
 
     var setStudentPageMode=function(mode){
-      studentPageMode =value;
+      studentPageMode =mode;
     }
 
     var getClassTimetable=function(classSection){
