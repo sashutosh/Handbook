@@ -71,6 +71,20 @@
       handbookData.setSelectedTeacher(teacher);
       $location.path("/teachers/edit");
     };
+
+    vm.remove=function(teacher,index){
+      handbookData.deleteTeacher(teacher.TeacherId)
+      .success(function(result){
+          alert("Teacher deleted successfully");  
+          //Delete student from the currently loaded students 
+          vm.teacherss.splice(index,1);
+        })
+      .error(function(e){
+          console.log(e);
+          alert("Failed to update record. Please try again");
+
+      });
+    }
     
     vm.teacherProfile=function(teacher){
       handbookData.setSelectedTeacher(teacher);
