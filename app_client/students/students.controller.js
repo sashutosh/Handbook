@@ -74,6 +74,20 @@
       $location.path("/students/edit");
     };
 
+    vm.remove=function(student,index){
+      handbookData.deleteStudent(student.StudentId)
+      .success(function(result){
+          alert("Student deleted successfully");  
+          //Delete student from the currently loaded students 
+          vm.students.splice(index,1);
+        })
+      .error(function(e){
+          console.log(e);
+          alert("Failed to update record. Please try again");
+
+      });
+    }
+
     vm.deleteStudents=function(){
         for(var studentId in vm.selectedIds){
             
