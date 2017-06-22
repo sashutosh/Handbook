@@ -85,7 +85,7 @@
 
     vm.studentProfile=function(student){
       handbookData.setSelectedStudent(student);
-      handbookData.setStudentPageMode("Edit");
+      handbookData.setStudentPageMode("View");
       $location.path("/students/edit");
     }
     
