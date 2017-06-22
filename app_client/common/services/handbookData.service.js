@@ -97,6 +97,10 @@
       return $http.get('/AllStudents/' + schoolId, { cache: true});
     }
 
+    var addStudent= function (student){
+      return $http.put('/students/', student );
+    }
+
     var deleteTeacher= function(teacherId){
       return $http.delete('/teachers/'+ teacherId);
     }
@@ -191,6 +195,7 @@
       getClassesNoCache:getClassesNoCache,
       addClass:addClass,
       deleteTeacher:deleteTeacher,
+      addStudent:addStudent,
       deleteStudent:deleteStudent,
       updateStudent:updateStudent,
       getSelectedTeacher:getSelectedTeacher,

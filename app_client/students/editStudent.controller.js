@@ -4,11 +4,11 @@
     .module('handbook')
     .controller('editStudentCtrl', editStudentCtrl);
 
-    editStudentCtrl.$inject= ['$location','handbookData','messaging'];  
-    function editStudentCtrl($location,handbookData,messaging) {
+    editStudentCtrl.$inject= ['$location','handbookData','messaging','authentication'];  
+    function editStudentCtrl($location,handbookData,messaging,authentication) {
   
       
-
+        vm.schoolId=authentication.schoolId().schoolId;  
         var getDefaultStudent=function(){
           var student = {};
           student.StudentFirstName="";
@@ -35,6 +35,8 @@
           };
         }
         else if(vm.pagemode==="View"){
+          
+          vm.student = handbookData.getSelectedStudent();
           vm.showButton =false;
           vm.pageHeader = {
             title: 'View Student'
@@ -49,16 +51,31 @@
 
         vm.onSubmit=function(){
           vm.student.StudentDOB =vm.StudentDOB;
-          handbookData.updateStudent(vm.student)
-            .success(function(result){
-              alert("Record updated successfully");  
-              $location.path("/students");
-            })
-            .error(function(e){
-               console.log(e);
-               alert("Failed to update record. Please try again");
+          if(vm.pagemode==="Edit"){
+            handbookData.updateStudent(vm.student)
+              .success(function(result){
+                alert("Record updated successfully");  
+                $location.path("/students");
+              })
+              .error(function(e){
+                console.log(e);
+                alert("Failed to update record. Please try again");
 
-          });
+            });
+          }
+          else if(vm.pagemode==="Add"){
+            vm.student.SchoolId=vm.schoolId;
+            handbookData.addStudent(vm.student)
+              .success(function(result){
+                alert("Record added successfully");  
+                $location.path("/students");
+              })
+              .error(function(e){
+                console.log(e);
+                alert("Failed to update record. Please try again");
+
+            })
+          }
         }
 
         vm.uploadFile=function(event){
