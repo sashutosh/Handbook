@@ -130,9 +130,11 @@
 
     }
 
-    vm.removeSub=function(subSch){
+    vm.removeSub=function(subSch,index){
 
+        vm.selectedDay=index;
         for(var i=0;i< vm.classSchedule.Days[vm.selectedDay].TimeSlots.length; i++){
+          
           var currentSlot = vm.classSchedule.Days[vm.selectedDay].TimeSlots[i];
           if(compareSlots(currentSlot,subSch)){
             //Remove the corresponding element from the array
