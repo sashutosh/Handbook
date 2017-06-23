@@ -130,18 +130,18 @@
 
     }
 
-    vm.removeSub=function(subSch,index){
+    vm.removeSub=function(daySchedule,subSch,index){
 
-        vm.selectedDay=index;
-        for(var i=0;i< vm.classSchedule.Days[vm.selectedDay].TimeSlots.length; i++){
+        vm.selectedDay=vm.getSelectedDayId(daySchedule.Day);;
+        //for(var i=0;i< vm.classSchedule.Days[vm.selectedDay].TimeSlots.length; i++){
           
-          var currentSlot = vm.classSchedule.Days[vm.selectedDay].TimeSlots[i];
-          if(compareSlots(currentSlot,subSch)){
+          //var currentSlot = vm.classSchedule.Days[vm.selectedDay].TimeSlots[i];
+          //if(compareSlots(currentSlot,subSch)){
             //Remove the corresponding element from the array
-            vm.classSchedule.Days[vm.selectedDay].TimeSlots.splice(i,1);
-            break;
-          }
-        }
+            vm.classSchedule.Days[vm.selectedDay].TimeSlots.splice(index,1);
+            //break;
+          //}
+        //}
     }
 
     compareSlots=function(currentSlot,subSch){
