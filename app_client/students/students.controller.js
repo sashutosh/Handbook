@@ -25,7 +25,7 @@
          vm.filteredStudents=vm.students; 
       }
       else{
-        vm.filteredStudents = $filter('filter')(vm.students,{StudentClassStandard:vm.selectedClass});
+        vm.filteredStudents = $filter('filter')(vm.students,{StudentClassStandard:vm.selectedClass},true);
       }
     }
 
