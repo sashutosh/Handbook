@@ -263,6 +263,10 @@ function toTeacherTimeTable(body, TeacherTimeTable)
 exports.createStudent = function (model, requestBody, response)
 {
 	var Student = toStudent(requestBody, model);	
+	model.count({},function(error, studentcount){
+	if(!error){
+	     Student.StudentId = (studentcount + 1)
+	
 	Student.save(function(err){
 		if (err)
 			{
@@ -270,6 +274,8 @@ exports.createStudent = function (model, requestBody, response)
 			console.log(err);
 			}
 		console.log('Student saved successfully');
+	});
+	}
 	});
 };
 
@@ -483,7 +489,10 @@ exports.AddOrUpdateStudent = function (model, requestBody) {
 
 exports.createTeacher = function (requestBody, response)
 {
-	var teach = toTeacher(requestBody, Teacher);
+	var teach = toTeacher(requestBody, Teacher);	
+	Teacher.count({},function(error, teachercount){
+	if(!error){
+	     teach.TeacherId = (teachercount + 1)
 	
 	teach.save(function(err){
 		if (err)
@@ -492,8 +501,10 @@ exports.createTeacher = function (requestBody, response)
 			console.log(err);
 			}
 		console.log('Teacher saved successfully');
+	});	
+	}
 	});
-}
+};
 
 exports.findTeacherById = function (_teacherId, response) {
 	Teacher.findOne({TeacherId: _teacherId},
