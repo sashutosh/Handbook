@@ -722,8 +722,11 @@ exports.AddOrUpdateTeacher = function (model, requestBody) {
 
 exports.createEvents = function (Model, requestBody, response)
 {
+	Model.count({},function(error, eventscount){
+	if(!error){
 	var events = new Model(
 			{
+				EventId: (eventscount + 1),
 				EventName : requestBody.EventName,
 				EventDate: requestBody.EventDate,
 				EventPlace: requestBody.EventPlace,
@@ -746,6 +749,8 @@ exports.createEvents = function (Model, requestBody, response)
 			response.end('Events saved successfully');
 		console.log('Events saved successfully');
 			}
+	});
+	}
 	});
 };
 

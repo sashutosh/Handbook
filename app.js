@@ -63,6 +63,12 @@ app.use('/api', routesApi);
 
 app.use(fileUpload());
 
+var accountSid = 'AC60b7d3b89a3e530464216535d29d53ac'; 
+var authToken = '4b1c666720f2569c7cad6b5e79f8b37b';
+
+//require the Twilio module and create a REST client 
+var twilioclient = require('twilio')(accountSid, authToken);
+
 cloudinary.config({ 
 	  cloud_name: 'schoolsync', 
 	  api_key: '388181157936776', 
@@ -258,6 +264,7 @@ var TeacherTimeTableSchema = new mongoose.Schema({
 	});
 
 var EventsSchema = new mongoose.Schema({
+	EventId:  {type: String, required: true, unique: true },
 	EventName : String,
 	EventDate: Date,
 	EventPlace: String,
@@ -452,7 +459,23 @@ app.put('/Events', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.createEvents(Events, request.body, response);
-	});
+});
+
+app.post('/Events', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.updateEvents(Events, request.body, response);
+});
+
+app.del('/Events/:EventsId', function(request,response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log('request.params.EventsId');
+	console.log(request.params.EventsId);
+	dataservice.removeEvents(Events, request.params.EventsId, response);
+});
+
+	
 		
 app.get('/Events', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
@@ -2250,6 +2273,55 @@ app.get('/ModelCount/:SchoolId', function(request, response){
 		   }); 
   	});
 
+app.post('/SendSms', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log()
+	  var count =0;
+	  for(count =0; count < request.body.MobileNumbers.length; count++){
+	      var tomsg = "+91" + request.body.MobileNumbers[count];
+	     twilioclient.messages.create({ 
+	    to: tomsg, 
+	    from: "+16572145945", 
+	    body: "GDGLOBAL School . You do not have the SchoolLink App Installed. You have some new messages from School : \n Please install the App from Google Play Store with Name SchoolLink. Or you can download from the URL http://bit.ly/2s1Z1SM " +
+	    		"\n Message from GDGlobalSchool - Powered by SchoolLinks" ,
+	     //mediaUrl: "http://bit.ly/2s1Z1SM",
+	         }, function(err, message) { 
+		      if(!err)
+	             console.log(message.sid); 
+		      else
+			     console.log(err);
+	     });
+	  
+	  }
+	
+	});
+
+	
+
+	app.post('/SendSmsMessage', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log(request.body.MobileNumbers.length);
+	console.log(request.body.Message);
+	  var count =0;
+	  for(count =0; count < request.body.MobileNumbers.length; count++){
+	      var tomsg = "+91" + request.body.MobileNumbers[count];
+	     twilioclient.messages.create({ 
+	    to: tomsg, 
+	    from: "+16572145945", 
+	    body: request.body.Message,
+	     
+	         }, function(err, message) { 
+		      if(!err)
+	             console.log(message.sid); 
+		      else
+			     console.log(err);
+	     });
+	  
+	  }
+	
+	});
 
 
 
