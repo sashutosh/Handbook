@@ -23,6 +23,7 @@ var TeacherSchema = new mongoose.Schema({
 	PermanentAddress: String,
 	PermanentAddressPOBox: Number,
 	ImageUrl: String,
+	IsAppInstalled : {type: Boolean, default: false},
 	/*Messages:
 		[
 		 {

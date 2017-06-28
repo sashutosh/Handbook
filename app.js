@@ -123,6 +123,7 @@ var StudentSchema = new mongoose.Schema({
 	StudentClassStandard: String,
 	StudentFullAddress: String,
 	ImageUrl: String,
+	IsAppInstalled : {type: Boolean, default: false},
 	StudentParentMobiles:
 		[
 		  Number
