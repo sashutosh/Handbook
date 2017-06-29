@@ -30,9 +30,9 @@
       }
     }
     vm.appFilterChanged=function(){
-      if(vm.filterOnAppInstalled===true){
-        vm.filteredStudents = $filter('filter')(vm.filteredStudents,{IsAppInstalled:true});
-      }
+      
+      vm.filteredStudents = $filter('filter')(vm.filteredStudents,{IsAppInstalled:vm.filterOnAppInstalled});
+      
     }
 
     vm.checkAll=function(){

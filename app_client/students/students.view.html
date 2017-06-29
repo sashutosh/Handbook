@@ -28,7 +28,7 @@
         <select ng-model="vm.selectedClass" ng-change="vm.classChanged()" required name="selectedClass">
           <option ng-repeat="i in vm.classes" value="{{i.ClassSection}}">{{i.ClassSection}}</option>
         </select>
-        <label style="margin-left: 10px;">App Installed
+        <label style="margin-right: 10px; margin-left: 10px;">App Installed
           <input type="checkbox" ng-model="vm.filterOnAppInstalled" ng-change="vm.appFilterChanged()">
         </label>
         
