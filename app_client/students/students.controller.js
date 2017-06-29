@@ -26,13 +26,18 @@
          vm.filteredStudents=vm.students; 
       }
       else{
-        vm.filteredStudents = $filter('filter')(vm.filteredStudents,{StudentClassStandard:vm.selectedClass},true);
+        vm.filteredStudents = $filter('filter')(vm.students,{StudentClassStandard:vm.selectedClass},true);
       }
     }
     vm.appFilterChanged=function(){
-      
+
       vm.filteredStudents = $filter('filter')(vm.filteredStudents,{IsAppInstalled:vm.filterOnAppInstalled});
       
+    }
+
+    vm.filterData=function(){
+      vm.classChanged();
+      vm.appFilterChanged();
     }
 
     vm.checkAll=function(){
