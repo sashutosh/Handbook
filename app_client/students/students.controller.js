@@ -21,7 +21,7 @@
     allClass.ClassSection="All";
 
     vm.classChanged=function(){
-      if(vm.selectedClass===allClass.ClassSection)
+      if(vm.selectedClass===allClass.ClassSection || vm.selectedClass==="")
       {
          vm.filteredStudents=vm.students; 
       }
