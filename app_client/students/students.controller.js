@@ -12,6 +12,7 @@
     vm.selectedIds = {"002": true,"003":false};
     vm.classes=[];
     vm.filteredStudents=[];
+    vm.filterOnAppInstalled =false;
     vm.selectedClass="";
     vm.pageHeader = {
       title: 'Students'
@@ -25,7 +26,12 @@
          vm.filteredStudents=vm.students; 
       }
       else{
-        vm.filteredStudents = $filter('filter')(vm.students,{StudentClassStandard:vm.selectedClass},true);
+        vm.filteredStudents = $filter('filter')(vm.filteredStudents,{StudentClassStandard:vm.selectedClass},true);
+      }
+    }
+    vm.appFilterChanged=function(){
+      if(vm.filterOnAppInstalled===true){
+        vm.filteredStudents = $filter('filter')(vm.filteredStudents,{IsAppInstalled:true});
       }
     }
 
