@@ -81,6 +81,10 @@
     var clearTeacherList=function(){
         teacherList=[];    
     };
+
+    var sendTextMessage=function(message){
+      return $http.post('/SendSms', message);
+    }
     
     var schoolDetailsById = function (schoolId) {
       return $http.get('/school/' + schoolId);

@@ -71,6 +71,24 @@
 
     };
 
+    vm.sendTextMessage=function(){
+
+      var textToStudentList=[];
+      for (var i = 0, l = vm.filteredStudents.length; i < l; i++) {
+        if(vm.students[i].selected){
+          for(var j=0; j<vm.students[i].StudentParentMobiles.length;j++)
+          {
+            textToStudentList.push(vm.students[i].StudentParentMobiles[j]);
+          }
+        }
+      }
+      var messageJsonObject={};
+      messageJsonObject.MobileNumbers=textToStudentList;
+      messaging.sendTextMessage(messageJsonObject);
+        
+
+    }
+
 
     vm.addStudent = function(){
 
