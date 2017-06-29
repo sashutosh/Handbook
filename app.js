@@ -2324,7 +2324,13 @@ app.post('/SendSms', function(request, response) {
 	
 	});
 
+app.post('/UpdateAllStudentsWithAppInstalled', function(request, response){
+    dataservice.updateStudentswithIsApp(StudentSchema, request, response);
+});
 
+app.post('/UpdateAllTeachersWithAppInstalled', function(request, response){
+     dataservice.updateTeacherswithIsApp(request, response);
+});
 
 app.get('/',function(req, res) {
 	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));

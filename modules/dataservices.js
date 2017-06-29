@@ -258,7 +258,29 @@ function toTeacherTimeTable(body, TeacherTimeTable)
 	
 }
 
+exports.updateStudentswithIsApp = function (Student, request, response)
+{
+   var conditions = {},
+    update = { IsAppInstalled: false },
+    options = { multi: true };
 
+Student.update(conditions, update, options,
+function callback (err, numAffected) {
+    // numAffected is the number of updated documents
+});
+};
+
+exports.updateTeacherswithIsApp = function (request, response)
+{
+	var conditions = {},
+    update = { IsAppInstalled: false },
+    options = { multi: true };
+
+Teacher.update(conditions, update, options,
+function callback (err, numAffected) {
+    // numAffected is the number of updated documents
+});
+}
 
 exports.createStudent = function (model, requestBody, response)
 {
@@ -266,7 +288,10 @@ exports.createStudent = function (model, requestBody, response)
 	model.count({},function(error, studentcount){
 	if(!error){
 	     Student.StudentId = (studentcount + 1)
-	
+	     if(requestBody !=undefined && requestBody.IsAppInstalled !=undefined)
+	     {
+		    Student.IsAppInstalled = requestBody.IsAppInstalled;
+	     }
 	Student.save(function(err){
 		if (err)
 			{
@@ -415,6 +440,10 @@ exports.updateStudent = function (model, requestBody, response) {
 	data.StudentFullAddress = student.StudentFullAddress;
 	data.ParentList = student.ParentList;
 	data.ImageUrl = student.ImageUrl;
+	if(requestBody !=undefined && requestBody.IsAppInstalled !=undefined)
+	{
+		data.IsAppInstalled = requestBody.IsAppInstalled;
+	}
 	// now save
 	data.save(function (error) {
 	if (!error) {
@@ -440,6 +469,10 @@ exports.AddOrUpdateStudent = function (model, requestBody) {
 	return;
 	} else {
 	var student = toStudent(requestBody, model);
+	if(requestBody !=undefined && requestBody.IsAppInstalled !=undefined)
+	{
+		student.IsAppInstalled = requestBody.IsAppInstalled;
+	}
 	if (!data) {
 	console.log('Student with StudentID: '+ studentId
 	+ ' does not exist. The student will be created.');
@@ -470,6 +503,7 @@ exports.AddOrUpdateStudent = function (model, requestBody) {
 	data.StudentFullAddress = student.StudentFullAddress;
 	data.ParentList = student.ParentList;
 	data.ImageUrl = student.ImageUrl;
+	data.IsAppInstalled = student.IsAppInstalled ;
 	// now save
 	data.save(function (error) {
 	if (!error) {
@@ -493,7 +527,10 @@ exports.createTeacher = function (requestBody, response)
 	Teacher.count({},function(error, teachercount){
 	if(!error){
 	     teach.TeacherId = (teachercount + 1)
-	
+	     if(requestBody !=undefined && requestBody.IsAppInstalled !=undefined)
+	     {
+		    teach.IsAppInstalled = requestBody.IsAppInstalled;
+	     }
 	teach.save(function(err){
 		if (err)
 			{
@@ -650,7 +687,10 @@ exports.updateTeacher = function (requestBody, response) {
 	data.Messages = teacher.Messages;
 	data.TeacherRoleList = teacher.TeacherRoleList;
 	data.ImageUrl = teacher.ImageUrl;
-	
+	if(requestBody !=undefined && requestBody.IsAppInstalled !=undefined)
+	{
+		data.IsAppInstalled = requestBody.IsAppInstalled;
+	}
 	// now save
 	data.save(function (error) {
 	if (!error) {
@@ -676,6 +716,10 @@ exports.AddOrUpdateTeacher = function (model, requestBody) {
 	return;
 	} else {
 	var teacher = toTeacher(requestBody, model);
+	if(requestBody !=undefined && requestBody.IsAppInstalled !=undefined)
+	{
+		teacher.IsAppInstalled = requestBody.IsAppInstalled;
+	}
 	if (!data) {
 	console.log('Teacher with TeacherID: '+ TeacherId
 	+ ' does not exist. The Teacher will be created.');
@@ -714,6 +758,7 @@ exports.AddOrUpdateTeacher = function (model, requestBody) {
 	data.Messages = teacher.Messages;
 	data.TeacherRoleList = teacher.TeacherRoleList;
 	data.ImageUrl = teacher.ImageUrl;
+	data.IsAppInstalled = teacher.IsAppInstalled;
 	// now save
 	data.save(function (error) {
 	if (!error) {
