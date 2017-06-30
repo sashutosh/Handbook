@@ -24,12 +24,6 @@
 
     vm.checkAll=function(){
 
-      if(!vm.selectedAll){
-        vm.selectedAll=true
-      }
-      else{
-        vm.selectedAll=false;
-      }
       angular.forEach(vm.events,function(event){
         event.selected=vm.selectedAll;
       })

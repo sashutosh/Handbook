@@ -42,12 +42,6 @@
 
     vm.checkAll=function(){
 
-      if(!vm.selectedAll){
-        vm.selectedAll=true
-      }
-      else{
-        vm.selectedAll=false;
-      }
       angular.forEach(vm.filteredStudents,function(student){
         student.selected=vm.selectedAll;
       })
