@@ -103,7 +103,8 @@
         sendMessage:sendMessage,
         getMessages:getMessages,
         getSentMessages:getSentMessages,
-        getAllMessages:getAllMessages
+        getAllMessages:getAllMessages,
+        sendTextMessage:sendTextMessage
     };
   }
 })();
