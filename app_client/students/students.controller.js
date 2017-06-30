@@ -12,7 +12,7 @@
     vm.selectedIds = {"002": true,"003":false};
     vm.classes=[];
     vm.filteredStudents=[];
-    vm.filterOnAppInstalled =false;
+    vm.filterOnAppNotInstalled =false;
     vm.selectedClass="";
     vm.pageHeader = {
       title: 'Students'
@@ -31,7 +31,7 @@
     }
     vm.appFilterChanged=function(){
 
-      vm.filteredStudents = $filter('filter')(vm.filteredStudents,{IsAppInstalled:vm.filterOnAppInstalled});
+      vm.filteredStudents = $filter('filter')(vm.filteredStudents,{IsAppInstalled:!vm.filterOnAppNotInstalled});
       
     }
 
