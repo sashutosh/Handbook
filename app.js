@@ -122,7 +122,7 @@ var StudentSchema = new mongoose.Schema({
 	StudentGender: String,
 	StudentClassStandard: String,
 	StudentFullAddress: String,
-	ImageUrl: String,
+	ImageUrl: {type:String, default: ""},
 	IsAppInstalled : {type: Boolean, default: false},
 	StudentParentMobiles:
 		[
@@ -1201,7 +1201,16 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 		                    		     if(data[scount].ImageUrl !==undefined && data[scount].StudentId !== undefined)
 		                    		    	 {
 		                    		    	 schoolid = data[scount].SchoolId;
-		                    		    	 data[scount].ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ data[scount].StudentId +".jpg";
+		                    		    	 //data[scount].ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ data[scount].StudentId +".jpg";
+											 data[scount].IsAppInstalled = true;
+											 data[scount].save(function (error) {
+	                                                        if (!error) {
+	                                                          console.log('Successfully updated Student with student Id: ');
+	                                                          //data[scount].save();
+	                                                         } else {
+	                                                             console.log('error on save');
+	                                                         }
+	                                                       });
 		                    		    	 }
 		                    		   }
 		                    	 
@@ -1241,8 +1250,19 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 			        if (response !== null)
 					{
 			           getalldata.Teacher = result;
-			           getalldata.Teacher.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Teacher_"+ result.TeacherId +".jpg";
-			           var schoolid = getalldata.Teacher.SchoolId;
+			           //getalldata.Teacher.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Teacher_"+ result.TeacherId +".jpg";
+			           result.IsAppInstalled = true;
+
+                       result.save(function (error) {
+	                                                        if (!error) {
+	                                                          console.log('Successfully updated Student with student Id: ');
+	                                                          //result.save();
+	                                                         } else {
+	                                                             console.log('error on save');
+	                                                         }
+	                                                       });
+
+					   var schoolid = getalldata.Teacher.SchoolId;
 			           Student.find({'ParentList.MobileNumber': request.params.mobile},function(error, data){
 		                    if(error)
 			                  {
@@ -1262,8 +1282,19 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 		                    		     if(data[scount].ImageUrl !==undefined && data[scount].StudentId !== undefined)
 		                    		    	 {
 		                    		    	 schoolid = data[scount].SchoolId;
-		                    		    	 data[scount].ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ data[scount].StudentId +".jpg";
-		                    		    	 }
+		                    		    	 //data[scount].ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ data[scount].StudentId +".jpg";
+		                    		    	 
+											 data[scount].IsAppInstalled = true;
+											 data[scount].save(function (error) {
+	                                                        if (!error) {
+	                                                          console.log('Successfully updated Student with student Id: ');
+	                                                          //data[scount].save();
+	                                                         } else {
+	                                                             console.log('error on save');
+	                                                         }
+	                                                       });
+											
+										}
 		                    		   }
 		                    	 
 		                    	 }
@@ -2285,7 +2316,7 @@ app.post('/SendSms', function(request, response) {
 	    to: tomsg, 
 	    from: "+16572145945", 
 	    body: "GDGLOBAL School . You do not have the SchoolLink App Installed. You have some new messages from School : \n Please install the App from Google Play Store with Name SchoolLink. Or you can download from the URL http://bit.ly/2s1Z1SM " +
-	    		"\n Message from GDGlobalSchool - Powered by SchoolLinks" ,
+	    		"\n Message from GDGlobalSchool - Powered by SchoolLink" ,
 	     //mediaUrl: "http://bit.ly/2s1Z1SM",
 	         }, function(err, message) { 
 		      if(!err)
