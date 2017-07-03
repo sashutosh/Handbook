@@ -1801,5 +1801,95 @@ if (response != null){
 	}
 	});
 }
+
+exports.removeEvents = function (model, _EventID, response)
+{
+console.log('Deleting Event with Event Id: ' + _EventID);
+model.findOne({EventId: _EventID},
+function(error, data) {
+if (error) {
+console.log(error);
+if (response != null) {
+response.writeHead(500, {'Content-Type' : 'text/plain'});
+response.end('Internal server error');
+}
+return;
+} else {
+if (!data) {
+console.log('Event not found');
+if (response != null) {
+response.writeHead(404,
+{'Content-Type' : 'text/plain'});
+response.end('Event Not Found');
+}
+return;
+} else {
+data.remove(function(error){
+if (!error) {
+data.remove();
+}
+else {
+console.log(error);
+}
+});
+if (response != null){
+	response.send('Deleted Event');
+	}
+	return;
+	}
+	}
+	});
+	}
+
+
+exports.updateEvents = function (Model, requestBody, response) {
+	var eventId = requestBody.EventId;
+	Model.findOne({EventId: eventId},
+	function(error, data) {
+	if (error) {
+	console.log(error);
+	if (response != null) {
+	response.writeHead(500,
+	{'Content-Type' : 'text/plain'});
+	response.end('Internal server error');
+	}
+	return;
+	} else {
+	var teacher = toTeacher(requestBody, Teacher);
+	if (!data) {
+	
+	
+	
+	return;
+	}
+	//poulate the document with the updated values
+	data.EventId = requestBody.EventId;
+	data.EventName = teacher.SchoolId;
+	data.EventDate = teacher.TeacherFirstName;
+	data.EventPlace = teacher.TeacherMiddleName;
+	data.EventStartTime = teacher.TeacherLastName;
+	data.EventEndTime = teacher.TeacherDOB;
+	data.EventDescription = teacher.Age;
+	data.SchoolId = teacher.TeacherGender;
+	data.TeacherIdS = teacher.TeacherFullAddress;
+	data.StudentIDS = teacher.MobileNumber;
+	
+	
+	// now save
+	data.save(function (error) {
+	if (!error) {
+	
+	data.save();
+	} else {
+	console.log('error on save');
+	}
+	});
+	if (response != null) {
+	response.send('Updated');
+	}
+	}
+	});
+};
 		
+
 
