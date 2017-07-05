@@ -726,7 +726,9 @@ app.get('/school/:schoolId', function(request, response) {
 	request.params.schoolId);
 	schooldataservice.findSchoolbyId(School, request.params.schoolId,
 	response);
-	});
+});
+
+
 
 app.post('/school', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
@@ -2319,10 +2321,13 @@ app.post('/SendSms', function(request, response) {
 	    		"\n Message from GDGlobalSchool - Powered by SchoolLink" ,
 	     //mediaUrl: "http://bit.ly/2s1Z1SM",
 	         }, function(err, message) { 
-		      if(!err)
+		      if(!err){
 	             console.log(message.sid); 
-		      else
+				 console.log(tomsg);
+			  }
+		      else{
 			     console.log(err);
+			  }
 	     });
 	  
 	  }
