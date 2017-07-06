@@ -1855,7 +1855,7 @@ exports.updateEvents = function (Model, requestBody, response) {
 	}
 	return;
 	} else {
-	var teacher = toTeacher(requestBody, Teacher);
+	//var teacher = toTeacher(requestBody, Teacher);
 	if (!data) {
 	
 	
@@ -1864,15 +1864,15 @@ exports.updateEvents = function (Model, requestBody, response) {
 	}
 	//poulate the document with the updated values
 	data.EventId = requestBody.EventId;
-	data.EventName = teacher.SchoolId;
-	data.EventDate = teacher.TeacherFirstName;
-	data.EventPlace = teacher.TeacherMiddleName;
-	data.EventStartTime = teacher.TeacherLastName;
-	data.EventEndTime = teacher.TeacherDOB;
-	data.EventDescription = teacher.Age;
-	data.SchoolId = teacher.TeacherGender;
-	data.TeacherIdS = teacher.TeacherFullAddress;
-	data.StudentIDS = teacher.MobileNumber;
+	data.EventName = requestBody.EventName;
+	data.EventDate = requestBody.EventDate;
+	data.EventPlace = requestBody.EventPlace;
+	data.EventStartTime = requestBody.EventStartTime;
+	data.EventEndTime = requestBody.EventEndTime;
+	data.EventDescription = requestBody.EventDescription;
+	data.SchoolId = requestBody.SchoolId;
+	data.TeacherIdS = requestBody.TeacherIdS;
+	data.StudentIDS = requestBody.StudentIDS;
 	
 	
 	// now save

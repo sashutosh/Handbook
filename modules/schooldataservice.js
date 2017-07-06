@@ -65,7 +65,40 @@ exports.findSchoolbyId = function (model, _schoolId, response) {
 	//console.log(result);
 	}
 	});
-	};
+};
+
+exports.deleteSchoolbyId = function (model, _schoolId, response) {
+	School.findOne({SchoolId: _schoolId},
+	function(error, result) {
+	if (error) {
+	console.error(error);
+	response.writeHead(500,
+	{'Content-Type' : 'text/plain'});
+	response.end('Internal server error');
+	return;
+	} else {
+	if (!result) {
+	if (response !== null) {
+	response.writeHead(404, {'Content-Type' : 'text/plain'});
+	response.end('School Not Found');
+	}
+	return;
+	}
+	
+    result.remove(function(error){
+     if (!error) {
+             result.remove();
+        }
+     else {
+            console.log(error);
+          }
+
+	
+	});
+}
+	});
+};
+
 
 exports.listSchools = function (model, response) {
 	School.find({}, function(error, result) {

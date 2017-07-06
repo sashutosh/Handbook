@@ -460,12 +460,14 @@ app.put('/Events', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.createEvents(Events, request.body, response);
+	SendEventMessageToMultipleUser(request, response);
 });
 
 app.post('/Events', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.updateEvents(Events, request.body, response);
+	SendEventMessageToMultipleUser(request, response);
 });
 
 app.del('/Events/:EventsId', function(request,response) {
@@ -474,6 +476,7 @@ app.del('/Events/:EventsId', function(request,response) {
 	console.log('request.params.EventsId');
 	console.log(request.params.EventsId);
 	dataservice.removeEvents(Events, request.params.EventsId, response);
+	SendEventMessageToMultipleUser(request, response);
 });
 
 	
@@ -728,6 +731,14 @@ app.get('/school/:schoolId', function(request, response) {
 	response);
 });
 
+app.del('/school/:schoolId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	console.log(request.url + ' : querying for ' +
+	request.params.schoolId);
+	schooldataservice.deleteSchoolbyId(School, request.params.schoolId,
+	response);
+});
 
 
 app.post('/school', function(request, response) {
@@ -2317,8 +2328,7 @@ app.post('/SendSms', function(request, response) {
 	     twilioclient.messages.create({ 
 	    to: tomsg, 
 	    from: "+16572145945", 
-	    body: "GDGLOBAL School . You do not have the SchoolLink App Installed. You have some new messages from School : \n Please install the App from Google Play Store with Name SchoolLink. Or you can download from the URL http://bit.ly/2s1Z1SM " +
-	    		"\n Message from GDGlobalSchool - Powered by SchoolLink" ,
+	    body: "From GD Global School: To recive updates from school, Please install SchoolLink App on your Andriod phone from Link http://bit.ly/2s1Z1SM. iOS App is coming soon." ,
 	     //mediaUrl: "http://bit.ly/2s1Z1SM",
 	         }, function(err, message) { 
 		      if(!err){
@@ -2367,6 +2377,102 @@ app.post('/UpdateAllStudentsWithAppInstalled', function(request, response){
 app.post('/UpdateAllTeachersWithAppInstalled', function(request, response){
      dataservice.updateTeacherswithIsApp(request, response);
 });
+
+var SendEventMessageToMultipleUser = function(request, response) {
+	console.log("Event Notification to all");
+	Date.prototype.yyyymmdd = function() {
+		   var yyyy = this.getFullYear();
+		   var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+		   var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
+		   return "".concat(dd).concat("/").concat(mm).concat("/").concat(yyyy);
+		  };
+		  
+	var message = new gcm.Message({
+	    
+	    data: {
+	    	"type" : "EventUpdate",
+	        "body": "EventUpdate",
+	        "title": "EventUpdate",
+	        "priority" : 1,
+	        "date": new Date().yyyymmdd(),
+	        "notification_id": (staticnotificationid + 1).toString(),
+			"SchoolId" : "501",
+	        
+	        
+	    },
+	    notification: {
+	        title: "From node app SchoolParent Interaction Server ",
+	        icon: "ic_launcher",
+	        body: "This is a notification that will be displayed ASAP."
+	    }
+	});
+
+	
+	var registrationTokens = [];
+	MobileDevice.find({},
+	 function(error, data) {
+		if (error)
+		{
+		console.error(error);
+		return null;
+		}
+		else 
+		{			
+			if(data !==undefined)
+			{
+				var Mobiles = JSON.parse(JSON.stringify(data));
+				var mobilecount=0;
+				  for (mobilecount=0; mobilecount < Mobiles.length ; mobilecount++  ) {
+				console.log(Mobiles[mobilecount].DeviceId);
+				registrationTokens.push(Mobiles[mobilecount].DeviceId);	
+				}
+				  //Set up Messaging for Local Logging
+				  var localmsg = new LocalMessageLogging({
+					   "type" : "EventUpdate",
+	        "body": "EventUpdate",
+	        "title": "EventUpdate",
+	        "priority" : 1,
+	        "date": new Date().yyyymmdd(),
+	        "notification_id": (staticnotificationid).toString(),
+			"SchoolId" : "501",
+				  });
+				  
+				// Set up the sender with you API key
+				  
+				var sender = new gcm.Sender('AIzaSyDvbQO3k8lkZzsN6xpRmYmg9RkDDpbPKgA');
+
+				// Now the sender can be used to send messages
+				// ... or retrying a specific number of times (10)
+				sender.send(message, { registrationTokens: registrationTokens }, 10, function (err, resp) {
+				  if(err) {
+					  console.error(err);
+					  localmsg.Error = err;
+					  localmsg.save(function(error){
+							if (error)
+								{
+								console.log(error);
+								}
+							console.log('Local Message saved successfully');
+						});
+					  }
+				  else    {
+					  console.log(resp);
+					  localmsg.RespMessage = resp;
+					  localmsg.save(function(error){
+							if (error)
+								{
+								console.log(error);
+								}
+							console.log('Local Message saved successfully');
+						});
+					  }
+				});
+			}
+		}
+	});
+	
+	
+	};
 
 app.get('/',function(req, res) {
 	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
