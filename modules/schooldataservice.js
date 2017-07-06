@@ -194,8 +194,8 @@ exports.updateSchool = function (model,request, requestBody, response) {
 	data.SchoolAddressPOBox = school.SchoolAddressPOBox;
 	data.SchoolDistrict = school.SchoolDistrict;
 	data.SchoolType = school.SchoolType;
-	data.ImageUrl = school.ImageUrl;
-	data.ImageUrlLogo = school.ImageUrlLogo;
+	data.ImageUrl = requestBody.ImageUrl;
+	data.ImageUrlLogo = requestBody.ImageUrlLogo;
 	
 	
 	
