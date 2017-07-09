@@ -1242,8 +1242,8 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 			                    			{
 			                    			  if (resultsc) 
 			                    			  {
-			                    				  resultsc.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ resultsc.SchoolId +".jpg";
-			                    				  resultsc.ImageUrlLogo = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ resultsc.SchoolId +".jpg";
+			                    				  //resultsc.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ resultsc.SchoolId +".jpg";
+			                    				  //resultsc.ImageUrlLogo = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ resultsc.SchoolId +".jpg";
 			                    			   }
 			                    			  getalldata.School = resultsc;
 			                    			  response.end(JSON.stringify(getalldata));
@@ -1324,8 +1324,8 @@ app.get('/GetTeacherOrParentRole/:mobile', function(request, response){
 			                    			{
 			                    			  if (resultsc) 
 			                    			  {
-			                    				  resultsc.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ resultsc.SchoolId +".jpg";
-			                    				  resultsc.ImageUrlLogo = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ resultsc.SchoolId +".jpg";
+			                    				  //resultsc.ImageUrl = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Large_"+ resultsc.SchoolId +".jpg";
+			                    				  //resultsc.ImageUrlLogo = request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "School_Logo_"+ resultsc.SchoolId +".jpg";
 			                    			   }
 			                    			  getalldata.School = resultsc;
 			                    			  response.end(JSON.stringify(getalldata));
