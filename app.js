@@ -123,6 +123,7 @@ var StudentSchema = new mongoose.Schema({
 	StudentClassStandard: String,
 	StudentFullAddress: String,
 	ImageUrl: {type:String, default: ""},
+	AdmissionNumber: {type:String, default: " "},
 	IsAppInstalled : {type: Boolean, default: false},
 	StudentParentMobiles:
 		[
@@ -2156,7 +2157,8 @@ app.get('/ModelCount/:SchoolId', function(request, response){
 			"StudentCount" : 0,
 			"ClassCount" : 0,
 			"MessageCount" : 0,
-			"EventsCount" : 0
+			"EventsCount" : 0,
+			"DeviceCount" : 0
 	};
 	
 	Teacher.count({SchoolId: request.params.SchoolId},
@@ -2190,7 +2192,17 @@ app.get('/ModelCount/:SchoolId', function(request, response){
 											 Events.count({SchoolId: request.params.SchoolId}, function(e3, eventscount){
 												 if(!e3){
 													 getalldatacount.EventsCount = eventscount;
-													 response.end(JSON.stringify(getalldatacount));
+													 
+													 MobileDevice.count({}, function(e4, devicecount){
+                                                        if(!e4){
+															getalldatacount.DeviceCount = devicecount;
+                                                            response.end(JSON.stringify(getalldatacount));
+														}
+														else
+														{
+															response.end(JSON.stringify(getalldatacount));
+														}
+													 });
 												 }
 												 else
 												 {

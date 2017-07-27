@@ -9,14 +9,34 @@
   
       
       var vm = this;
-      vm.teacher = handbookData.getSelectedTeacher();
-      vm.myFile={};
+      handbookData.getSelectedTeacher()
+      .success(function(data){
+          if(data){
+              vm.teacher = data;
+               vm.myFile={};
       vm.uploadCompleted=false;
       vm.loading=false;        
       vm.TeacherDOB = handbookData.formatDOB(vm.teacher.TeacherDOB);
       vm.pageHeader = {
         title: 'Edit Teacher'
       };
+               
+           }
+      })
+      .error(function(e){
+            console.log(e);
+            alert(e);
+            vm.showButton =false;
+          vm.pageHeader = {
+            title: 'Edit Teacher'
+          };
+            //alert("School data not found");
+         })
+         .finally(function(){
+      vm.loading = false;
+    });
+       
+      
       
       vm.uploadFile=function(event){
             vm.loading=true;

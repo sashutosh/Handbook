@@ -17,7 +17,8 @@
     }
 
     var getSelectedTeacher=function(){
-      return selectedTeacher;
+      //return selectedTeacher;
+      return $http.get('/Teachers/' + selectedTeacher.TeacherId);
     }
 
 
@@ -35,7 +36,8 @@
     }
 
     var getSelectedStudent=function(){
-      return selectedStudent;
+      //return selectedStudent;
+      return $http.get('/Students/' + selectedStudent.StudentId);
     }
 
     var getStudentPageMode=function(){
@@ -63,7 +65,7 @@
     };
 
     var getTeachers= function (schoolId){
-      return $http.get('/AllTeachers/' + schoolId, { cache: true});
+      return $http.get('/AllTeachers/' + schoolId, { cache: false});
     }
 
     var getSubjects= function (schoolId){
@@ -94,7 +96,7 @@
     }
 
     var getStudents= function (schoolId){
-      return $http.get('/AllStudents/' + schoolId, { cache: true});
+      return $http.get('/AllStudents/' + schoolId, { cache: false});
     }
 
     var addStudent= function (student){
@@ -115,7 +117,7 @@
     }
 
     var deleteStudent= function(studentId){
-      return $http.delete('/students'+ studentId);
+      return $http.delete('/students/'+ studentId);
     } 
 
     var updateStudent =function(student){
@@ -128,6 +130,10 @@
 
     var addSchoolEvent= function(event){
       return $http.put('/Events',event);
+    }
+
+    var deleteSchoolEvent = function(eventId){
+      return $http.delete('/Events/' + eventId);
     }
 
     var getModelCounts =function(schoolId){
@@ -208,6 +214,7 @@
       updateTimeTable:updateTimeTable,
       getSchoolEvents:getSchoolEvents,
       addSchoolEvent:addSchoolEvent,
+      deleteSchoolEvent:deleteSchoolEvent,
       getModelCounts:getModelCounts,
       uploadFile:uploadFile,
       formatDOB:formatDOB,

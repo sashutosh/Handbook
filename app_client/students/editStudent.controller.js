@@ -22,11 +22,34 @@
         vm.pagemode= handbookData.getStudentPageMode();
         
         if(vm.pagemode==="Edit"){
-          vm.student = handbookData.getSelectedStudent();
-          vm.modeText="Edit Student"
+          handbookData.getSelectedStudent()
+          .success(function(data){
+          if(data){
+               
+               vm.student=data;
+               vm.StudentDOB = handbookData.formatDOB(vm.student.StudentDOB);
+               
+               vm.modeText="Edit Student"
           vm.pageHeader = {
             title: 'Edit Student'
           };
+               
+           }
+         })
+         .error(function(e){
+            console.log(e);
+            alert(e);
+            vm.modeText="Edit Student"
+          vm.pageHeader = {
+            title: 'Edit Student'
+          };
+            //alert("School data not found");
+         })
+         .finally(function(){
+      vm.loading = false;
+    });
+         
+          
         }
         else if(vm.pagemode==="Add"){
           vm.student= getDefaultStudent();
@@ -37,18 +60,41 @@
         }
         else if(vm.pagemode==="View"){
 
-          vm.student = handbookData.getSelectedStudent();
-          vm.showButton =false;
+          handbookData.getSelectedStudent()
+          .success(function(data){
+          if(data){
+              
+               vm.student=data;
+               vm.StudentDOB = handbookData.formatDOB(vm.student.StudentDOB);
+               
+               vm.showButton =false;
           vm.pageHeader = {
             title: 'View Student'
           };
+               
+           }
+         })
+         .error(function(e){
+            console.log(e);
+            alert(e);
+            vm.showButton =false;
+          vm.pageHeader = {
+            title: 'View Student'
+          };
+            //alert("School data not found");
+         })
+         .finally(function(){
+      vm.loading = false;
+    });
+          
+          
         }
         
-        vm.loading=false;
+        //vm.loading=false;
         
 
         
-        vm.StudentDOB = handbookData.formatDOB(vm.student.StudentDOB);
+        //vm.StudentDOB = handbookData.formatDOB(vm.student.StudentDOB);
 
         vm.onSubmit=function(){
           vm.student.StudentDOB =vm.StudentDOB;

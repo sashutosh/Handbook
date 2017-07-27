@@ -105,6 +105,7 @@ var student =  new Student(
 	StudentClassStandard: body.StudentClassStandard,
 	StudentFullAddress: body.StudentFullAddress,
 	ImageUrl: body.ImageUrl,
+	AdmissionNumber: body.AdmissionNumber,
 	ParentList : toParentList(body.ParentList),
 	StudentParentMobiles: toParentMobileList(body.ParentList)
 	
@@ -440,6 +441,7 @@ exports.updateStudent = function (model, requestBody, response) {
 	data.StudentFullAddress = student.StudentFullAddress;
 	data.ParentList = student.ParentList;
 	data.ImageUrl = student.ImageUrl;
+	data.AdmissionNumber = student.AdmissionNumber;
 	if(requestBody !=undefined && requestBody.IsAppInstalled !=undefined)
 	{
 		data.IsAppInstalled = requestBody.IsAppInstalled;
@@ -504,6 +506,7 @@ exports.AddOrUpdateStudent = function (model, requestBody) {
 	data.ParentList = student.ParentList;
 	data.ImageUrl = student.ImageUrl;
 	data.IsAppInstalled = student.IsAppInstalled ;
+	data.AdmissionNumber = student.AdmissionNumber;
 	// now save
 	data.save(function (error) {
 	if (!error) {

@@ -45,6 +45,7 @@
                   <th>FullName</th>
                   <th>Mobile Number(s)</th>
                   <th>Std</th>
+                  <th>Admission Number</th>
                   <th class='no-print'>Operations</th>
               </tr>
               <tr dir-paginate="student in vm.filteredStudents | filter:q | orderBy:['StudentClassStandard','StudentFirstName']|itemsPerPage:50">
@@ -59,6 +60,7 @@
                   <td><a href="" ng-click="vm.studentProfile(student)">{{student.StudentFirstName|titleCase }}</a></td>
                   <td>{{student.StudentParentMobiles}}</td>
                   <td>{{student.StudentClassStandard}}</td>
+                  <td>{{student.AdmissionNumber}}</td>
                   <td class='no-print'>
                     <a ng-click="vm.edit(student)" type="button" class="btn btn-info btn-flat" title="Edit" tooltip><i class="glyphicon glyphicon-edit"></i></a>
                     <a ng-click="vm.remove(student,$index)" type="button" class="btn btn-danger btn-flat" title="Remove" tooltip><i class="glyphicon glyphicon-trash"></i></a>

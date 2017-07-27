@@ -61,8 +61,8 @@
                   
                   <td class="hidden-print">
                     <a ng-click="vm.edit(event)" type="button" class="btn btn-info btn-flat" title="Edit" tooltip><i class="glyphicon glyphicon-edit"></i></a>
-                    <a ng-click="remove(event,$index)" type="button" class="btn btn-danger btn-flat" title="Remove" tooltip><i class="glyphicon glyphicon-trash"></i></a>
-                  </td>
+                    <a ng-click="vm.remove(event)" type="button" class="btn btn-danger btn-flat" title="Remove" tooltip><i class="glyphicon glyphicon-trash"></i></a>
+                  </td>     
               </tr>
               <tr ng-show="!vm.events.length"><td class="noTableData" colspan="5">No Events</td></tr>
           </tbody></table>

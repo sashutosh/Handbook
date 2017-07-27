@@ -10,7 +10,7 @@
     var vm = this;
     vm.selectedAll=false;
     vm.schoolId= authentication.schoolId().schoolId;
-    vm.selectedIds = {"002": true,"003":false};
+    vm.selectedIds = {"002": false,"003":false};
     var addMode="ADD_EVENT";
     vm.currentCommand=addMode;
     var modifyMode="MODIFY_EVENT";
@@ -78,6 +78,21 @@
       
     };
     
+    vm.remove= function(event){
+       var eventId = event.EventId;
+       
+       handbookData.deleteSchoolEvent(eventId)
+              .success(function(data){
+              if(data){
+                    console.log("Event Deleted" + eventId);
+                    $location.path('/schoolCalendar');
+                   }
+               })
+              .error(function(e){
+                     console.log(e);
+        
+              });
+    };
     
 
     vm.deleteEvent=function(){
@@ -85,6 +100,18 @@
             
             if(vm.selectedIds[eventId]){
               console.log("To be deleted" + eventId);
+              handbookData.deleteSchoolEvent(eventId)
+              .success(function(data){
+              if(data){
+                    console.log("Event Deleted" + eventId);
+                   
+                   }
+               })
+              .error(function(e){
+                     console.log(e);
+        
+              });
+
             }
         }
     };

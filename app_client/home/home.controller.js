@@ -44,6 +44,8 @@ function homeCtrl ($scope,handbookData,authentication,$modal,$location) {
             vm.students = data.StudentCount;
             vm.teachers= data.TeacherCount;
             vm.newmwssages = data.MessageCount;
+            vm.events = data.EventsCount;
+            vm.appcount = data.DeviceCount;
    
         }
         else
