@@ -911,7 +911,7 @@ app.get('/GetAllStudentDetailsForTeacher/:TeacherId', function(request, response
 										    "StudentId": Students[studentcount].StudentId, 
 										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
 										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
-										    "ImageUrl": request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ Students[studentcount].StudentId +".jpg",
+										    "ImageUrl": Students[studentcount].ImageUrl,
 										    "MotherName" : "",
 										    "MotherMobile" : "",
 										    "MotherEmailID" : "",
@@ -975,7 +975,7 @@ app.get('/GetAllStudentDetailsForTeacher/:TeacherId', function(request, response
 										    "StudentId": Students[studentcount].StudentId, 
 										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
 										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
-										    "ImageUrl": request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ Students[studentcount].StudentId +".jpg",
+										    "ImageUrl": Students[studentcount].ImageUrl,
 										    "MotherName" : "",
 										    "MotherMobile" : "",
 										    "MotherEmailID" : "",
@@ -1092,7 +1092,7 @@ app.get('/GetStudentDetailsForTeacherForClassStandard', function(request, respon
 										    "StudentId": Students[studentcount].StudentId, 
 										    "StudentFullName": Students[studentcount].StudentFirstName + " " + Students[studentcount].StudentLastName,
 										    "StudentClassStandard": Students[studentcount].StudentClassStandard,
-										    "ImageUrl": request.protocol + '://' + request.get('host') + "/uploadTeacherOrStudentImage/" + "Student_"+ Students[studentcount].StudentId +".jpg",
+										    "ImageUrl": Students[studentcount].ImageUrl,
 										    "MotherName" : "",
 										    "MotherMobile" : "",
 										    "MotherEmailID" : "",
@@ -1915,10 +1915,23 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
                       	 
                       	var ParentList = [];
                       	
+						var fatherlastname = "  " ;
+						var motherlastname = "  " ;  
+						if(typeof result[i].fatherlastname != 'undefined' && result[i].fatherlastname)
+						{
+							fatherlastname = result[i].fatherlastname;
+						}
+
+						if(typeof result[i].motherlastname != 'undefined' && result[i].motherlastname)
+						{
+							motherlastname = result[i].motherlastname;
+						}
+
+
                       	var father = {
                       			ParentType : "Father",
                 		    	ParentFirstName : result[i].fatherfirstname,
-                		    	ParentLastname : result[i].fatherlastname,
+                		    	ParentLastname : fatherlastname,
                 		    	MobileNumber : result[i].fathercontact,
                 		    	AlternateMobNumber : result[i].fathercontact,
                 		    	EmailId : result[i].emailaddress,
@@ -1932,7 +1945,7 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
                       	var mother = {
                       			ParentType : "Mother",
                 		    	ParentFirstName : result[i].motherfirstname,
-                		    	ParentLastname : result[i].motherlastname,
+                		    	ParentLastname : motherlastname,
                 		    	MobileNumber : result[i].mothercontact,
                 		    	AlternateMobNumber : result[i].mothercontact,
                 		    	EmailId : result[i].emailaddress,
@@ -1949,6 +1962,18 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
                       	var ParentMobileList = [];
                       	ParentMobileList.push(result[i].fathercontact);
                       	ParentMobileList.push(result[i].mothercontact);
+
+						var studentmidname = "  " ;
+						var studentlname = "  " ;  
+						if(typeof result[i].studentmiddleName != 'undefined' && result[i].studentmiddleName)
+						{
+							studentmidname = result[i].studentmiddleName;
+						}
+
+						if(typeof result[i].studentlastname != 'undefined' && result[i].studentlastname)
+						{
+							studentlname = result[i].studentlastname;
+						}  
                       	 
                       	var student =  new Student(
                       			{
@@ -1956,8 +1981,8 @@ app.post('/uploadTeacherOrStudentImage', function(req, res) {
 									StudentId: result[i].studentid, 
                       				SchoolId: req.body.schoolId,
                       				StudentFirstName: result[i].studentfirstname,
-                      				StudentMiddleName: result[i].studentmiddleName,
-                      				StudentLastName: result[i].studentlastname,
+                      				StudentMiddleName: studentmidname,
+                      				StudentLastName: studentlname,
                       				StudentDOB: result[i].dob,
                       				Age: result[i].Age,
                       				StudentGender: result[i].gender,
