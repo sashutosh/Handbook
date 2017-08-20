@@ -2407,6 +2407,56 @@ app.post('/SendSms', function(request, response) {
 	
 	});
 
+app.post('/uploadStudentWithAdmissionNumber', function(req, res) {
+     
+	 res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	  console.log("1");
+	  console.log(req.files.picture);	
+  	  var xlFile = req.files.picture;
+
+		var schoolId = req.body.schoolId;
+	console.log("School id is "+ schoolId);
+  	  //console.log(req.file.picture.path);
+  	   var newPath = __dirname + "/Images/" + req.files.picture.name;
+	   xlFile.mv(newPath, function(err){ 
+		   if(err){
+			   res.send("Error Uploading File");
+		   }
+		   else
+		   {
+               try {
+  	    		xlsxtojson({
+                      input: newPath,
+                      output: null, //since we don't need output.json
+                      lowerCaseHeaders:true
+					 
+                  }, function(err,result){
+                      if(err) {
+                          return res.json({error_code:1,err_desc:err, data: null});
+                      } 
+                      res.json({data: result});
+                      var i=0;
+                      for(i=0; i<result.length; i++)
+                      	{
+                      	 //console.log(i);
+                      	 //console.log(result[i]);
+                      	 
+						var clsstd = result[i].class + result[i].section;
+                      	console.log("before calling update admission");
+                      	dataservice.updateAdmissionNumber(Student,result[i].studentfirstname,result[i].admission,clsstd);
+                      	}
+
+						 fs.unlink(newPath);  
+                  });
+              } catch (e){
+                  res.json({error_code:1,err_desc:"Corupted excel file"});
+              }
+  	      
+		   }
+		   }); 
+  	});
+
 app.post('/UpdateAllStudentsWithAppInstalled', function(request, response){
     dataservice.updateStudentswithIsApp(StudentSchema, request, response);
 });

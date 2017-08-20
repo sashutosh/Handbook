@@ -259,6 +259,42 @@ function toTeacherTimeTable(body, TeacherTimeTable)
 	
 }
 
+exports.updateAdmissionNumber = function(Student,name,admission,clsstd)
+{
+	console.log("iniside");
+	console.log(name);
+	console.log(admission)
+  Student.find({StudentFirstName: name, StudentClassStandard: clsstd}, function(error, result) {
+	if (error) {
+	//console.error("error");
+	//return null;
+}
+else{
+	//console.log("inside else")
+	//console.log(result.length);
+	var stdcount = 0;
+	for(stdcount =0; stdcount < result.length ; stdcount++ ){
+		console.log(result[stdcount].studentId);
+		result[stdcount].AdmissionNumber = admission.toString();
+
+		// now save
+	result[stdcount].save(function (error2) {
+	if (!error2) {
+	console.log('Successfully updated Student');
+	//result[stdcount].save();
+	} else {
+	console.log('error on save');
+	}
+	});
+		
+	}
+
+}
+	
+	});
+
+};
+
 exports.updateStudentswithIsApp = function (Student, request, response)
 {
    var conditions = {},
