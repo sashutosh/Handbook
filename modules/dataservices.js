@@ -478,6 +478,7 @@ exports.updateStudent = function (model, requestBody, response) {
 	data.ParentList = student.ParentList;
 	data.ImageUrl = student.ImageUrl;
 	data.AdmissionNumber = student.AdmissionNumber;
+	data.StudentParentMobiles = student.StudentParentMobiles;
 	if(requestBody !=undefined && requestBody.IsAppInstalled !=undefined)
 	{
 		data.IsAppInstalled = requestBody.IsAppInstalled;
