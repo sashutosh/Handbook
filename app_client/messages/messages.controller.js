@@ -84,11 +84,15 @@
     }
 
     var setPhoneNumbersAndIds=function(selectRecipients){
+      console.log("inside selectRecipients");
+      console.log(selectRecipients.length);
       //Clear the previous data if any
       vm.selectedRecipientsPhoneNumbers.length=0;
       vm.selectedRecipientsId.length=0;
       vm.selectedRecipients.length=0;
-
+      console.log(vm.selectedRecipientsPhoneNumbers.length);
+      console.log(vm.selectedRecipientsId.length);
+      console.log(vm.selectedRecipients.length);
       angular.forEach(selectRecipients,function(selectedObject){
         angular.forEach(selectedObject.StudentParentMobiles,function(mobileNumber){
             vm.selectedRecipientsPhoneNumbers.push(mobileNumber)
@@ -96,6 +100,9 @@
         vm.selectedRecipientsId.push(selectedObject.StudentId);
         vm.selectedRecipients.push(selectedObject.StudentFirstName);  
       });
+      console.log(vm.selectedRecipientsPhoneNumbers.length);
+      console.log(vm.selectedRecipientsId.length);
+      console.log(vm.selectedRecipients.length);
     }
     
     vm.selectRecipients=function(){
@@ -141,15 +148,54 @@
 
     vm.send=function(){
         console.log("Sending message");
-        setPhoneNumbersAndIds(vm.selectedStudents);
-        var msgJsonObject = vm.prepareMessage();
+        var selectedstudentcount =0;
+        var selected20batch = 0;
+        var selectedstudentbatch = [];
+        //alert(vm.selectedStudents.length);
+        for(selectedstudentcount = 0; selectedstudentcount < vm.selectedStudents.length; selectedstudentcount++ ){
+          if(selected20batch <20)
+          {
+            selected20batch = selected20batch + 1;
+            selectedstudentbatch.push(vm.selectedStudents[selectedstudentcount]);
+          }
+          if(selected20batch == 20){
+            //alert("insise 20");
+            //setPhoneNumbersAndIds(selectedstudentbatch);
+            var msgJsonObject = vm.prepareMessage(selectedstudentbatch);
+            console.log(msgJsonObject);
+            //alert(msgJsonObject);
+            messaging.sendMessage(msgJsonObject);
+            selected20batch =0;
+            selectedstudentbatch.length = 0;
+          }
+        }
+        if(selected20batch !=0 && selectedstudentbatch.length != 0){
+        //setPhoneNumbersAndIds(selectedstudentbatch);
+        var msgJsonObject = vm.prepareMessage(selectedstudentbatch);
+        console.log(msgJsonObject);
+        //alert(msgJsonObject);
         messaging.sendMessage(msgJsonObject);
+        selected20batch =0;
+        selectedstudentbatch.length = 0;
+        }
         $location.path("/inbox")  
       };
 
-    vm.prepareMessage=function(){
+    vm.prepareMessage= function(selectedstudentbatch){
+        
 
         var msgObject={};
+         
+        var mobiles = [];
+        var ToIds = [];
+        var ToNames = [];
+        angular.forEach(selectedstudentbatch,function(selectedObject){
+          angular.forEach(selectedObject.StudentParentMobiles,function(mobileNumber){
+            mobiles.push(mobileNumber)
+          })
+          ToIds.push(selectedObject.StudentId);
+          ToNames.push(selectedObject.StudentFirstName);  
+        });
         
         msgObject.MessageBody= vm.messageText;
         msgObject.MessageTitle=vm.messageSubject;
@@ -157,9 +203,9 @@
         msgObject.FromType=authentication.userRole().userRole;
         msgObject.FromId=authentication.userId().userId;
         msgObject.FromName=authentication.currentUser().name; 
-        msgObject.MobileNumbers=vm.selectedRecipientsPhoneNumbers;
-        msgObject.ToIds=vm.selectedRecipientsId;
-        msgObject.ToNames=vm.selectedRecipients;
+        msgObject.MobileNumbers=mobiles;
+        msgObject.ToIds=ToIds;
+        msgObject.ToNames=ToNames;
         msgObject.ImageUrl= vm.selectedImageUrl;
         return msgObject;  
     };
