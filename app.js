@@ -1570,8 +1570,8 @@ app.put('/SendMessageToMultipleUser', function(request, response) {
 	        "FromType" : request.body.FromType,
 	        "FromId" : request.body.FromId,
 			"FromName" : request.body.From,
-	        "ToIds" :  request.body.ToIds[0],
-			"ToNames" : request.body.ToNames[0],
+	        "ToIds" :  request.body.ToIds,
+			"ToNames" : request.body.ToNames,
 			"SchoolId" : request.body.SchoolId,
 	        
 	        
