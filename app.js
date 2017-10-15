@@ -278,7 +278,17 @@ var EventsSchema = new mongoose.Schema({
 	StudentIDS: [ ]
 	});
 
-
+var HolidaySchema = new mongoose.Schema({
+		
+		SchoolId: String,
+		HolidayDescription: {type: String, required: true},
+		HolidayDate: { type: Date },
+		HolidayType: {type: String, default: "FullDay"},
+		HolidayYear : String,
+		HolidayMonth : String,
+		Holiday: String,
+		
+	});
 
 
 var Student = mongoose.model('Student', StudentSchema);
@@ -301,6 +311,8 @@ var TeacherTimeTable = mongoose.model('TeacherTimeTable', TeacherTimeTableSchema
 var Events = mongoose.model('Events', EventsSchema);
 
 var LocalMessageLogging = mongoose.model('LocalMessageLogging',LocalMessageSchema);
+
+var Holidays = mongoose.model('Holidays',HolidaySchema);
 
 var staticnotificationid = 100000;
 
@@ -2463,6 +2475,42 @@ app.post('/UpdateAllStudentsWithAppInstalled', function(request, response){
 
 app.post('/UpdateAllTeachersWithAppInstalled', function(request, response){
      dataservice.updateTeacherswithIsApp(request, response);
+});
+
+app.get('/Holidays/:SchoolId', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.getAllHolidays(Holidays, request.params.SchoolId, response);
+});
+
+app.get('/HolidaysByYear', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.getAllHolidaysByYear(Holidays, request.param('Year'), request.param('SchoolId') , response);
+});
+
+app.get('/getAllHolidaysByYearMonth', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.getAllHolidaysByMonth(Holidays, request.param('Year'), request.param('Month'), request.param('SchoolId'), response);
+});
+
+app.del('/HolidayByDate', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	dataservice.deleteHolidaysByDate(Holidays, request.param('Date'), request.param('SchoolId'), response);
+});
+
+app.put('/Holidays', function(request, response){
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+     dataservice.createHoliday(Holidays, request.body, response);
+});
+
+app.post('/Holidays', function(request, response){
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+     dataservice.updateHoliday(Holidays, request.body, response);
 });
 
 var SendEventMessageToMultipleUser = function(request, response) {

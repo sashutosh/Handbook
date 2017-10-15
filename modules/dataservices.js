@@ -1932,4 +1932,174 @@ exports.updateEvents = function (Model, requestBody, response) {
 };
 		
 
+exports.createHoliday = function (model, requestBody, response)
+{
+	var Holiday = new model(
+	{
+	   SchoolId: requestBody.SchoolId,
+	   HolidayDescription: requestBody.HolidayDescription,
+	   HolidayDate: requestBody.HolidayDate,
+	   HolidayType: requestBody.HolidayType,
+	   HolidayYear: requestBody.HolidayYear,
+	   HolidayMonth: requestBody.HolidayMonth,
+	   Holiday: requestBody.Holiday
+	
+	});
+	
+	
+	Holiday.save(function(err){
+		if (err)
+			{
+			//throw err;
+			console.log(err);
+			}
+		console.log('Holiday saved successfully');
+	});
+};
 
+exports.updateHoliday = function (model, requestBody, response) {
+	var date = requestBody.HolidayDate;
+	var schoolid = requestBody.SchoolId;
+	model.findOne({HolidayDate: date, SchoolId: schoolid},
+	function(error, data) {
+	if (error) {
+	console.log(error);
+	if (response != null) {
+	response.writeHead(500,
+	{'Content-Type' : 'text/plain'});
+	response.end('Internal server error');
+	}
+	return;
+	} else {
+	var Holiday = new model(
+	{
+	   SchoolId: requestBody.SchoolId,
+	   HolidayDescription: requestBody.HolidayDescription,
+	   HolidayDate: requestBody.HolidayDate,
+	   HolidayType: requestBody.HolidayType,
+	   HolidayYear: requestBody.HolidayYear,
+	   HolidayMonth: requestBody.HolidayMonth,
+	   Holiday: requestBody.Holiday
+	
+	});
+	if (!data) {
+	console.log('Holiday on date: '+ date
+	+ ' does not exist. The Holiday will be created.');
+	Holiday.save(function(error) {
+	if (!error)
+		Holiday.save();
+	});
+	if (response != null) {
+	response.writeHead(201,
+	{'Content-Type' : 'text/plain'});
+	response.end('Created');
+	}
+	return;
+	}
+	//poulate the document with the updated values
+	
+	data.SchoolId = Holiday.SchoolId;
+	data.HolidayDescription = Holiday.HolidayDescription;
+	data.HolidayDate = Holiday.HolidayDate;
+	data.HolidayType = Holiday.HolidayType;
+	data.HolidayYear = Holiday.HolidayYear;
+	data.HolidayMonth = Holiday.HolidayMonth;
+	data.Holiday = Holiday.Holiday;
+	
+	// now save
+	data.save(function (error) {
+	if (!error) {
+	console.log('Successfully updated Holiday on date: '+ date);
+	data.save();
+	} else {
+	console.log('error on save');
+	}
+	});
+	if (response != null) {
+	response.send('Updated');
+	}
+	}
+	});
+};
+
+exports.getAllHolidays = function (model, schoolid, response) {
+	model.find({SchoolId: schoolid}, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+};
+
+exports.getAllHolidaysByYear = function (model, year, schoolid, response) {
+	model.find({SchoolId: schoolid, HolidayYear: year }, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+};
+
+exports.getAllHolidaysByYearMonth = function (model, year, month, schoolid, response) {
+	model.find({SchoolId: schoolid, HolidayYear: year, HolidayMonth: month }, function(error, result) {
+	if (error) {
+	console.error(error);
+	return null;
+	}
+	if (response != null) {
+	response.setHeader('content-type', 'application/json');
+	response.end(JSON.stringify(result));
+	}
+	return JSON.stringify(result);
+	});
+};
+
+exports.deleteHolidaysByDate = function (model, date, schoolid, response) {
+{
+
+model.findOne({HolidayDate: date, SchoolId: schoolid},
+function(error, data) {
+if (error) {
+console.log(error);
+if (response != null) {
+response.writeHead(500, {'Content-Type' : 'text/plain'});
+response.end('Internal server error');
+}
+return;
+} else {
+if (!data) {
+console.log('Record not found');
+if (response != null) {
+response.writeHead(404,
+{'Content-Type' : 'text/plain'});
+response.end('Record Not Found');
+}
+return;
+} else {
+data.remove(function(error){
+if (!error) {
+data.remove();
+}
+else {
+console.log(error);
+}
+});
+if (response != null){
+	response.send('Deleted Holiday Record');
+	}
+	return;
+	}
+	}
+	});
+}
+};
