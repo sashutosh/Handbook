@@ -65,9 +65,10 @@
 
     vm.addTeacher = function(){
       
-      handbookData.setSelectedTeacher(teacher);
+      //handbookData.setSelectedTeacher(teacher);
+      handbookData.setTeacherPageMode("Add");
       $location.path("/teachers/edit");
-      console.log(handbookData.getSelectedTeacher());
+      console.log("Add teacher selected");
     };
     
     vm.edit= function(teacher){
