@@ -4,9 +4,8 @@
     .module('handbook')
     .controller('editTeacherCtrl', editTeacherCtrl);
 
-  editTeacherCtrl.$inject = ['$location', 'handbookData', 'messaging'];
+  editTeacherCtrl.$inject = ['$location', 'handbookData', 'messaging','authentication'];
   function editTeacherCtrl($location, handbookData, messaging, authentication) {
-
 
     var vm = this;
     vm.schoolId = authentication.schoolId().schoolId;
