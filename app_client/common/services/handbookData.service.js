@@ -11,6 +11,7 @@
     var selectedStudent={};
     var selectedClass ={};
     var studentPageMode="Edit";
+    var teacherPageMode="Edit";
     
     var setSelectedTeacher=function(teacher){
       selectedTeacher=teacher;
@@ -46,6 +47,14 @@
 
     var setStudentPageMode=function(mode){
       studentPageMode =mode;
+    }
+
+    var getTeacherPageMode=function(){
+      return teacherPageMode;
+    }
+
+    var setTeacherPageMode=function(mode){
+      teacherPageMode =mode;
     }
 
     var getClassTimetable=function(classSection){
@@ -110,6 +119,10 @@
     var deleteClass=function(classtoDelete)
     {
       return $http.delete('/ClassByClassSection', classtoDelete);
+    }
+
+    var addTeacher =function(teacher){
+      return $http.put('/teachers',teacher);
     }
 
     var updateTeacher =function(teacher){
@@ -191,7 +204,10 @@
       addStudentBulk: addStudentBulk,
       getStudentPageMode:getStudentPageMode,
       setStudentPageMode:setStudentPageMode,
+      getTeacherPageMode:getTeacherPageMode,
+      setTeacherPageMode:setTeacherPageMode,
       getTeachers:getTeachers,
+      addTeacher:addTeacher,
       updateTeacher:updateTeacher,
       getStudents:getStudents,
       getSubjects:getSubjects,
