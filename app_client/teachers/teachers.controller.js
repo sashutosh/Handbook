@@ -64,7 +64,10 @@
     }
 
     vm.addTeacher = function(){
-      console.log(vm.selectedTeacher);
+      
+      handbookData.setSelectedTeacher(teacher);
+      $location.path("/teachers/edit");
+      console.log(handbookData.getSelectedTeacher());
     };
     
     vm.edit= function(teacher){
