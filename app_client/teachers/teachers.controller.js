@@ -4,52 +4,52 @@
     .module('handbook')
     .controller('teacherCtrl', teacherCtrl);
 
-  teacherCtrl.$inject= ['$location','handbookData','messaging','authentication'];  
-  
-  function teacherCtrl($location,handbookData,messaging,authentication) {
+  teacherCtrl.$inject = ['$location', 'handbookData', 'messaging', 'authentication'];
+
+  function teacherCtrl($location, handbookData, messaging, authentication) {
     var vm = this;
-    vm.selectedAll=false;
-    vm.schoolId=authentication.schoolId().schoolId;  
-    vm.selectedIds = {"002": true,"003":false};
-    vm.selectedTeacher =[];
-    
+    vm.selectedAll = false;
+    vm.schoolId = authentication.schoolId().schoolId;
+    vm.selectedIds = { "002": true, "003": false };
+    vm.selectedTeacher = [];
+
     vm.pageHeader = {
       title: 'Teachers'
     };
 
-    vm.sendMessage=function(){
-        
+    vm.sendMessage = function () {
+
       for (var i = 0, l = vm.teachers.length; i < l; i++) {
-        
-        if(vm.teachers[i].selected){
+
+        if (vm.teachers[i].selected) {
           messaging.addtoMessageList({
-            Name:vm.teachers[i].TeacherFirstName,
-            MobileNumber:vm.teachers[i].MobileNumber,
-            Id:vm.teachers[i].TeacherId
-        });
+            Name: vm.teachers[i].TeacherFirstName,
+            MobileNumber: vm.teachers[i].MobileNumber,
+            Id: vm.teachers[i].TeacherId
+          });
         }
       }
-      
-      $location.path("/messages")  
+
+      $location.path("/messages")
 
     };
 
-    vm.checkAll=function(){
+    vm.checkAll = function () {
 
-      if(!vm.selectedAll){
-        vm.selectedAll=true
+      if (!vm.selectedAll) {
+        vm.selectedAll = true
       }
-      else{
-        vm.selectedAll=false;
+      else {
+        vm.selectedAll = false;
       }
-      angular.forEach(vm.teachers,function(teacher){
-        teacher.selected=vm.selectedAll;
+      angular.forEach(vm.teachers, function (teacher) {
+        teacher.selected = vm.selectedAll;
       })
 
     }
 
-    vm.onCheckBoxClick =function(teacherObj){
-     
+    vm.onCheckBoxClick = function (teacherObj) {
+
       var idx = vm.selectedTeacher.indexOf(teacherObj);
 
       // Is currently selected
@@ -63,74 +63,74 @@
       }
     }
 
-    vm.addTeacher = function(){
-      
+    vm.addTeacher = function () {
+
       //handbookData.setSelectedTeacher(teacher);
       handbookData.setTeacherPageMode("Add");
       $location.path("/teachers/edit");
       console.log("Add teacher selected");
     };
-    
-    vm.edit= function(teacher){
+
+    vm.edit = function (teacher) {
       handbookData.setTeacherPageMode("Add");
       handbookData.setSelectedTeacher(teacher);
       $location.path("/teachers/edit");
     };
 
-    vm.remove=function(teacher,index){
+    vm.remove = function (teacher, index) {
       handbookData.deleteTeacher(teacher.TeacherId)
-      .success(function(result){
-          alert("Teacher deleted successfully");  
+        .success(function (result) {
+          alert("Teacher deleted successfully");
           //Delete student from the currently loaded students 
-          vm.teacherss.splice(index,1);
+          vm.teacherss.splice(index, 1);
         })
-      .error(function(e){
+        .error(function (e) {
           console.log(e);
           alert("Failed to update record. Please try again");
 
-      });
+        });
     }
-    
-    vm.teacherProfile=function(teacher){
+
+    vm.teacherProfile = function (teacher) {
 
       handbookData.setTeacherPageMode("View");
       handbookData.setSelectedTeacher(teacher);
       $location.path("/teachers/edit");
     }
 
-    vm.deleteTeacher=function(){
+    vm.deleteTeacher = function () {
       for (var i = 0, l = vm.teachers.length; i < l; i++) {
-        
-        if(vm.teachers[i].selected){
-          handbookData.deleteTeacher(teacher.TeacherId)
-          .success(function(result){
-              console("Teacher deleted successfully");  
+
+        if (vm.teachers[i].selected) {
+          handbookData.deleteTeacher(vm.teachers[i].TeacherId)
+            .success(function (result) {
+              console("Teacher deleted successfully");
               //Delete student from the currently loaded students 
               //vm.teacherss.splice(index,1);
             })
-          .error(function(e){
-            console("Failed to delete teacher");  
-            console.log(e);
+            .error(function (e) {
+              console("Failed to delete teacher");
+              console.log(e);
               //alert("Failed to update record. Please try again");
-    
-          }); 
+
+            });
         }
       }
     };
 
-    
-    
+
+
     handbookData.getTeachers(vm.schoolId)
-    .success(function(data){
-      if(data){
-        vm.teachers=data;
-      }
-    })
-    .error(function(e){
+      .success(function (data) {
+        if (data) {
+          vm.teachers = data;
+        }
+      })
+      .error(function (e) {
         console.log(e);
         vm.popupAddSchoolForm();
-       //alert("School data not found");
-    });
+        //alert("School data not found");
+      });
 
   }
 
