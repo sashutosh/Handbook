@@ -12,6 +12,7 @@
     var getDefaultTeacher = function () {
       var teacher = {};
       teacher.TeacherFirstName = "";
+      teacher.EmailId ="";
       return teacher;
     }
     vm.pagemode = handbookData.getTeacherPageMode();

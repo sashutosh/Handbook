@@ -72,6 +72,7 @@
     };
     
     vm.edit= function(teacher){
+      handbookData.setTeacherPageMode("Add");
       handbookData.setSelectedTeacher(teacher);
       $location.path("/teachers/edit");
     };
@@ -91,16 +92,28 @@
     }
     
     vm.teacherProfile=function(teacher){
+
+      handbookData.setTeacherPageMode("View");
       handbookData.setSelectedTeacher(teacher);
       $location.path("/teachers/edit");
     }
 
     vm.deleteTeacher=function(){
-        for(var teacherId in vm.selectedIds){
-            
-            if(vm.selectedIds[teacherId]){
-              console.log("To be deleted" + teacherId);
-            }
+      for (var i = 0, l = vm.teachers.length; i < l; i++) {
+        
+        if(vm.teachers[i].selected){
+          handbookData.deleteTeacher(teacher.TeacherId)
+          .success(function(result){
+              console("Teacher deleted successfully");  
+              //Delete student from the currently loaded students 
+              //vm.teacherss.splice(index,1);
+            })
+          .error(function(e){
+            console("Failed to delete teacher");  
+            console.log(e);
+              //alert("Failed to update record. Please try again");
+    
+          }); 
         }
     };
 

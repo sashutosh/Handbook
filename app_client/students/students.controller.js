@@ -81,7 +81,7 @@
       messaging.sendTextMessage(messageJsonObject);
         
 
-    }
+    }  
 
 
     vm.addStudent = function(){
@@ -111,13 +111,27 @@
       });
     }
 
+    vm.delete=function(student){
+      handbookData.deleteStudent(student.StudentId)
+      .success(function(result){
+          console.log("Student deleted successfully");  
+         // vm.students.splice(index,1);
+        })
+      .error(function(e){
+          console.log(e);
+          alert("Failed to update record. Please try again");
+
+      });
+    }
+
     vm.deleteStudents=function(){
-        for(var studentId in vm.selectedIds){
-            
-            if(vm.selectedIds[studentId]){
-              console.log("To be deleted" + studentId);
-            }
+      for (var i = 0, l = vm.filteredStudents.length; i < l; i++) {
+        
+        if(vm.students[i].selected){
+          vm.delete(vm.students[i]);
         }
+      }
+      
     };
 
     vm.studentProfile=function(student){
