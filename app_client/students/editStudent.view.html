@@ -7,107 +7,109 @@
         <!--<a ng-click="changeView('list')" class="floatRTL btn btn-danger btn-flat pull-right marginBottom15">Cancel</a>-->
         <div class="box col-xs-12">
             <div class="box-body table-responsive">
-                <form class="form-horizontal" name="editAdmin" role="form" fielldSet ng-disabled="vm.formDisabled">
-                    <div class="form-group" ng-class="{'has-error': editAdmin.fullName.$invalid}">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Full Name </label>
-                        <div class="col-sm-10">
-                            <input type="text" name="fullName" ng-model="vm.student.StudentFirstName" class="form-control" placeholder="Full Name" required>
+                <form class="form-horizontal" name="editAdmin" role="form">
+                    <fielldSet ng-disabled="vm.formDisabled">
+                        <div class="form-group" ng-class="{'has-error': editAdmin.fullName.$invalid}">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Full Name </label>
+                            <div class="col-sm-10">
+                                <input type="text" name="fullName" ng-model="vm.student.StudentFirstName" class="form-control" placeholder="Full Name" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group" ng-class="{'has-error': editAdmin.email.$invalid}">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Std</label>
-                        <div class="col-sm-10">
-                            <input  name="std" ng-model="vm.student.StudentClassStandard" class="form-control" placeholder="Std" required>
+                        <div class="form-group" ng-class="{'has-error': editAdmin.email.$invalid}">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Std</label>
+                            <div class="col-sm-10">
+                                <input name="std" ng-model="vm.student.StudentClassStandard" class="form-control" placeholder="Std" required>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Gender</label>
-                        <div class="col-sm-10">
 
-                            <div class="radio">
-                                <label>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Gender</label>
+                            <div class="col-sm-10">
+
+                                <div class="radio">
+                                    <label>
                                     <input type="radio" name="gender" value="MALE" ng-model="vm.student.StudentGender">
                                     Male
                                 </label>
-                            </div>
-                            <div class="radio">
-                                <label>
+                                </div>
+                                <div class="radio">
+                                    <label>
                                     <input type="radio" name="gender" value="FEMALE" ng-model="vm.student.StudentGender">
                                     Female
                                 </label>
-                            </div>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">BirthDate</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="datemask" name="birthday" ng-model="vm.StudentDOB" class="form-control datemask"placeholder="YYYY-MM-DD">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">BirthDate</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="datemask" name="birthday" ng-model="vm.StudentDOB" class="form-control datemask" placeholder="YYYY-MM-DD">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Address</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="address" class="form-control" ng-model="vm.student.StudentFullAddress" placeholder="Address">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="address" class="form-control" ng-model="vm.student.StudentFullAddress" placeholder="Address">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">PhoneNo</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="phoneNo" class="form-control" ng-model="vm.student.StudentParentMobiles" placeholder="PhoneNo">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">PhoneNo</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="phoneNo" class="form-control" ng-model="vm.student.StudentParentMobiles" placeholder="PhoneNo">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Father Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="fatherName" class="form-control" ng-model="vm.student.ParentList[0].ParentFirstName" placeholder="fatherName">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Father Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="fatherName" class="form-control" ng-model="vm.student.ParentList[0].ParentFirstName" placeholder="fatherName">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Father Mobile Number</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="fatherMobNum" class="form-control" ng-model="vm.student.ParentList[0].MobileNumber" placeholder="fatherMobNum">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Father Mobile Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="fatherMobNum" class="form-control" ng-model="vm.student.ParentList[0].MobileNumber" placeholder="fatherMobNum">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Father EmailID</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="fatherEmailId" class="form-control" ng-model="vm.student.ParentList[0].EmailId" placeholder="fatherEmailId">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Father EmailID</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="fatherEmailId" class="form-control" ng-model="vm.student.ParentList[0].EmailId" placeholder="fatherEmailId">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Mother Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="motherName" class="form-control" ng-model="vm.student.ParentList[1].ParentFirstName" placeholder="motherName">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Mother Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="motherName" class="form-control" ng-model="vm.student.ParentList[1].ParentFirstName" placeholder="motherName">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Mother Mobile Number</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="motherMobNum" class="form-control" ng-model="vm.student.ParentList[1].MobileNumber" placeholder="motherMobNum">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Mother Mobile Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="motherMobNum" class="form-control" ng-model="vm.student.ParentList[1].MobileNumber" placeholder="motherMobNum">
+                            </div>
                         </div>
-                    </div>
-                     <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Admission Number</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="motherMobNum" class="form-control" ng-model="vm.student.AdmissionNumber" placeholder="motherMobNum">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Admission Number</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="motherMobNum" class="form-control" ng-model="vm.student.AdmissionNumber" placeholder="motherMobNum">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Photo</label>
-                        <div class="col-sm-10">
-                            <input type="file" custom-on-change="vm.uploadFile" file-model="vm.myFile" name="photo">
-                            
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Photo</label>
+                            <div class="col-sm-10">
+                                <input type="file" custom-on-change="vm.uploadFile" file-model="vm.myFile" name="photo">
+
+                            </div>
+                            <div class="spinner"></div>
                         </div>
-                        <div class="spinner"></div>
-                    </div>
-                    <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <input type="hidden" name="_token" value="{{CSRF_TOKEN}}">
-                        <button type="submit" class="btn btn-default" ng-click= "vm.onSubmit()" ng-show="vm.showButton" ng-disabled="vm.loading">{{vm.modeText}}</button>
-                    </div>
-                    </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="hidden" name="_token" value="{{CSRF_TOKEN}}">
+                                <button type="submit" class="btn btn-default" ng-click="vm.onSubmit()" ng-show="vm.showButton" ng-disabled="vm.loading">{{vm.modeText}}</button>
+                            </div>
+                        </div>
+                    </fielldSet>
                 </form>
             </div>
         </div>
