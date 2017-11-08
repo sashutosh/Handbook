@@ -7,7 +7,7 @@
         <!--<a ng-click="changeView('list')" class="floatRTL btn btn-danger btn-flat pull-right marginBottom15">Cancel</a>-->
         <div class="box col-xs-12">
             <div class="box-body table-responsive">
-                <form class="form-horizontal" name="editAdmin" role="form">
+                <form class="form-horizontal" name="editAdmin" role="form" fielldSet ng-disabled="vm.formDisabled">
                     <div class="form-group" ng-class="{'has-error': editAdmin.fullName.$invalid}">
                         <label for="inputPassword3" class="col-sm-2 control-label">Full Name </label>
                         <div class="col-sm-10">

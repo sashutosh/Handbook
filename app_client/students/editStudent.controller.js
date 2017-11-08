@@ -18,6 +18,7 @@
     vm.myFile = {};
     vm.uploadCompleted = false;
     vm.showButton = true;
+    vm.formDisabled =false;
     vm.schoolId = authentication.schoolId().schoolId;
     vm.pagemode = handbookData.getStudentPageMode();
 
@@ -58,6 +59,7 @@
     }
     else if (vm.pagemode === "View") {
 
+      vm.formDisabled =true;
       handbookData.getSelectedStudent()
         .success(function (data) {
           if (data) {

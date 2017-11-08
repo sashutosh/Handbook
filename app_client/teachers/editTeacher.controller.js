@@ -9,6 +9,7 @@
 
     var vm = this;
     vm.schoolId = authentication.schoolId().schoolId;
+    vm.formDisabled =false;
     var getDefaultTeacher = function () {
       var teacher = {};
       teacher.TeacherFirstName = "";
@@ -50,6 +51,7 @@
       };
     }
     else if (vm.pagemode === "View") {
+      vm.formDisabled =true;
       vm.teacher = getDefaultTeacher();
       vm.showButton = false;
       vm.pageHeader = {
