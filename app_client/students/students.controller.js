@@ -124,7 +124,7 @@
       });
     }
 
-    vm.deleteStudents=function(){
+    vm.deleteStudent=function(){
       for (var i = 0, l = vm.filteredStudents.length; i < l; i++) {
         
         if(vm.students[i].selected){
