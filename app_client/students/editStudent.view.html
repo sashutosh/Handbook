@@ -8,7 +8,7 @@
         <div class="box col-xs-12">
             <div class="box-body table-responsive">
                 <form class="form-horizontal" name="editAdmin" role="form">
-                    <fielldSet ng-disabled="vm.formDisabled">
+                    <fieldset ng-disabled="vm.formDisabled">
                         <div class="form-group" ng-class="{'has-error': editAdmin.fullName.$invalid}">
                             <label for="inputPassword3" class="col-sm-2 control-label">Full Name </label>
                             <div class="col-sm-10">
@@ -109,7 +109,7 @@
                                 <button type="submit" class="btn btn-default" ng-click="vm.onSubmit()" ng-show="vm.showButton" ng-disabled="vm.loading">{{vm.modeText}}</button>
                             </div>
                         </div>
-                    </fielldSet>
+                    </fieldset>
                 </form>
             </div>
         </div>
