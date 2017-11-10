@@ -578,6 +578,7 @@ exports.createTeacher = function (requestBody, response)
 			console.log(err);
 			}
 		console.log('Teacher saved successfully');
+		response.json({"code" : 200, "status" : "Teacher Created Successfully"});
 	});	
 	}
 	});
@@ -741,7 +742,7 @@ exports.updateTeacher = function (requestBody, response) {
 	}
 	});
 	if (response != null) {
-	response.send('Updated');
+		response.json({"code" : 200, "status" : "Teacher updated Successfully"});
 	}
 	}
 	});

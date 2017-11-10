@@ -42,7 +42,7 @@ var xltojson = require("xls-to-json-lc");
 var fileUpload = require('express-fileupload');
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 //app.use(express.favicon());
@@ -2612,6 +2612,10 @@ var SendEventMessageToMultipleUser = function(request, response) {
 app.get('/',function(req, res) {
 	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
 });	
+
+app.get('/web', function(req, res){
+    res.sendfile(path.join(__dirname, 'app_client', 'schoolweb.html'));
+});
 
 // error handlers
 // Catch unauthorised errors
