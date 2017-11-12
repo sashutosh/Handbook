@@ -2609,11 +2609,11 @@ var SendEventMessageToMultipleUser = function(request, response) {
 	
 	};
 
-app.get('/',function(req, res) {
+app.get('/webapp',function(req, res) {
 	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
 });	
 
-app.get('/web', function(req, res){
+app.get('/', function(req, res){
     res.sendfile(path.join(__dirname, 'app_client', 'schoolweb.html'));
 });
 
