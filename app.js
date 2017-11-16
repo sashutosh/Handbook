@@ -322,6 +322,9 @@ app.put('/Class', function(request, response) {
 	dataservice.createClass(Class, request.body, response);
 	});
 	
+	app.get('/', function(req, res){
+		res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
+	});
 
 app.put('/Subject', function(request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
@@ -2609,13 +2612,11 @@ var SendEventMessageToMultipleUser = function(request, response) {
 	
 	};
 
+	
 app.get('/webapp',function(req, res) {
-	res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
+	res.sendfile(path.join(__dirname, 'app_client', 'schoolweb.html'));
 });	
 
-app.get('/', function(req, res){
-    res.sendfile(path.join(__dirname, 'app_client', 'schoolweb.html'));
-});
 
 // error handlers
 // Catch unauthorised errors

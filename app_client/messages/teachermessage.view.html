@@ -1,0 +1,70 @@
+<navigation></navigation>
+
+<div class="container">
+  <page-header content="vm.pageHeader"></page-header>
+  <side-navigation></side-navigation>  
+  <div class="row ">
+    <div class="col-md-6 col-md-offset-1">
+        <div class="Compose-Message">               
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Compose New Student Message 
+            </div>
+            <div class="panel-body">
+              <label>To</label>
+                <div class="form-group">
+                  
+                   <div class="form-group well">
+                    <!--<input type="text" class="form-control col-sm-3" ng-model="vm.selectedRecipients" readonly/>-->
+                    <div class="chip" style="margin-right: 5px;" ng-repeat="recipient in vm.selectedTeachers">
+                      {{recipient.TeacherFirstName}}
+                    </div>
+                  </div>  
+                  <!--<div>-->
+                  <!-- <div class= "col-sm-3" ng-dropdown-multiselect="" options="vm.classes" selected-model="vm.selectedClasses" extra-settings="vm.controlSettings" events= "vm.firedEvents" translation-texts="vm.buttonLabel"></div> -->
+                  <button type="button" class="btn btn-secondary" ng-click="vm.selectRecipients()"> Select Teachers </button>
+                  <!--</div>-->
+                </div>
+                
+                <div class="form-group" ng-show="vm.selectedTeachers.length > 0">
+                  <label class="col-sm-12">{{vm.countMessage}}</label>                
+                </div>
+                
+                <!-- <div class="form-group">
+                    <label class="col-sm-2 control-label">Type</label>
+                    <label class="col-sm-5">
+                      <input type="radio" ng-model="vm.messageType" value="DIARY_NOTE">
+                      Diary Note
+                    </label>
+                    <label class="col-sm-5">
+                      <input type="radio" ng-model="vm.messageType" ng-value="HOMEWORK">
+                      Homework
+                    </label>
+                </div> -->
+
+                
+                <div class="form-group">
+                  <label>Subject</label>  
+                  <input type="text" class="form-control" ng-model="vm.messageSubject"/>
+                </div>
+                
+                <label>Message</label>
+                <textarea rows="6" class="form-control" ng-model="vm.messageText"></textarea>
+                <label class="control-label">Attachment</label>
+                <div>
+                    <input type="file" custom-on-change="vm.uploadFile" file-model="vm.myFile" name="photo">
+                    
+                </div>
+                <div class="spinner"></div>
+                
+                <hr />
+                <a href="#" class="btn btn-warning" ng-click="vm.send()"><span class="glyphicon glyphicon-envelope" ></span> Send Message </a>&nbsp;
+            </div>
+           </div>
+        </div>
+                <!-- COMPOSE MESSAGE END -->
+        </div>
+    </div>
+  </div>
+ <footer-generic></footer-generic>
+</div>

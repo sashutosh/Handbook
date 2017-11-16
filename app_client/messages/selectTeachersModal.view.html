@@ -1,0 +1,41 @@
+<modal>
+    <div class="modal-header">
+      <button type="button" ng-click="vm.modal.cancel()" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      <h2 id="myModalLabel" class="modal-title">Select</h2>
+    </div>
+
+  <div class="row list-group col-sm-offset-1">
+    <label for="filter">Filter</label>
+    <input ng-model="q" id="search" class="col-sm-6" placeholder="Filter text">
+   </div>  
+    <div class="box-body table-responsive col-sm-offset-1">
+      <table class="table table-hover">
+          <tbody><tr>
+              <th><input type="checkbox" ng-model="vm.selectedAll" ng-click="vm.checkAll()" /></th>
+              <th>Image</th>
+              <th>Name</th>
+              <!-- <th>Std</th> -->
+          </tr>
+          <tr dir-paginate="teacher in vm.teachers | filter:q | orderBy:['TeacherFirstName']|itemsPerPage:10">
+              <!--<td>{{student.StudentId}}</td>-->
+              <td>
+                  <input type="checkbox" ng-model="teacher.selected"/>
+              </td>
+              <td>
+                  <img class="user-image img-circle" style="width:35px; height:35px;" ng-src="{{teacher.ImageUrl}}">
+              </td>
+              <td>{{teacher.TeacherFirstName }}</td>
+              <!-- <td>{{student.StudentClassStandard }}</td> -->
+          </tr>
+          <tr ng-show="!vm.teachers.length"><td class="noTableData" colspan="6">{{phrase.noStudents}}</td></tr>
+      </tbody></table>
+      
+      <dir-pagination-controls boundary-links="true" template-url="common/directives/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+  </div>
+  <div class="form-group">
+        <div class="col-sm-12 col-sm-offset-1">
+            <button type="submit" class="btn btn-default" ng-click="vm.addSelectedStudent()">Done</button>
+        </div>
+    </div>
+
+</modal>

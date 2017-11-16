@@ -64,6 +64,11 @@
         controller: 'messageCtrl',
         controllerAs: 'vm'
       })
+      .when('/teachermessages', {
+        templateUrl: '/messages/teachermessage.view.html',
+        controller: 'teachermessageCtrl',
+        controllerAs: 'vm'
+      })
       .when('/inbox', {
         templateUrl: '/messages/inbox.view.html',
         controller: 'inboxCtrl',
