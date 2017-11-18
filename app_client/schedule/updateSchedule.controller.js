@@ -8,7 +8,7 @@
         function updateScheduleModalCtrl ($modalInstance,handbookData,authentication) {
         var vm = this;
         //vm.schoolData = $modalInstance.schoolData;
-        
+        vm.advance =true;
         vm.schoolId = authentication.schoolId().schoolId;
 
         handbookData.getClasses(vm.schoolId)
@@ -33,6 +33,8 @@
         var updateClassTimeTable =function(classSchedule){
             
             var updateTime = parseInt(vm.updateTimeMinutes)
+            if(vm.advance === false)
+                updateTime = updateTime * -1;
             for(var i=0;i<classSchedule.Days.length;i++){
             
                 for(var j=0;j<classSchedule.Days[i].TimeSlots.length;j++){
@@ -42,10 +44,16 @@
                     var t1MinStart=parseInt(splitTimeStart[1]);
 
                     t1MinStart = t1MinStart + updateTime;
+                    //Advance
                     if(t1MinStart > 60)
                     {
                         t1MinStart = t1MinStart -60;
                         t1HourStart = t1HourStart +1
+                    }
+                    //Reduce
+                    if(t1MinStart <0 ){
+                        t1MinStart = t1MinStart + 60;
+                        t1HourStart = t1HourStart -1
                     }
                     classSchedule.Days[i].TimeSlots[j].StartTime = t1HourStart.toString() + ":" + t1MinStart.toString();
 
@@ -54,11 +62,19 @@
                     var t1MinEnd=parseInt(splitTimeEnd[1]);
 
                     t1MinEnd = t1MinEnd + updateTime;
+                    //Advance
                     if(t1MinEnd > 60)
                     {
                         t1MinEnd = t1MinEnd -60;
                         t1HourEnd = t1HourEnd +1
                     }
+                    //Reduce        
+                    if(t1MinEnd < 0)
+                    {
+                        t1MinEnd = t1MinEnd + 60;
+                        t1HourEnd = t1HourEnd -1
+                    }
+
 
                     classSchedule.Days[i].TimeSlots[j].EndTime = t1HourEnd.toString() + ":" + t1MinEnd.toString();
 
@@ -69,6 +85,10 @@
         }
             
             vm.onSubmit = function () {
+                if(vm.messageType === "ADVANCE")
+                    vm.advance =true;
+                else
+                    vm.advance =false;
                 updatechedule();
                vm.modal.close(vm.currentEvent);
             };

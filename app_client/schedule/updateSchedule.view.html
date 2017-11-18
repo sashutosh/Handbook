@@ -15,18 +15,36 @@
     
             
            
-            <div class="form-group" ng-class="{'has-error': addSubForm.startTimeHour.$invalid || addSubForm.startTimeMin.$invalid}">
-              <label for="inputPassword3" class="col-sm-2 control-label">Modify time *</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  
-                  <div class="col-xs-3">
-                    <select class="form-control" ng-model="vm.updateTimeMinutes" required name="startTimeMin">
-                      <option ng-repeat="i in ['00','05','10','15','20','25','30','35','40','45','50','55']" value="{{i}}">{{i}}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
+            
+             <div class="form-group">
+                    <label class="col-sm-12 control-label">Adjust time</label>
+            </div>
+            <div class="form-group">
+                    <label class="col-sm-5">
+                      <input type="radio" ng-model="vm.messageType" value="ADVANCE">
+                      Advance
+                    </label>
+                    <label class="col-sm-5">
+                      <input type="radio" ng-model="vm.messageType" ng-value="REDUCE">
+                      Reduce
+                    </label>
+            </div>
+          <div class="form-group" ng-class="{'has-error': addSubForm.startTimeHour.$invalid || addSubForm.startTimeMin.$invalid}"></div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Duration *</label>
+                    <div class="col-sm-10">
+                      <div class="row">
+                        
+                        <div class="col-xs-3">
+                          <select class="form-control" ng-model="vm.updateTimeMinutes" required name="startTimeMin">
+                            <option ng-repeat="i in ['00','05','10','15','20','25','30','35','40','45','50','55']" value="{{i}}">{{i}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+
+              
             </div>
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-12">
