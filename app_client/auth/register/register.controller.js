@@ -15,7 +15,8 @@
     vm.credentials = {
       name : "",
       email : "",
-      password : ""
+      password : "",
+      schoolId:""
     };
 
     vm.returnPage = $location.search().page || '/';

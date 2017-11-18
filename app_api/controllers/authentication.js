@@ -23,7 +23,7 @@ module.exports.register = function(req, res) {
 
   user.name = req.body.name;
   user.email = req.body.email;
-  user.schoolId= 100;
+  user.schoolId= req.body.schoolId;
   user.userId= 002;
   user.userRole="Teacher";
   user.setPassword(req.body.password);
