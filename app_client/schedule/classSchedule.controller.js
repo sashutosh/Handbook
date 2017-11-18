@@ -76,7 +76,7 @@
 
     vm.onSubmit=function(){
       
-      handbookData.updateTimeTable(vm.selectedClass.ClassSection, vm.classSchedule)
+      handbookData.updateTimeTable(vm.classSchedule)
       .success(function(result){
               alert("Timetable updated successfully");  
               $location.path("/schedule");

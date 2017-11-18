@@ -61,7 +61,7 @@
       return $http.get('/StudentTimeTableForClassStandard/' + classSection);
     }
 
-    var updateTimeTable=function(classStd,classSchedule){
+    var updateTimeTable=function(classSchedule){
       return $http.post('/StudentTimeTableForClassStandard/',classSchedule);
     }
 
