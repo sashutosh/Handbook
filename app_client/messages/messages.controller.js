@@ -13,6 +13,7 @@
     vm.selectedRecipientsObjectList=[];
     vm.selectedRecipients=[];
     vm.selectedRecipientsId=[];
+    vm.selectedStudents=[];
     vm.selectedRecipientsPhoneNumbers=[];
     vm.selectedClasses=[];  
     vm.selectedRecipients= messaging.getSelectedRecipientsList();  
@@ -148,6 +149,11 @@
 
     vm.send=function(){
         console.log("Sending message");
+        if(vm.selectedStudents.length === 0)
+        {
+          alert('No students selected.');
+          return;
+        }
         var selectedstudentcount =0;
         var selected20batch = 0;
         var selectedstudentbatch = [];

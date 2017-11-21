@@ -30,8 +30,6 @@
             vm.loading = false;
             vm.modeText = "Edit Teacher"
             vm.TeacherDOB = handbookData.formatDOB(vm.teacher.TeacherDOB);
-
-
           }
         })
         .error(function (e) {

@@ -72,7 +72,7 @@
     };
 
     vm.edit = function (teacher) {
-      handbookData.setTeacherPageMode("Add");
+      handbookData.setTeacherPageMode("Edit");
       handbookData.setSelectedTeacher(teacher);
       $location.path("/teachers/edit");
     };

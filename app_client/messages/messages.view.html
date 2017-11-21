@@ -23,7 +23,10 @@
                 <div class="form-group" ng-show="vm.selectedStudents.length > 0">
                   <label class="col-sm-12">{{vm.countMessage}}</label>                
                 </div>
-                
+                <div class="form-group" ng-hide="vm.students.length > 0">
+                  <label class="col-sm-12">Loading..</label>                
+                </div>
+
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Type</label>
                     <label class="col-sm-5">

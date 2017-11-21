@@ -24,6 +24,7 @@ var express = require('express')
   , gcm =  require('node-gcm')
   , fs = require('fs');
 
+ var compression = require('compression')
 var app = express();
 var passport = require('passport');
 var user = require('./app_api/models/users');
@@ -47,6 +48,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 //app.use(express.favicon());
 //app.use(express.logger('dev'));
+app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
