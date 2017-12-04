@@ -94,6 +94,11 @@
         controller: 'schoolCalendarCtrl',
         controllerAs: 'vm'
       })
+      .when('/holidays', {
+        templateUrl: 'schoolCalendar/holidays.view.html',
+        controller: 'holidayCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({redirectTo: '/'});
     $locationProvider.html5Mode(true);
   }

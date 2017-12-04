@@ -436,6 +436,64 @@ if (response != null){
 	});
 	}
 
+exports.updateStudentImage =function(model, requestBody, studentId,response){
+
+	model.findOne({StudentId: studentId},
+	function(error, data) {
+	if (error) {
+		console.log(error);
+		if (response != null) {
+		response.writeHead(500,
+		{
+			'Content-Type' : 'text/plain'});
+			response.end('Internal server error');
+		}
+		return;
+	} else {
+		if (!data) {
+			console.log('Student with StudentID: '+ studentId + ' does not exist.');
+			if (response != null) {
+				response.writeHead(500,
+				{
+					'Content-Type' : 'text/plain'});
+					response.end('Internal server error');
+				}
+				return;
+			}
+			else{
+				data.ImageUrl = requestBody.ImageUrl;
+				data.save(function (error) {
+					if (!error) {
+						console.log('Successfully updated Student with student Id: '+ studentId);
+						if (response != null) {
+							response.writeHead(200,
+							{
+								'Content-Type' : 'text/plain'});
+								response.end('Update image url for student');
+							}
+							return;
+					
+					} else {
+						console.log('error on save');
+						if (response != null) {
+							response.writeHead(500,
+							{
+								'Content-Type' : 'text/plain'});
+								response.end('Internal server error');
+							}
+							return;
+					}
+					});
+				
+			
+			/////////////////////
+			}
+		}
+	
+	});
+
+}
+
 exports.updateStudent = function (model, requestBody, response) {
 	var studentId = requestBody.StudentId;
 	model.findOne({StudentId: studentId},

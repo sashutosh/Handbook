@@ -562,7 +562,15 @@ app.put('/students', function(request, response) {
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	dataservice.createStudent(Student, request.body, response);
 	});
+
+	app.put('/students/:StudentId/Image', function(request, response) {
+		response.header("Access-Control-Allow-Origin", "*");
+		response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		dataservice.updateStudentImage(Student, request.body, request.params.StudentId,response);
+	});
 	
+
+
 app.del('/students/:StudentId', function(request,response) {
 	response.header("Access-Control-Allow-Origin", "*");
 	response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

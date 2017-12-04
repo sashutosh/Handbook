@@ -141,6 +141,10 @@
       return $http.get('/EventsForSchool/' + schoolId);
     }
 
+    var getSchoolHolidays= function (schoolId){
+      return $http.get('/Holidays/' + schoolId);
+    }
+
     var addSchoolEvent= function(event){
       return $http.put('/Events',event);
     }
@@ -231,6 +235,7 @@
       getSchoolEvents:getSchoolEvents,
       addSchoolEvent:addSchoolEvent,
       deleteSchoolEvent:deleteSchoolEvent,
+      getSchoolHolidays:getSchoolEvents,
       getModelCounts:getModelCounts,
       uploadFile:uploadFile,
       formatDOB:formatDOB,
