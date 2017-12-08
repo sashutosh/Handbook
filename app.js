@@ -572,7 +572,7 @@ app.put('/students', function(request, response) {
 	app.put('/teachers/:TeacherId/Image', function(request, response) {
 		response.header("Access-Control-Allow-Origin", "*");
 		response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		dataservice.updateTeacherImage(Student, request.body, request.params.TeacherId,response);
+		dataservice.updateTeacherImage(Teacher, request.body, request.params.TeacherId,response);
 	});
 	
 
