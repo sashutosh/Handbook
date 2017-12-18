@@ -1,11 +1,11 @@
 (function () {
     angular
         .module('handbook')
-        .controller('addholidayCtrl', addholidayCtrl);
+        .controller('addHolidayModalCtrl', addHolidayModalCtrl);
         
-        addholidayCtrl.$inject = ['$modalInstance','handbookData','authentication'];
+        addHolidayModalCtrl.$inject = ['$modalInstance','handbookData','authentication'];
         
-        function addholidayCtrl ($modalInstance,handbookData,authentication) {
+        function addHolidayModalCtrl ($modalInstance,handbookData,authentication) {
         var vm = this;
         //vm.schoolData = $modalInstance.schoolData;
         vm.formData ={};    
@@ -25,9 +25,10 @@
             
             vm.onSubmit = function () {
                 vm.formError = "";
-               vm.currentEvent.EventName= vm.holidayTitle;
+               vm.currentEvent.HolidayDescription= vm.holidayTitle;
                vm.currentEvent.EventDetail= vm.eventText;
-               vm.currentEvent.EventDate= vm.selectedDay;            
+               vm.currentEvent.HolidayDate= vm.selectedDay;
+               vm.currentEvent.HolidayType= "Holiday";            
                vm.modal.close(vm.currentEvent);
             };
             

@@ -52,7 +52,7 @@
             vm.currentCommand=addMode
             var modalInstance=$modal.open({
                 templateUrl:'/schoolCalendar/addHolidayModal.view.html',
-                controller: 'addHolidayCtrl as vm',
+                controller: 'addHolidayModalCtrl as vm',
             });
     
             modalInstance.result.then(function (newEvent) {
@@ -62,7 +62,7 @@
                 vm.currentEvent.SchoolId=vm.schoolId;
                 if(vm.currentCommand===addMode)
                 {
-                  handbookData.addHoliday(vm.currentEvent);
+                  handbookData.addSchoolHoliday(vm.currentEvent);
                 }
                 console.log("Added a new event");
                 $route.reload();  
@@ -95,12 +95,12 @@
         };
         
     
-        vm.deleteEvent=function(){
+        vm.deleteHoliday=function(){
             for(var eventId in vm.selectedIds){
                 
                 if(vm.selectedIds[eventId]){
                   console.log("To be deleted" + eventId);
-                  handbookData.deleteSchoolEvent(eventId)
+                  handbookData.deleteSchoolHolidays(eventId)
                   .success(function(data){
                   if(data){
                         console.log("Event Deleted" + eventId);
