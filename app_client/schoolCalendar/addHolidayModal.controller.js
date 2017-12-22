@@ -24,7 +24,8 @@
     
             
             vm.onSubmit = function () {
-                vm.formError = "";
+               vm.formError = "";
+               vm.currentEvent.Holiday = vm.holidayTitle;
                vm.currentEvent.HolidayDescription= vm.holidayTitle;
                vm.currentEvent.EventDetail= vm.eventText;
                vm.currentEvent.HolidayDate= vm.selectedDay;
