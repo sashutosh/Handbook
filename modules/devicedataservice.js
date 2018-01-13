@@ -5,7 +5,8 @@ function toDevice(body, MobileDevice) {
 var mobiledevice =  new MobileDevice(
 {
 	MobileNumber: body.MobileNumber,
-	DeviceId: body.DeviceId
+	DeviceId: body.DeviceId,
+	TimeStamp : new Date()
 });
 
 return mobiledevice;
@@ -147,7 +148,7 @@ exports.updateDevice = function (model, requestBody, response) {
 	//poulate the document with the updated values
 	data.MobileNumber = device.MobileNumber;
 	data.DeviceId = device.DeviceId;
-	
+	data.TimeStamp = new Date();
 	
 	// now save
 	data.save(function (error) {

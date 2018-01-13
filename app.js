@@ -159,7 +159,8 @@ var StudentSchema = new mongoose.Schema({
 
 var MobileDeviceMappingSchema = new mongoose.Schema({
 	MobileNumber: Number,
-	DeviceId: String
+	DeviceId: String,
+	TimeStamp : Date
 });
 
 var MessageSchema = new mongoose.Schema({
