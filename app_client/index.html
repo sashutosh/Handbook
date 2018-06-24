@@ -1,65 +1,713 @@
 <!DOCTYPE html>
-<html ng-app="handbook">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SchoolLink</title>
-        <link rel="stylesheet" href="/bootstrap/css/amelia.bootstrap.css">
-        <link rel="stylesheet" href="/stylesheets/style.css">
-        <base href="/">
-    </head>
-    <body ng-view>
-        <script src="/angular/angular.min.js"></script>
-        <script src="/lib/angular-route.min.js"></script>
-        <script src="/lib/angular-sanitize.min.js"></script>
-        <script src="/lib/ui-bootstrap-custom-0.12.0.min.js"></script>
-        <script src="/lib/ui-bootstrap-custom-tpls-0.12.0.min.js"></script>
-        <script src="/app.js"></script>
-        <script src="/common/directives/dirPagination/dirPagination.js"></script>
-        <script src="/home/home.controller.js"></script>
-        <script src="/home/siteHome.controller.js"></script>
-        <script src="/teachers/teachers.controller.js"></script>
-        <script src="/teachers/editTeacher.controller.js"></script>
-        <script src="/students/students.controller.js"></script>
-        <script src="/students/editStudent.controller.js"></script>
-        <script src="/schoolCalendar/schoolCalendar.controller.js"></script>
-        <script src="/schoolCalendar/holidays.controller.js"></script>
-        <script src="/schoolCalendar/addCalendarEventModal.controller.js"></script>
-        <script src="/schoolCalendar/addHolidayModal.controller.js"></script>
-        <script src="/messages/messages.controller.js"></script>
-        <script src="/messages/teachermessage.controller.js"></script>
-        <script src="/messages/selectRecipientsModal.controller.js"></script>
-        <script src="/messages/selectTeachersModal.controller.js"></script>
-        <script src="/messages/inbox.controller.js"></script>
-        <script src="/messages/outbox.controller.js"></script>
-        <script src="/classes/classes.controller.js"></script>
-        <script src="/classes/addClass.controller.js"></script>
-        <script src="/classes/deleteClass.controller.js"></script>
-        <script src="/subjects/subjects.controller.js"></script>
-        <script src="/schedule/schedule.controller.js"></script>
-        <script src="/schedule/classSchedule.controller.js"></script>
-        <script src="/schedule/addScheduleModal.controller.js"></script>
-        <script src="/schedule/editScheduleModal.controller.js"></script>
-        <script src="/schedule/updateSchedule.controller.js"></script>
-        <script src="/about/about.controller.js"></script>
-        <script src="/addSchoolModal/addSchoolModal.controller.js"></script>
-        <script src="/auth/register/register.controller.js"></script>
-        <script src="/auth/login/login.controller.js"></script>
-        <script src="/addStudentBulkModal/addStudentBulkModal.controller.js"></script>
-        <script src="/common/directives/pageHeader/pageHeader.directive.js"></script>
-        <script src="/common/directives/footerGeneric/footerGeneric.directive.js"></script>
-        <script src="/common/directives/sideNavigation/sideNavigation.directive.js"></script>
-        <script src="/common/directives/fileModel/fileModel.directive.js"></script>
-        <script src="/common/directives/customOnChange/customOnChange.directive.js"></script>
-        <script src="/common/services/handbookData.service.js"></script>
-        <script src="/common/services/authentication.service.js"></script>
-        <script src="/common/services/messaging.service.js"></script>
-        <script src="/common/filters/addHtmlLineBreak.filter.js"></script>
-        <script src="/common/filters/titleCase.filter.js"></script>
-        <script src="/common/directives/navigation/navigation.directive.js"></script>
-        <script src="/common/directives/navigation/navigation.controller.js"></script>                        
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
-        <script src="/javascripts/validation.js"></script>
-        <script src="/angular/angularjs-dropdown-multiselect.js"></script>
-    </body>
+<html lang="en">
+<!--
+    Bent by Dcrazed
+    Site: Dcrazed.com 
+    Free for personal and commercial use under GNU GPL 3.0 license.
+-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SchoolLink -Parent Teacher School Communication Software</title>
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:500,600,700,800,900,400,300' rel='stylesheet' type='text/css'>
+
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900,300italic,400italic' rel='stylesheet' type='text/css'>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Owl Carousel Assets -->
+    <link href="/stylesheets/owl.carousel.css" rel="stylesheet">
+    <link href="/stylesheets/owl.theme.css" rel="stylesheet">
+
+
+    <!-- Pixeden Icon Font -->
+    <link rel="stylesheet" href="stylesheets/Pe-icon-7-stroke.css">
+
+    <!-- Font Awesome -->
+    <link href="/stylesheets/font-awesome.min.css" rel="stylesheet">
+
+
+    <!-- PrettyPhoto -->
+    <link href="/stylesheets/prettyPhoto.css" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- Style -->
+    <link href="/stylesheets/styleweb.css" rel="stylesheet">
+
+    <link href="/stylesheets/animate.css" rel="stylesheet">
+    <!-- Responsive CSS -->
+    <link href="/stylesheets/responsive.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- PRELOADER -->
+    <div class="spn_hol">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+
+ <!-- END PRELOADER -->
+
+ <!-- =========================
+     START ABOUT US SECTION
+============================== -->
+    <section class="header parallax home-parallax page" id="HOME">
+        <h2></h2>
+        <div class="section_overlay">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">
+                            <img src="images/logo16.png" alt="Logo" align="left">
+                        </a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <!-- NAV -->
+                            <li><a href="#HOME">HOME</a> </li>
+                            <li><a href="#ABOUT">ABOUT </a> </li>
+                            <li><a href="#FEATURES">FEATURES</a></li>
+                            <li><a href="#SCREENS">SCREENS</a> </li>
+                            <li><a href="#DOWNLOAD">DOWNLOAD </a> </li>
+                            <li><a href="#CONTACT">CONTACT </a> </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container- -->
+            </nav>
+
+            <div class="container home-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="logo text-center">
+                                <!-- LOGO -->
+                            <img width="125" height="55" src="images/logo16.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-sm-8">
+                        <div class="home_text">
+                            <!-- TITLE AND DESC -->
+                            <h1>An App for All Parent, Teacher and School Communication.</h1>
+                            <p>SchoolLink App keeps Teachers and Parents in Sync and Stay Connected with each other by real time messaging.</p>
+
+                            <div class="download-btn">
+                            <!-- BUTTON -->
+                                <!--<a class="btn home-btn wow fadeInLeft" href="#DOWNLOAD">Download</a>-->
+                                <a class="tuor btn wow fadeInRight" href="#ABOUT">Take a tour <i class="fa fa-angle-down"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-offset-1 col-sm-4">
+                        <div class="home-iphone">
+                            <img src="images/iPhone_Home.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- END HEADER SECTION -->
+
+
+
+
+ <!-- =========================
+     START ABOUT US SECTION
+============================== -->
+
+
+    <section class="about page" id="ABOUT">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <!-- ABOUT US SECTION TITLE-->
+                    <div class="section_title">
+                        <h2>About Us</h2>
+                        <p>SchoolLink is a School Managemnt Software and App to keep Parents and Teachers in Sync and increases Teacher Productivity and Students Achivement and Performance. A Smarter way to keep Teachers, Parents and School connected. </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="inner_about_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="about_phone wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".5s">
+                        <!-- PHONE -->
+                            <img src="images/about_iphone.png" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-6  wow fadeInRight" data-wow-duration="1s" data-wow-delay=".5s">
+                        <!-- TITLE -->
+                        <div class="inner_about_title">
+                            <h2>Why we are best <br> for you</h2>
+                            <p>SchoolLink School Management Software and App is built on the modern cloud using the latest technologies and is secured and scalable. It has a modern responsive design that resizes to fit any load. SchoolLink will help your School  by increasing Student achievements and Teacher performances.</p>
+                        </div>
+                        <div class="inner_about_desc">
+
+                            <!-- SINGLE DESC -->
+                            <div class="single_about_area fadeInUp wow" data-wow-duration=".5s" data-wow-delay="1s">
+                                <!-- ICON -->
+                                <div><i class="pe-7s-timer"></i></div>
+                                <!-- HEADING DESCRIPTION -->
+                                <h3>Excellent Support Round the Clock</h3>
+                                <p>SchoolLink has an Excellent Support round the call where all the issues or help required in setting up the SchoolLink for new school or understanding features is given top priority. Our Support Team and Dev Team is always available for Support</p>
+                            </div>
+                            <!-- END SINGLE DESC -->
+
+
+                            <!-- SINGLE DESC -->
+                            <div class="single_about_area fadeInUp wow" data-wow-duration=".5s" data-wow-delay="1.5s">
+                                <!-- ICON -->
+                                <div><i class="pe-7s-target"></i></div>
+                                <!-- HEADING DESCRIPTION -->
+                                <h3>Data Security</h3>
+                                <p>School Data of Students, Parents and Teachers is safe where only the Admin has all the access to data via SchoolLink Web DashBoard. The messages are exchanges securely between Parents and Teachers. School Data is not shared and is completely owned and access by School.</p>
+                            </div>
+                            <!-- END SINGLE DESC -->
+
+
+                            <!-- SINGLE DESC -->
+                            <div class="single_about_area fadeInUp wow" data-wow-duration=".5s" data-wow-delay="2s">
+                                <!-- ICON -->
+                                <div><i class="pe-7s-stopwatch"></i></div>
+                                <!-- HEADING DESCRIPTION -->
+                                <h3>A to Z Solutions for All your School Needs</h3>
+                                <p></p>
+                            </div>
+                            <!-- END SINGLE DESC -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+    <!-- End About Us -->
+
+
+
+
+ <!-- =========================
+     START TESTIMONIAL SECTION
+============================== -->
+
+    
+
+
+
+    <!-- END TESTIMONIAL SECTION -->
+
+
+
+<!-- =========================
+     START FEATURES
+============================== -->
+    <section id="FEATURES" class="features page">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <!-- FEATURES SECTION TITLE -->
+                    <div class="section_title wow fadeIn" data-wow-duration="1s">
+                        <h2>Features</h2>
+                        <p>SchoolLink keeps Parents and Teachers in Sync from Phone.Provides features to have a Connect and keep Parents Informed - a note or Homework/DiaryNote at the end of the day by real time messaging. Sending Class updates via Text, Images and Documents.  </p>
+                    </div>
+                    <!-- END FEATURES SECTION TITLE -->
+                </div>
+            </div>
+        </div>
+
+        <div class="feature_inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 right_no_padding wow fadeInLeft" data-wow-duration="1s">
+                        <!-- FEATURE -->
+
+                        <div class="left_single_feature">
+                            <!-- ICON -->
+                            <div><span class="pe-7s-science"></span></div>
+
+                            <!-- FEATURE HEADING AND DESCRIPTION -->
+                            <h3>Parent Teacher One-to-One Chat<span>/</span></h3>
+                            <p>Parent or Teacher can initiate one-on-one chat with each other discussing their issues and progress of student and exchanging ideas or provide feedback.</p>
+                        </div>
+
+                        <!-- END SINGLE FEATURE -->
+
+
+                        <!-- FEATURE -->
+                        <div class="left_single_feature">
+                            <!-- ICON -->
+                            <div><span class="pe-7s-science"></span></div>
+
+                            <!-- FEATURE HEADING AND DESCRIPTION -->
+                            <h3>School Calendar and Events<span>/</span></h3>
+                            <p>Keep Parents Informed about School Events and Calendar which help them participate in school Events and also prepare their child for upcoming Events. </p>
+                        </div>
+                        <!-- END SINGLE FEATURE -->
+
+
+                        <!-- FEATURE -->
+                        <div class="left_single_feature">
+                            <!-- ICON -->
+                            <div><span class="pe-7s-look"></span></div>
+
+                            <!-- FEATURE HEADING AND DESCRIPTION -->
+                            <h3>Student/Teacher Time Table<span>/</span></h3>
+                            <p>TimeTable Display in App for both Teacher and Student</p>
+                        </div>
+                        <!-- END SINGLE FEATURE -->
+
+                        <!-- FEATURE -->
+                        <!--<div class="left_single_feature">
+                           
+                            <div><span class="pe-7s-monitor"></span></div>
+
+                            
+                            <h3>Attendance (upcoming feature in next version)<span>/</span></h3>
+                            <p>Teachers can take Attendance from SchoolLink App or School Admin can feed Attendance via Web Admin Dashboard. </p>
+                        </div> -->
+                        <!-- END SINGLE FEATURE -->
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature_iphone">
+                            <!-- FEATURE PHONE IMAGE -->
+                            <img class="wow bounceIn" data-wow-duration="1s" src="images/iPhone02.png" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-4 left_no_padding wow fadeInRight" data-wow-duration="1s">
+
+                        <!-- FEATURE -->
+                        <div class="right_single_feature">
+                            <!-- ICON -->
+                            <div><span class="pe-7s-monitor"></span></div>
+
+                            <!-- FEATURE HEADING AND DESCRIPTION -->
+                            <h3><span>/</span>Homework/Diary Notes with Images And Documents</h3>
+                            <p>Teachers can send Diary Note and Homework in text message or as an Image or Documents</p>
+                        </div>
+                        <!-- END SINGLE FEATURE -->
+
+
+                        <!-- FEATURE -->
+                        <div class="right_single_feature">
+                            <!-- ICON -->
+                            <div><span class="pe-7s-phone"></span></div>
+
+                            <!-- FEATURE HEADING AND DESCRIPTION -->
+                            <h3><span>/</span>ClassWise Message</h3>
+                            <p>Teachers can send message to entire Class for Homework, important notes and making some announcement.</p>
+                        </div>
+                        <!-- END SINGLE FEATURE -->
+
+
+                        <!-- FEATURE -->
+                        <div class="right_single_feature">
+                            <!-- ICON -->
+                            <div><span class="pe-7s-gleam"></span></div>
+
+                            <!-- FEATURE HEADING AND DESCRIPTION -->
+                            <h3><span>/</span>Admin Dashboard</h3>
+                            <p>An Web Admin Dashboard for Managing Studnet, Teachers and School Details. Administrating all messages excahnges. Aslo admin can send announcement notification/fees reminders.</p>
+                        </div>
+                        <!-- END SINGLE FEATURE -->
+
+                        <!-- FEATURE -->
+                        <!--<div class="right_single_feature">
+                           
+                            <div><span class="pe-7s-phone"></span></div>
+
+                            
+                            <h3><span>/</span>Payment (upcoming feature in next version)</h3>
+                            <p>Online Payment can be done via SchoolLink App that will be credited to School's Bank Account.</p>
+                        </div> -->
+                        <!-- END SINGLE FEATURE -->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END FEATURES SECTION -->
+
+
+
+<!-- =========================
+     START CALL TO ACTION
+============================== -->
+    
+
+    <!-- END CALL TO ACTION -->
+
+
+<!-- =========================
+     Start APPS SCREEN SECTION
+============================== -->
+    <section class="apps_screen page" id="SCREENS">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 wow fadeInBig" data-wow-duration="1s">
+                        <!-- APPS SCREEN TITLE -->
+                        <div class="section_title">
+                            <h2>Screenshots</h2>
+                            <p>Screen demosntarting various features and functinality of School Link App.</p>                           
+                        </div>
+                        <!-- END APPS SCREEN TITLE -->
+                    </div>
+                </div>
+            </div>
+
+        <div class="screen_slider">
+            <div id="demo" class="wow bounceInRight" data-wow-duration="1s">
+                <div id="owl-demo" class="owl-carousel">
+
+                    <!-- APPS SCREEN IMAGES -->
+                    <div class="item">
+                    <a href="images/screens/iphone04.png" rel="prettyPhoto[pp_gal]"><img src="images/iphone04.png" width="60" height="60" alt="APPS SCREEN" /></a>
+                    </div>
+                    <div class="item">
+                        <a href="images/screens/iphone05.png" rel="prettyPhoto[pp_gal]"><img src="images/iphone05.png" width="60" height="60" alt="APPS SCREEN" /></a>
+                    </div>
+                    <div class="item">
+                        <a href="images/screens/iphone06.png" rel="prettyPhoto[pp_gal]"><img src="images/iphone06.png" width="60" height="60" alt="APPS SCREEN" /></a>
+                    </div>
+                    <div class="item">
+                        <a href="images/screens/iphone07.png" rel="prettyPhoto[pp_gal]"><img src="images/iphone07.png" width="60" height="60" alt="APPS SCREEN" /></a>
+                    </div>
+                    <div class="item">
+                        <a href="images/screens/iphone08.png" rel="prettyPhoto[pp_gal]"><img src="images/iphone08.png" width="60" height="60" alt="APPS SCREEN" /></a>
+                    </div>
+                    <div class="item">
+                        <a href="images/screens/iphone09.png" rel="prettyPhoto[pp_gal]"><img src="images/iphone09.png" width="60" height="60" alt="APPS SCREEN" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ENS APPS SCREEN -->
+
+
+
+
+
+<!-- =========================
+     Start FUN FACTS
+============================== -->
+
+
+    <!--<section class="fun_facts parallax">
+        <div class="section_overlay">
+            <div class="container wow bounceInLeft" data-wow-duration="1s">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="single_fun_facts">
+                            <i class="pe-7s-cloud-download"></i>
+                            <h2><span  class="counter_num">399</span> <span>+</span></h2>
+                            <p>Downloads</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="single_fun_facts">
+                            <i class="pe-7s-look"></i>
+                            <h2><span  class="counter_num">10</span> <span>+</span></h2>
+                            <p>Likes</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="single_fun_facts">
+                            <i class="pe-7s-comment"></i>
+                            <h2><span  class="counter_num">50</span> <span>+</span></h2>
+                            <p>Feedbacks</p>
+                        </div>
+                    </div>
+                   <div class="col-md-3">
+                        <div class="single_fun_facts">
+                            <i class="pe-7s-cup"></i>
+                            <h2><span  class="counter_num">10</span> <span>+</span></h2>
+                            <p>Awards</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- END FUN FACTS -->
+
+
+
+
+<!-- =========================
+     START DOWNLOAD NOW 
+============================== -->
+    <section class="download page" id="DOWNLOAD">
+        
+
+        <!--<div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="download_screen text-center wow fadeInUp" data-wow-duration="1s">
+                        <img src="images/download_screen.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="available_store">
+            <div class="container  wow bounceInRight" data-wow-duration="1s">
+                <div class="col-md-6">
+                    <div class="available_title">
+                        <h2>Available on</h2>
+                        <p>SchoolLink App is available free to download from Google Play Store for Android &  comming soon on Apple Store for iOS devices. </p>
+                    </div>
+                </div>
+
+                <!-- DOWNLOADABLE STORE -->
+                <div class="col-md-6">
+                    <div class="row">
+                        <a href="">
+                            <div class="col-md-4 no_padding">
+                                <div class="single_store">
+                                    <i class="fa fa-android"></i>
+                                    <div class="store_inner">
+                                        <h2>ANDROID</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="col-md-4 no_padding">
+                            <a href="">
+                                <div class="single_store">
+                                    <i class="fa fa-apple"></i>
+                                    <div class="store_inner">
+                                        <h2>iOS (Coming Soon)</h2>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--<div class="col-md-4 no_padding">
+                            <a href="">
+                                <div class="single_store last">
+                                    <i class="fa fa-windows"></i>
+                                    <div class="store_inner">
+                                        <h2>WINDOWS (Coming Soon)</h2>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>-->
+                    </div>
+                </div>
+                <!-- END DOWNLOADABLE STORE -->
+            </div>
+        </div>
+    </section>
+    <!-- END DOWNLOAD -->
+
+<!-- =========================
+     START CONTCT FORM AREA
+============================== -->
+
+    <!--<section class="contact page" id="CONTACT">
+        <div class="section_overlay">
+            <div class="container">
+                <div class="col-md-10 col-md-offset-1 wow bounceIn">
+                   
+                    <div class="section_title">
+                        <h2>Get in touch</h2>
+                        <p>Contact us for a demonstration of the SchoolLink System and App. Please fill the contact info below and we will contact you for Demo of the System.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact_form wow bounceIn">
+                <div class="container">
+
+                
+                    <div class="form_error text-center">
+                        <div class="name_error hide error">Please Enter your name</div>
+                        <div class="email_error hide error">Please Enter your Email</div>
+                        <div class="email_val_error hide error">Please Enter a Valid Email Address</div>
+                        <div class="message_error hide error">Please Enter Your Message</div>
+                        <div class="name_error hide error">Please Enter your Mobile Number</div>
+                    </div>
+                    <div class="Sucess"></div>
+                
+                  
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="name" placeholder="Name">
+                                <input type="email" class="form-control" id="email" placeholder="Email">
+                                <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                <input type="text" class="form-control" id="mobile" placeholder="Mobile">
+                            </div>
+
+
+                            <div class="col-md-8">
+                                <textarea class="form-control" id="message" rows="25" cols="10" placeholder="  Message Texts..."></textarea>
+                                <button type="button" class="btn btn-default submit-btn form_submit">SEND MESSAGE</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 wow bounceInLeft">
+                        <div class="social_icons">
+                            <ul>
+                                <li><a href=""><i class="fa fa-facebook"></i></a>
+                                </li>
+                                <li><a href=""><i class="fa fa-twitter"></i></a>
+                                </li>
+                                <li><a href=""><i class="fa fa-youtube-play"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- END CONTACT -->
+
+<!-- =========================
+     Start Subscription Form 
+============================== -->
+
+
+
+    <section class="subscribe parallax subscribe-parallax" data-stellar-background-ratio="0.6" data-stellar-vertical-offset="20">
+        <div class="section_overlay wow lightSpeedIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+
+                        <!-- Start Subscribe Section Title -->
+                        <div class="section_title">
+                            <h2>CONTACT US</h2>
+                            <p>For General Enquiry and Support send Email at, Email Id: admin@schoollink.co.in  </p>
+                            <p>Mobile: +91-9810762590</p>
+                        </div>
+                        <!-- End Subscribe Section Title -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row  wow lightSpeedIn">
+                    <div class="col-md-6 col-md-offset-3">
+                        <!-- SUBSCRIPTION SUCCESSFUL OR ERROR MESSAGES -->
+                        <div class="subscription-success"></div>
+                        <div class="subscription-error"></div>
+
+
+                        <form id="mc-form" class="subscribe_form">
+                            <div class="form-group">
+                                <!-- EMAIL INPUT BOX -->
+                                <input type="email" value="" name="EMAIL" class="required email form-control" id="mce-EMAIL" placeholder="Enter Email Address">
+                            </div>
+
+                                <!-- SUBSCRIBE BUTTON -->
+                            <button type="submit" class="btn btn-default subs-btn">Submit</button>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- END SUBSCRIPBE FORM -->
+
+
+<!-- =========================
+     FOOTER 
+============================== -->
+
+    <section class="copyright">
+        <h2></h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="copy_right_text">
+                    <!-- COPYRIGHT TEXT -->
+                        <p>Copyright &copy; 2017. All Rights Reserved.</p>        
+                        <p><a href="/webapp">SchoolLink</a></p>
+                    </div>
+                     
+                </div>
+
+                <div class="col-md-6">
+                    <div class="scroll_top">
+                        <a href="#HOME"><i class="fa fa-angle-up"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END FOOTER -->
+
+
+<!-- =========================
+     SCRIPTS 
+============================== -->
+
+
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/owl.carousel.js"></script>
+    <script src="/javascripts/jquery.fitvids.js"></script>
+    <script src="/javascripts/smoothscroll.js"></script>
+    <script src="/javascripts/jquery.parallax-1.1.3.js"></script>
+    <script src="/javascripts/jquery.prettyPhoto.js"></script>
+    <script src="/javascripts/jquery.ajaxchimp.min.js"></script>
+    <script src="/javascripts/jquery.ajaxchimp.langs.js"></script>
+    <script src="/javascripts/wow.min.js"></script>
+    <script src="/javascripts/waypoints.min.js"></script>
+    <script src="/javascripts/jquery.counterup.min.js"></script>
+    <script src="/javascripts/script.js"></script>
+
+
+
+</body>
+
 </html>
